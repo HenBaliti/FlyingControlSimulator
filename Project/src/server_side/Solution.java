@@ -3,4 +3,4 @@ package server_side;
 public interface Solution {
 
 }
-//SHABO DID ALL THE PROJECT
+//SHABO DID ALL THE PROJECTS
