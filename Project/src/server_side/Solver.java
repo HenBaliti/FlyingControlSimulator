@@ -1,7 +1,7 @@
 package server_side;
 
-public interface Solver {
+public interface Solver<Pro,Sol> {
 	
-	  Solution solve(Problem var1);
+	  Sol solve(Pro var1); 
 
 }

@@ -1,11 +1,11 @@
 package server_side;
 
-public interface CacheManager{
+public interface CacheManager<Pro,Sol>{
 	
-	boolean existSolution(Problem var1);
+	boolean existSolution(Pro var1);
 
-    Solution loadSolution(Problem var1);
+    Sol loadSolution(Pro var1);
 
-    void store(Problem var1, Solution var2);
+    void store(Pro var1, Sol var2);
 }
 
