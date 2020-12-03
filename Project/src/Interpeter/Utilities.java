@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class Utilities {
 	
-	private static Map<String,SymbolTabelObject> symbolTable = new HashMap<String,SymbolTabelObject>();
-	private static Map<String,Command> CommandsHash = new HashMap<String,Command>();
+	public static Map<String,SymbolTabelObject> symbolTable = new HashMap<String,SymbolTabelObject>();
+	public static Map<String,Command> CommandsHash = new HashMap<String,Command>();
 	
 	public static SymbolTabelObject getSymbolTableValue(String symbol) {
 		return symbolTable.getOrDefault(symbol, null);

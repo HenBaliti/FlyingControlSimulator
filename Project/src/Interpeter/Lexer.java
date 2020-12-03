@@ -1,17 +1,22 @@
 package Interpeter;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Lexer {
-	public List<String> lexer(String line){
-		List<String> tokens = new LinkedList<>();
-		Scanner in = new Scanner(line);
-		while(in.hasNext()) {
-			tokens.add(in.next());
+public class Lexer implements LexerInterface{
+
+	@Override
+	public ArrayList<String> lexer(String[] line) {
+		ArrayList<String> tokens = new ArrayList<>();
+		String[] arr = null;
+		for(int i=0;i<line.length;i++) {
+			arr = line[i].split(" ");
+			for(int j=0;j<arr.length;j++) {
+				tokens.add(arr[j]);
+			}
 		}
-		in.close();
+		
 		return tokens;
 	}
+
 }

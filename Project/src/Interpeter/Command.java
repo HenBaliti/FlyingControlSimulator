@@ -1,7 +1,9 @@
 package Interpeter;
 
+import java.util.ArrayList;
+
 public interface Command {
 
-	public void doCommand(String[] args) throws Exception;
-	public void testArgs(String[] args)	throws Exception;
+	public int doCommand(ArrayList<String> tokens);
+	public void testArgs(String args);
 }

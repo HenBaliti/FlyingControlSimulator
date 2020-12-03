@@ -1,51 +1,41 @@
 package Interpeter;
 
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Parser {
 
-	public void parse(String fileName,Lexer lexer) throws IOException{
-		
-		List<String> errorsList = new ArrayList<>();
-		int IndexNum=0;
+public class Parser implements ParserInterface {
+
+	@Override
+	public void parse(String[] lines) {
+
+		ArrayList<String> errorsList = new ArrayList<>();
+		Lexer lexer = new Lexer();
+		ArrayList<String> tokens = lexer.lexer(lines);
+		int IndexNumRow = 0;
+		int index = 0;
 		String cmdName;
 		Command cmd;
-		String[] args;
-		
-		BufferedReader fileInput = new BufferedReader(new FileReader(new File(fileName)));
-		
-		String line;
-		while((line=fileInput.readLine())!=null){
-			IndexNum++;
-			
-			//Checks that there is no "White Words" on the line that have readen. + Ignore Empty lines
-			if(line.trim().length()==0)
-				continue;
-			try {
-				List<String> tokens = lexer.lexer(line);
-				cmdName = tokens.get(0);
-				
-				//Checking if the Command is already exist in the command hash
-				if(Utilities.isCommandExist(cmdName)) {
-					errorsList.add("In Line "+IndexNum+" Command is Not Valid!/n");
-					continue;
-				}
-				cmd = Utilities.getCommand(cmdName);
-				args = tokens.toArray(new String[0]);
-				cmd.testArgs(args);
-				
-			}catch(Exception e){
-				errorsList.add("In Line "+IndexNum+": "+e.getMessage());
-				continue;
+
+
+		while(index!=tokens.size()) {
+			IndexNumRow++; // Counting the rows of the "Code"
+			cmdName = tokens.get(index);
+
+			// Checking if the Command is not exist in the command hash
+			if (!(Utilities.isCommandExist(cmdName))) {
+				errorsList.add("In Line " + IndexNumRow + " Command is Not Valid!/n");
+				IndexNumRow++;
+				index++;
 			}
-			
+			else {
+				cmd = Utilities.getCommand(cmdName);
+				//To get the new ArrayList from the index i want to the index i want.
+				ArrayList<String> subArray = (ArrayList<String>) tokens.subList(index, tokens.size());
+				index+= cmd.doCommand(subArray);
+			}
 		}
+
 	}
 }
