@@ -57,4 +57,8 @@ public class SymbolTabelObject extends Observable implements Observer {
 	public void setSIM(String SIM) {
 		sim = SIM;
 	}
+	public int calculate() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -6,6 +6,7 @@ public class LoopCommand implements Command{
 
 	@Override
 	public int doCommand(ArrayList<String> tokens) {
+		
 		// TODO Auto-generated method stub
 		return 0;
 	}

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class DefineVarCommand implements Command{
 
+	public DefineVarCommand() {
+		super();
+	}
 	@Override
 	public int doCommand(ArrayList<String> tokens) {
 		// TODO Auto-generated method stub

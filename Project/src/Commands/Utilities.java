@@ -19,6 +19,10 @@ public class Utilities {
 	this.CommandsHash.put("openDataServer", new OpenServerCommand());
 	this.CommandsHash.put("while", new LoopCommand());
 	}
+	
+	public static Map<String,SymbolTabelObject> getSymbolTable() {
+		return symbolTable;
+	}
 	public static SymbolTabelObject getSymbolTableValue(String symbol) {
 		return symbolTable.getOrDefault(symbol, null);
 	}

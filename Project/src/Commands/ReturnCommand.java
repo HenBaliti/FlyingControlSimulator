@@ -1,7 +1,8 @@
 package Commands;
 
 import java.util.ArrayList;
-import Expression.Q3;
+import Commands.Utilities;
+import Expression.ShuntingYard;
 
 public class ReturnCommand implements Command{
 
@@ -10,8 +11,8 @@ public class ReturnCommand implements Command{
 		StringBuilder e = new StringBuilder();
 		for(int i=1; i<tokens.size(); i++)
 			e.append(tokens.get(i));
-//		calc(e.toString());
-		return tokens.size();
+		ShuntingYard.execute(e.toString(), Utilities.getSymbolTable());
+		return 0;
 		
 	}
 

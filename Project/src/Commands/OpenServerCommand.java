@@ -12,7 +12,14 @@ public class OpenServerCommand implements Command{
 
 	public int numOfArgs = 2;
 	Server s;
+	private int port;
+	private int timePerS;
 
+	public OpenServerCommand() {
+		super();
+		this.port=0;
+		this.timePerS=0;
+	}
 
 	@Override
 	public void testArgs(String args){
@@ -24,7 +31,6 @@ public class OpenServerCommand implements Command{
 	@Override
 	public int doCommand(ArrayList<String> args) {
 		
-		int port,timePerS;
 		port = Integer.parseInt(args.get(1));
 		timePerS = Integer.parseInt(args.get(2));
 		s = new MySerialServer();
