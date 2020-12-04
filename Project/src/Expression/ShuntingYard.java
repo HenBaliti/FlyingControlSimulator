@@ -1,166 +1,102 @@
 package Expression;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
-
-import Interpeter.SymbolTabelObject;
+import Commands.Utilities;
 
 public class ShuntingYard {
-	// Returns true if the received string's value is double.
-	public static boolean isDouble(String str) {
-		try {
-			Double.parseDouble(str);
-			return true;
-		} catch(NumberFormatException e) { return false; }
-	}
-	
-	// Returns Variable from the Interpeter's symbolTable, if exist.
-	private static SymbolTabelObject getVariable(String name, HashMap<String, SymbolTabelObject> symbolTable) { return symbolTable.get(name); }
-	
-	// Remove operators from the received array.
-	private static void removeOperators(ArrayList<String> split) {
-		for(int i = 0; i < split.size(); i++) {
-			if(Arrays.asList("+", "-").contains(split.get(i))) {
-				int cnt = 1; 
-				int startIndex = i;
-				boolean flag = !split.get(i++).equals("-"); // True if equals to +.
-				
-				while(Arrays.asList("+","-").contains(split.get(i))) {
-					if(flag && split.get(i).equals("-")) { flag = false; } //+- -+
-					else if(!flag && split.get(i).equals("-")) { flag = true; } //--
-					cnt++; 
-					i++;
-				}
-				
-				for(int j = 0; j < cnt; j++) {
-					split.remove(startIndex);
-				}
-				
-				if(startIndex == 0 || split.get(startIndex - 1).equals("(") || Arrays.asList("*","/").contains(split.get(startIndex - 1))) {
-					if(!flag) split.add(startIndex, "-");
-				}
-				else split.add(startIndex, flag ? "+" : "-");
-			}
-		}
-	}
-	
-	// Checks & deals with minuses.  
-	private static void checkMinuses(List<String> split) { 
-		for(int i = 0; i < split.size(); i++) {
-			if(split.get(i).equals("-")) {
-				// Checks if (-) is in the beginning.
-				if(i == 0) { 
-					split.remove(i);
-					split.set(0, "-" + split.get(0));
-				}
-				else if(Arrays.asList("*","/","(").contains(split.get(i - 1))) {
-					split.remove(i);
-					split.set(i, "-" + split.get(i));
-				}
-			}
-		}
-	}
-	
-	// Replaces Variables with Variables's double value.
-	private static void replaceVariables(List<String> list, HashMap<String, SymbolTabelObject> symbolTable) {
-		SymbolTabelObject v;
-		for (int i = 0; i < list.size(); i++) {
-			if((v = getVariable(list.get(i), symbolTable)) != null) {
-				if(v.calculate() >= 0) 
-					list.set(i, String.valueOf(v.calculate()));
-				else {
-					list.add(i++, "-");
-					list.set(i, String.valueOf(-v.calculate()));
-				}
-			}
-		}
-	}
-	
-	// Creates from in-fix string expression into post-fix string expression.
-	private static String infixToPostfix(List<String> split, HashMap<String, SymbolTabelObject> symbolTable) {
-		
+	public static double calc(String expression) {
+		if (!validations(expression))
+			System.out.println("throw exception");
+		LinkedList<String> queue = new LinkedList<>();
 		Stack<String> stack = new Stack<>();
-		Queue<String> queue = new LinkedList<>();
-		ArrayList<String> splitStr = new ArrayList<>(split);
-		
-		replaceVariables(splitStr, symbolTable); 
-		removeOperators(splitStr); 
-		checkMinuses(splitStr);
-		
-		for(int i = 0; i < splitStr.size(); i++) {
-			if(isDouble(splitStr.get(i))) {
-				queue.add(splitStr.get(i));
+		int len = expression.length();
+
+		String token = "";
+		for (int i = 0; i < len; i++) {
+			if (expression.charAt(i) >= '0' && expression.charAt(i) <= '9') {
+				token = expression.charAt(i) + "";
+				while ((i + 1 < len && expression.charAt(i + 1) >= '0' && expression.charAt(i + 1) <= '9')
+						|| (i + 1 < len && expression.charAt(i + 1) == '.'))
+					token = token + expression.charAt(++i);
 			}
-			else {
-				switch(splitStr.get(i)) {
-				case "/":
-				case "*":
-					while(!stack.isEmpty() && (!stack.peek().equals("(")) && (!stack.peek().equals("+") && (!stack.peek().equals("-")))) {
-						queue.add(stack.pop());
-					}
-					stack.push(splitStr.get(i));
-					break;
+
+			else if ((expression.charAt(i) >= 'A' && expression.charAt(i) <= 'Z')||(expression.charAt(i) >= 'a' && expression.charAt(i) <= 'z')) {
+				token = expression.charAt(i) + "";
+				while (i<expression.length()-1&&((expression.charAt(i+1) >= 'A' && expression.charAt(i+1) <= 'Z')||(expression.charAt(i+1) >= 'a' && expression.charAt(i+1) <= 'z')))
+					token = token + expression.charAt(++i);
+				token= Utilities.symbolTable.get(token).getV()+"";
+			} else
+				token = expression.charAt(i) + "";
+
+
+			switch (token) {
 				case "+":
 				case "-":
-					while(!stack.isEmpty() && (!stack.peek().equals("("))) {
-						queue.add(stack.pop());
-					}
-					stack.push(splitStr.get(i));
+					while (!stack.isEmpty() && !stack.peek().equals("("))
+						queue.addFirst(stack.pop());
+					stack.push(token);
+					break;
+				case "*":
+				case "/":
+					while (!stack.isEmpty() && (stack.peek().equals("*") || stack.peek().equals("/")))
+						queue.addFirst(stack.pop());
+					stack.push(token);
 					break;
 				case "(":
-					stack.push("(");
+					stack.push(token);
 					break;
 				case ")":
-					while(!stack.isEmpty() && (!stack.peek().equals("("))) {
-						queue.add(stack.pop());
-					}
-					if(!stack.isEmpty()) stack.pop();
+					while (!stack.isEmpty() && !(stack.peek().equals("(")))
+						queue.addFirst(stack.pop());
+					stack.pop();
 					break;
-				}
+				default: // Always a number
+					queue.addFirst(token);
+					break;
 			}
 		}
-		
-		while(!stack.isEmpty()) {
-			queue.add(stack.pop());
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		for(String str : queue) { sb.append(str).append(","); }
-		return sb.toString();
+		while (!stack.isEmpty())
+			queue.addFirst(stack.pop());
+		Expression finalExpression = buildExpression(queue);
+		double answer = finalExpression.calculate();
+		return Double.parseDouble(String.format("%.3f", answer));
 	}
-	
-	// Calculate post-fix string expression.
-		private static double calculatePostfix(String postfix) {
-			Stack<Expression> stackExp = new Stack<>();
-			String[] expressions = postfix.split(",");
-			
-			for(String str : expressions) {
-				if(isDouble(str)) {
-					stackExp.push(new Number(Double.parseDouble(str)));
-				}
-				else {
-					Expression right = stackExp.pop();
-					Expression left = stackExp.pop();
-					
-					switch(str) {
-					case "+": stackExp.add(new Plus(left, right)); break;
-					case "-": stackExp.add(new Minus(left, right)); break;
-					case "*": stackExp.add(new Mul(left, right)); break;
-					case "/": stackExp.add(new Div(left, right)); break;
-					}
-				}
-			}
-			return Math.floor(stackExp.pop().calculate() * 1000) / 1000;
-		}
-	
-	// Executes the Shunting-Yard algorithm.
-	public static double execute(List<String> expression, HashMap<String, SymbolTabelObject> symbolTable) {
-		String postFixExpression = infixToPostfix(expression, symbolTable);
-		return(calculatePostfix(postFixExpression));
+
+	private static boolean validations(String expression) {
+		return true; // TODO implement validations
+
 	}
-}
+
+	private static Expression buildExpression(LinkedList<String> queue) {
+		Expression returnedExpression = null;
+		Expression right = null;
+		Expression left = null;
+		String currentExpression = queue.removeFirst();
+		if (currentExpression.equals("+") || currentExpression.equals("-") || currentExpression.equals("*")
+				|| currentExpression.equals("/")) {
+			right = buildExpression(queue);
+			left = buildExpression(queue);
+		}
+		switch (currentExpression) {
+			case "+":
+				returnedExpression = new Plus(left, right);
+				break;
+			case "-":
+				returnedExpression = new Minus(left, right);
+				break;
+			case "*":
+				returnedExpression = new Mul(left, right);
+				break;
+			case "/":
+				returnedExpression = new Div(left, right);
+				break;
+			default:
+				returnedExpression = new Number(
+						Double.parseDouble(String.format("%.2f", Double.parseDouble(currentExpression))));
+				break;
+		}
+
+		return returnedExpression;
+	}
+
+	}

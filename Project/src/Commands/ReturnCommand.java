@@ -1,8 +1,7 @@
 package Commands;
 
 import java.util.List;
-import Commands.Utilities;
-import Expression.ShuntingYard;
+
 
 public class ReturnCommand implements Command{
 
@@ -12,7 +11,7 @@ public class ReturnCommand implements Command{
 		for(int i=1; i<tokens.size(); i++)
 			e.append(tokens.get(i));
 		
-	//	Expression.ShuntingYard.execute(e.toString(), Utilities.getSymbolTable());
+		Interpeter.Parser.returnedValue=  (int) Expression.ShuntingYard.calc(e.toString());
 		return 0;
 		
 	}
