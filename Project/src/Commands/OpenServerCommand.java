@@ -3,13 +3,15 @@ package Commands;
 
 import java.util.ArrayList;
 
-import Interpeter.Command;
-import Interpeter.Utilities;
+import server_side.ClientHandler;
+import server_side.MyClientHandler;
+import server_side.MySerialServer;
+import server_side.Server;
 
-public class OpenDataServerCommand implements Command{
+public class OpenServerCommand implements Command{
 
 	public int numOfArgs = 2;
-	
+	Server s;
 
 
 	@Override
@@ -23,11 +25,13 @@ public class OpenDataServerCommand implements Command{
 	public int doCommand(ArrayList<String> args) {
 		
 		int port,timePerS;
-		
-		
 		port = Integer.parseInt(args.get(1));
 		timePerS = Integer.parseInt(args.get(2));
-		
+		s = new MySerialServer();
+//		s.open(port, new ClientHandler()) {
+//			
+//		}
+	
 		
 		return numOfArgs;
 	}

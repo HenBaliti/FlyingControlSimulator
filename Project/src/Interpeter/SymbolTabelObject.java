@@ -3,6 +3,7 @@ package Interpeter;
 import java.util.Observable;
 import java.util.Observer;
 
+@SuppressWarnings("deprecation")
 public class SymbolTabelObject extends Observable implements Observer {
 	
 	double value;
@@ -20,9 +21,10 @@ public class SymbolTabelObject extends Observable implements Observer {
 
 
 	}
-
-
-// Constractor
+	@Override
+	public String toString() {
+		return this.sim;
+	}
 	
 	public SymbolTabelObject(double v) {
 		this.value=v;
