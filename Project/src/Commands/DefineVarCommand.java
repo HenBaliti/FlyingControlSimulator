@@ -1,6 +1,6 @@
 package Commands;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DefineVarCommand implements Command{
 
@@ -8,7 +8,7 @@ public class DefineVarCommand implements Command{
 		super();
 	}
 	@Override
-	public int doCommand(ArrayList<String> tokens) {
+	public int doCommand(List<String> tokens) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

@@ -1,11 +1,11 @@
 package Commands;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DisconnectCommand implements Command{
 
 	@Override
-	public int doCommand(ArrayList<String> tokens) {
+	public int doCommand(List<String> tokens) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

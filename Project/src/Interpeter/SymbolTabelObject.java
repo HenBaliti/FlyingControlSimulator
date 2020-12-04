@@ -3,36 +3,37 @@ package Interpeter;
 import java.util.Observable;
 import java.util.Observer;
 
-@SuppressWarnings("deprecation")
 public class SymbolTabelObject extends Observable implements Observer {
-	
+
 	double value;
 	String sim;
 
 	@Override
 	public void update(Observable o, Object arg) {
-		Double num=new Double(0);
-		if(arg.getClass()==(num.getClass()))
-			if(this.value!=(double)arg) {
+		Double num = new Double(0);
+		if (arg.getClass() == (num.getClass()))
+			if (this.value != (double) arg) {
 				this.setV((double) arg);
 				this.setChanged();
-				this.notifyObservers(arg+"");
+				this.notifyObservers(arg + "");
 			}
 
-
 	}
+
 	@Override
 	public String toString() {
 		return this.sim;
 	}
-	
+
 	public SymbolTabelObject(double v) {
-		this.value=v;
-		this.sim=null;
+		this.value = v;
+		this.sim = null;
 	}
+
 	public SymbolTabelObject() {
 
 	}
+
 	public SymbolTabelObject(String SIM) {
 		super();
 		sim = SIM;
@@ -43,20 +44,22 @@ public class SymbolTabelObject extends Observable implements Observer {
 	}
 
 	public void setV(double v) {
-		if(this.value!=v) {
+		if (this.value != v) {
 			this.value = v;
 			setChanged();
 			notifyObservers(v);
 		}
 
-
 	}
+
 	public String getSIM() {
 		return sim;
 	}
+
 	public void setSIM(String SIM) {
 		sim = SIM;
 	}
+
 	public int calculate() {
 		// TODO Auto-generated method stub
 		return 0;

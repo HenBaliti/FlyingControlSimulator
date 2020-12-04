@@ -1,7 +1,7 @@
 package Commands;
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import server_side.ClientHandler;
 import server_side.MyClientHandler;
@@ -29,7 +29,7 @@ public class OpenServerCommand implements Command{
 
 
 	@Override
-	public int doCommand(ArrayList<String> args) {
+	public int doCommand(List<String> args) {
 		
 		port = Integer.parseInt(args.get(1));
 		timePerS = Integer.parseInt(args.get(2));

@@ -11,13 +11,13 @@ public class Utilities {
 	public static Map<String,Command> CommandsHash = new HashMap<String,Command>();
 	
 	public Utilities() {
-	this.CommandsHash.put("var", new DefineVarCommand());
-	this.CommandsHash.put("return", new ReturnCommand());
-	this.CommandsHash.put("var", new DefineVarCommand());
-	this.CommandsHash.put("connect", new ConnectCommand());
-	this.CommandsHash.put("disconnect", new DisconnectCommand());
-	this.CommandsHash.put("openDataServer", new OpenServerCommand());
-	this.CommandsHash.put("while", new LoopCommand());
+	Utilities.CommandsHash.put("var", new DefineVarCommand());
+	Utilities.CommandsHash.put("return", new ReturnCommand());
+	Utilities.CommandsHash.put("var", new DefineVarCommand());
+	Utilities.CommandsHash.put("connect", new ConnectCommand());
+	Utilities.CommandsHash.put("disconnect", new DisconnectCommand());
+	Utilities.CommandsHash.put("openDataServer", new OpenServerCommand());
+	Utilities.CommandsHash.put("while", new LoopCommand());
 	}
 	
 	public static Map<String,SymbolTabelObject> getSymbolTable() {

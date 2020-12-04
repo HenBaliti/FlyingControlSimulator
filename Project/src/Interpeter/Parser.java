@@ -1,11 +1,10 @@
 package Interpeter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import Commands.Command;
 import Commands.Utilities;
+
 
 
 public class Parser implements ParserInterface {
@@ -33,10 +32,17 @@ public class Parser implements ParserInterface {
 				index++;
 			}
 			else {
+				
 				cmd = Utilities.getCommand(cmdName);
 				//To get the new ArrayList from the index i want to the index i want.
-				ArrayList<String> subArray = (ArrayList<String>) tokens.subList(index, tokens.size());
-				index+= cmd.doCommand(subArray);
+				List<String> subArray = tokens.subList(index, tokens.size());
+				if(cmdName.equals("return")) {
+					if(cmd.doCommand(subArray)==0)
+					break;
+				}
+				else {
+				index+= cmd.doCommand(subArray)+1;
+				}
 			}
 		}
 
