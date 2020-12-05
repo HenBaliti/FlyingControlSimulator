@@ -12,7 +12,6 @@ public class Utilities {
 	public static Map<String,Command> CommandsHash2 = new HashMap<String,Command>();
 	
 	public Utilities() {
-		Utilities.CommandsHash.put("var",new ExpressionCommand( new DefineVarCommand()));
 		Utilities.CommandsHash.put("return",new ExpressionCommand( new ReturnCommand()));
 		Utilities.CommandsHash.put("var",new ExpressionCommand( new DefineVarCommand()));
 		Utilities.CommandsHash.put("connect",new ExpressionCommand( new ConnectCommand()));
@@ -20,7 +19,6 @@ public class Utilities {
 		Utilities.CommandsHash.put("openDataServer",new ExpressionCommand( new OpenServerCommand()));
 		Utilities.CommandsHash.put("while",new ExpressionCommand( new LoopCommand()));
 		
-		Utilities.CommandsHash2.put("var",new DefineVarCommand());
 		Utilities.CommandsHash2.put("return",new ReturnCommand());
 		Utilities.CommandsHash2.put("var",new DefineVarCommand());
 		Utilities.CommandsHash2.put("connect",new ConnectCommand());
