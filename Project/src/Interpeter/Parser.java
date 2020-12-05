@@ -37,6 +37,7 @@ public class Parser implements ParserInterface {
 				stamList.add(ary[0]);
 				stamList.add("=");
 				stamList.add(ary[1]);
+				stamList.add("%%");
 				Command newcmd = new DefineVarCommand();
 				index+=newcmd.doCommand(stamList);
 				
@@ -47,6 +48,9 @@ public class Parser implements ParserInterface {
 				if (!(Utilities.isCommandExist(cmdName))) {
 					if(Utilities.isSymbolExist(cmdName)) { //Checking if its a Symbol And not A command at all.
 						ExpressionCommand cmdEx = new ExpressionCommand(new DefineVarCommand());
+						//To get the new ArrayList from the index i want to the index i want.
+						List<String> subArray = tokens.subList(index, tokens.size());
+						cmdEx.setS(subArray);
 						index += cmdEx.calculate()+1;
 					}else {
 					errorsList.add("In Line " + IndexNumRow + " Command is Not Valid!/n");
@@ -62,23 +66,8 @@ public class Parser implements ParserInterface {
 					List<String> subArray = tokens.subList(index, tokens.size());
 					cmdEx.setS(subArray);
 
-					if(subArray.get(1).length() > 3) {
-						double d;
-						StringBuilder s = new StringBuilder();
-						s.append(subArray.get(1).toString());
-						String s1 = new String();
-						for(int i=0;i<s.length(); i++) {
-							if(s.charAt(i) != '=') {
-								s1+=s.toString().charAt(i);
-									break;
-							}
-						}
-						Utilities.symbolTable.put(s1, new SymbolTabelObject());
-						d = ShuntingYard.calc(s.toString());
-						Utilities.symbolTable.get(s1).setV(d);
-						index+=2;
-					}
-					else if(cmdName.equals("return")) {
+				
+				 if(cmdName.equals("return")) {
 						if(cmdEx.calculate()==0) {
 							break;
 						}

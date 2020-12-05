@@ -19,16 +19,47 @@ public class DefineVarCommand implements Command{
 		
 		//Checking if its already in HashSymbol
 		if(Utilities.isSymbolExist(symbolName)) {
-			if(tokens.get(1)=="=") {
-				double dd = ShuntingYard.calc(tokens.get(2));
-				d = Utilities.symbolTable.get(symbolName);
-				d.setV(dd);
-				numOfArgs = 1;
+			
+			if(tokens.get(1).equals("=")) {
+				if(tokens.get(2).equals("bind")) { //x = bind simX
+					Utilities.symbolTable.get(tokens.get(0)).setSIM(tokens.get(3));
+					numOfArgs = 3;
+				}
+				else {// x = 562
+					if(tokens.get(3).equals("%%")) {
+						double dd = ShuntingYard.calc(tokens.get(2));
+						d = Utilities.symbolTable.get(symbolName);
+						d.setV(dd);
+						numOfArgs = 1;
+					}else {
+						double dd = ShuntingYard.calc(tokens.get(2));
+						d = Utilities.symbolTable.get(symbolName);
+						d.setV(dd);
+						numOfArgs = 2;
+					}
+				}
+				
 			}
 			
 		}
 		else { //If This is -> var xxxxxxx
-			if(tokens.get(1).contains("=")) {
+			if(tokens.get(1).length() > 3) {
+				double d1;
+				StringBuilder s = new StringBuilder();
+				s.append(tokens.get(1).toString());
+				String s1 = new String();
+				for(int i=0;i<s.length(); i++) {
+					if(s.charAt(i) != '=') {
+						s1+=s.toString().charAt(i);
+							break;
+					}
+				}
+				Utilities.symbolTable.put(s1, new SymbolTabelObject());
+				d1 = ShuntingYard.calc(s.toString());
+				Utilities.symbolTable.get(s1).setV(d1);
+				numOfArgs = 1;
+			}
+			else if(tokens.get(1).contains("=")) {
 				//Checking if its contatins "="
 				String[] ary = tokens.get(1).split("=");
 				ArrayList<String> stamList = new ArrayList<String>();
@@ -41,15 +72,20 @@ public class DefineVarCommand implements Command{
 					stamList.add("=");
 					stamList.add(ary[1]);
 					ShuntingYard.calc(tokens.get(1));
-//					Command newcmd = new DefineVarCommand();
-//					newcmd.doCommand(stamList);
-
 				numOfArgs = 2;
 			}
-			else {//Default
+			else {//Defaults
+				if(tokens.get(3).equals("bind")) {//var y=bind simX
+					d = new SymbolTabelObject();
+					Utilities.symbolTable.put(tokens.get(1), d);
+					Utilities.symbolTable.get(tokens.get(1)).setSIM(tokens.get(4));
+					numOfArgs = 4;
+				}
+				else {//Default var x=?
 				d = new SymbolTabelObject();
 				Utilities.symbolTable.put(tokens.get(1), d);
 				numOfArgs = 1;
+				}
 			}
 		}
 		return numOfArgs;

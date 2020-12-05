@@ -4,10 +4,12 @@ import java.util.List;
 
 public class ConnectCommand implements Command{
 
+	int numOfArgs;
 	@Override
 	public int doCommand(List<String> tokens) {
-		// TODO Auto-generated method stub
-		return 0;
+
+		numOfArgs = 2;
+		return numOfArgs;
 	}
 
 	@Override
