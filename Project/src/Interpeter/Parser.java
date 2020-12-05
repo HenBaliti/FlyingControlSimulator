@@ -6,6 +6,7 @@ import Commands.Command;
 import Commands.DefineVarCommand;
 import Commands.ExpressionCommand;
 import Commands.Utilities;
+import Expression.ShuntingYard;
 
 
 
@@ -38,6 +39,7 @@ public class Parser implements ParserInterface {
 				stamList.add(ary[1]);
 				Command newcmd = new DefineVarCommand();
 				index+=newcmd.doCommand(stamList);
+				
 			}
 			
 			else {
@@ -60,8 +62,23 @@ public class Parser implements ParserInterface {
 					List<String> subArray = tokens.subList(index, tokens.size());
 					cmdEx.setS(subArray);
 
-					
-					if(cmdName.equals("return")) {
+					if(subArray.get(1).length() > 3) {
+						double d;
+						StringBuilder s = new StringBuilder();
+						s.append(subArray.get(1).toString());
+						String s1 = new String();
+						for(int i=0;i<s.length(); i++) {
+							if(s.charAt(i) != '=') {
+								s1+=s.toString().charAt(i);
+									break;
+							}
+						}
+						Utilities.symbolTable.put(s1, new SymbolTabelObject());
+						d = ShuntingYard.calc(s.toString());
+						Utilities.symbolTable.get(s1).setV(d);
+						index+=2;
+					}
+					else if(cmdName.equals("return")) {
 						if(cmdEx.calculate()==0) {
 							break;
 						}

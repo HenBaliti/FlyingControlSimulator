@@ -31,7 +31,8 @@ public class SymbolTabelObject extends Observable implements Observer {
 	}
 
 	public SymbolTabelObject() {
-
+		this.value = 0;
+		this.sim = null;
 	}
 
 	public SymbolTabelObject(String SIM) {
