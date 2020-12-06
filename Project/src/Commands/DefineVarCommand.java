@@ -23,6 +23,8 @@ public class DefineVarCommand implements Command{
 			if(tokens.get(1).equals("=")) {
 				if(tokens.get(2).equals("bind")) { //x = bind simX
 					Utilities.symbolTable.get(tokens.get(0)).setSIM(tokens.get(3));
+					SymbolTabelObject dd = Utilities.symbolTable.get(symbolName);
+					Utilities.symbolTableSim.put(tokens.get(3), dd);
 					numOfArgs = 3;
 				}
 				else {// x = 562
@@ -35,6 +37,7 @@ public class DefineVarCommand implements Command{
 						double dd = ShuntingYard.calc(tokens.get(2));
 						d = Utilities.symbolTable.get(symbolName);
 						d.setV(dd);
+						Utilities.symbolTableSim.get(d.getSIM()).setV(dd);
 						numOfArgs = 2;
 					}
 				}
@@ -78,6 +81,7 @@ public class DefineVarCommand implements Command{
 				if(tokens.get(3).equals("bind")) {//var y=bind simX
 					d = new SymbolTabelObject();
 					Utilities.symbolTable.put(tokens.get(1), d);
+					Utilities.symbolTableSim.put(tokens.get(4), d);
 					Utilities.symbolTable.get(tokens.get(1)).setSIM(tokens.get(4));
 					numOfArgs = 4;
 				}

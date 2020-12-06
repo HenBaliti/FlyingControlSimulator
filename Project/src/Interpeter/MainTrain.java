@@ -43,7 +43,7 @@ public class MainTrain {
 				"return y"	
 		};
 		
-		if(MyInterpreter.interpret(test3)!=rand*2)
+   		if(MyInterpreter.interpret(test3)!=rand*2)
 			System.out.println("failed test3 (-20)");
 
 		String[] test4={
