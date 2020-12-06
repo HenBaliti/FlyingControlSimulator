@@ -12,6 +12,7 @@ import java.net.SocketTimeoutException;
 import java.util.List;
 
 import Expression.ShuntingYard;
+import Interpeter.SymbolTabelObject;
 import server_side.ClientHandler;
 import server_side.MyClientHandler;
 import server_side.MySerialServer;
@@ -42,7 +43,14 @@ public class OpenServerCommand implements Command{
 	public int doCommand(List<String> args) {
 		port = Integer.parseInt(args.get(1));
 		timePerS = Integer.parseInt(args.get(2));
-		new Thread(()->runServer()).start();
+		new Thread(()->{
+		try {
+			runServer();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}).start();
 		
 		return numOfArgs;
 		}
@@ -52,17 +60,38 @@ public class OpenServerCommand implements Command{
 		try {
 			ServerSocket server=new ServerSocket(port);
 			server.setSoTimeout(1000);
+			System.out.println("Server Has been Set Succecfully");
 			while(!stop){
 				try{
 					Socket client=server.accept();
+					System.out.println("Client Has been Connected Succecfully");
 					BufferedReader in=new BufferedReader(new InputStreamReader(client.getInputStream()));
 					String s = null;
 					while((s=in.readLine())!=null){
 						try{
+							SymbolTabelObject STobject = null;
 							String[] arr = s.split(",");
 							for(int i=0;i<arr.length;i++) {
-//								Utilities.symbolTable
-							}
+
+								if(i==0) {
+//									System.out.println("SimX = "+arr[0].toString());
+									STobject = Utilities.symbolTableSim.get("simX");
+									STobject.setV(Double.parseDouble(arr[0]));
+								}
+								if(i==1) {
+//									System.out.println("SimY = "+arr[1].toString());
+									STobject = Utilities.symbolTableSim.get("simY");
+									if(STobject!=null)
+									STobject.setV(Double.parseDouble(arr[1]));
+								}
+								if(i==2) {
+//									System.out.println("SimY = "+arr[2].toString());
+									STobject = Utilities.symbolTableSim.get("simZ");
+									if(STobject!=null)
+									STobject.setV(Double.parseDouble(arr[2]));
+								}
+								
+							} 
 							try {Thread.sleep(timePerS);} catch (InterruptedException e1) {} //Go to sleep for HZ time
 						}catch(NumberFormatException e){}
 					}

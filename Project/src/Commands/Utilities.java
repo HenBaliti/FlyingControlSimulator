@@ -6,9 +6,9 @@ import java.util.Map;
 import Interpeter.SymbolTabelObject;
 
 public class Utilities {
-	
 	public static Map<String,SymbolTabelObject> symbolTable = new HashMap<String,SymbolTabelObject>();
 	public static Map<String,ExpressionCommand> CommandsHash = new HashMap<String,ExpressionCommand>();
+	public static Map<String,SymbolTabelObject> symbolTableSim = new HashMap<String,SymbolTabelObject>();
 	public static Map<String,Command> CommandsHash2 = new HashMap<String,Command>();
 	
 	public Utilities() {
