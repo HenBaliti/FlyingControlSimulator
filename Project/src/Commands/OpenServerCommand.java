@@ -60,11 +60,11 @@ public class OpenServerCommand implements Command{
 		try {
 			ServerSocket server=new ServerSocket(port);
 			server.setSoTimeout(1000);
-			System.out.println("Server Has been Set Succecfully");
+			System.out.println("Hen Server Has been Set Succecfully");
 			while(!stop){
 				try{
 					Socket client=server.accept();
-					System.out.println("Client Has been Connected Succecfully");
+					System.out.println("Eli Client Has been Connected Succecfully");
 					BufferedReader in=new BufferedReader(new InputStreamReader(client.getInputStream()));
 					String s = null;
 					while((s=in.readLine())!=null){
@@ -77,18 +77,24 @@ public class OpenServerCommand implements Command{
 //									System.out.println("SimX = "+arr[0].toString());
 									STobject = Utilities.symbolTableSim.get("simX");
 									STobject.setV(Double.parseDouble(arr[0]));
+									System.out.println("set simX "+arr[0]);
+									ConnectCommand.out.println("set simX" + " " + arr[0]);
 								}
 								if(i==1) {
 //									System.out.println("SimY = "+arr[1].toString());
 									STobject = Utilities.symbolTableSim.get("simY");
 									if(STobject!=null)
 									STobject.setV(Double.parseDouble(arr[1]));
+									System.out.println("set simX "+arr[0]);
+									ConnectCommand.out.println("set simY" + " " + arr[1]);
 								}
 								if(i==2) {
 //									System.out.println("SimY = "+arr[2].toString());
 									STobject = Utilities.symbolTableSim.get("simZ");
 									if(STobject!=null)
 									STobject.setV(Double.parseDouble(arr[2]));
+									System.out.println("set simX "+arr[0]);
+									ConnectCommand.out.println("set simZ" + " " + arr[2]);
 								}
 								
 							} 
@@ -99,7 +105,7 @@ public class OpenServerCommand implements Command{
 					client.close();
 				}catch(SocketTimeoutException e){}
 			}
-			server.close();
+			stop =true;
 		} catch (IOException e) {}
 	}
 	

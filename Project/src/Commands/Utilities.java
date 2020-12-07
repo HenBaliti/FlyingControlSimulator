@@ -25,6 +25,7 @@ public class Utilities {
 		Utilities.CommandsHash2.put("disconnect",new DisconnectCommand());
 		Utilities.CommandsHash2.put("openDataServer",new OpenServerCommand());
 		Utilities.CommandsHash2.put("while",new LoopCommand());
+		
 	}
 	
 	public static Map<String,SymbolTabelObject> getSymbolTable() {
