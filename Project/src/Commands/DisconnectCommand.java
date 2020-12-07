@@ -14,6 +14,7 @@ public class DisconnectCommand implements Command{
         }
         OpenServerCommand.stop=true;
         ConnectCommand.stop=true;
+        ConnectCommand.out.println("bye");
         System.out.println("bye");
         
 		numOfArgs=0;

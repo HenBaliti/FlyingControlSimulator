@@ -30,8 +30,10 @@ public class Simulator {
 				Socket interpreter=new Socket("127.0.0.1", port+1);
 				PrintWriter out=new PrintWriter(interpreter.getOutputStream());
 				while(!stop){
+					System.out.println("shooting from Eli client simx,simy,simz To Hen Server");
 					out.println(simX+","+simY+","+simZ);
 					out.flush();
+					System.out.println("Stop shooting from client");
 					try {Thread.sleep(100);} catch (InterruptedException e1) {}
 				}
 				out.close();
@@ -49,6 +51,7 @@ public class Simulator {
 			while(!stop){
 				try{
 					Socket client=server.accept();
+					System.out.println("Hen Client Connected To Eli Server");
 					BufferedReader in=new BufferedReader(new InputStreamReader(client.getInputStream()));
 					String line=null;
 					while(!(line=in.readLine()).equals("bye")){
