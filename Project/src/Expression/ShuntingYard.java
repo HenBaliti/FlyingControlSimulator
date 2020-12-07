@@ -24,7 +24,13 @@ public class ShuntingYard {
 				token = expression.charAt(i) + "";
 				while (i<expression.length()-1&&((expression.charAt(i+1) >= 'A' && expression.charAt(i+1) <= 'Z')||(expression.charAt(i+1) >= 'a' && expression.charAt(i+1) <= 'z')))
 					token = token + expression.charAt(++i);
-				token= Utilities.symbolTable.get(token).getV()+"";
+				//////////
+				String sta=Utilities.symbolTable.get(token).getSIM();
+				//if its not empty object
+				if(sta!=null)
+					token= Utilities.symbolTableSim.get(sta).getV()+"";
+				else
+					token= Utilities.symbolTable.get(token).getV()+"";
 			} else
 				token = expression.charAt(i) + "";
 

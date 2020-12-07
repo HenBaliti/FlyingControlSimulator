@@ -14,17 +14,17 @@ public class Utilities {
 	public Utilities() {
 		Utilities.CommandsHash.put("return",new ExpressionCommand( new ReturnCommand()));
 		Utilities.CommandsHash.put("var",new ExpressionCommand( new DefineVarCommand()));
+		Utilities.CommandsHash.put("while",new ExpressionCommand( new ConditionCommand()));
 		Utilities.CommandsHash.put("connect",new ExpressionCommand( new ConnectCommand()));
 		Utilities.CommandsHash.put("disconnect",new ExpressionCommand( new DisconnectCommand()));
 		Utilities.CommandsHash.put("openDataServer",new ExpressionCommand( new OpenServerCommand()));
-		Utilities.CommandsHash.put("while",new ExpressionCommand( new LoopCommand()));
 		
 		Utilities.CommandsHash2.put("return",new ReturnCommand());
+		Utilities.CommandsHash2.put("while",new ConditionCommand());
 		Utilities.CommandsHash2.put("var",new DefineVarCommand());
 		Utilities.CommandsHash2.put("connect",new ConnectCommand());
 		Utilities.CommandsHash2.put("disconnect",new DisconnectCommand());
 		Utilities.CommandsHash2.put("openDataServer",new OpenServerCommand());
-		Utilities.CommandsHash2.put("while",new LoopCommand());
 		
 	}
 	

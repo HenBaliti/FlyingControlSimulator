@@ -9,15 +9,13 @@ import Expression.ShuntingYard;
 public class ConditionCommand implements Command{
 
 	int numOfArgs;
-	protected ArrayList<String> leftExp;
-	protected ArrayList<String> rightExp;
+	protected String leftExp="";
+	protected String rightExp="";
 	protected String operator;
 	
 	public ConditionCommand() {
 		super();
 		this.numOfArgs = 0;
-		this.leftExp = new ArrayList<String>();
-		this.rightExp = new ArrayList<String>();
 		this.operator = null;
 		
 	}
@@ -28,28 +26,35 @@ public class ConditionCommand implements Command{
 		boolean flag = true;
 		while(flag) {
 			switch(tokens.get(index)) {
-			case "<":	flag = false; break;
+			case "<":	flag = false; operator="<"; break;
 			
-			case ">":	flag = false; break;	
+			case ">":	flag = false; operator=">"; break;	
 
-			case "=":	flag = false; break;
+			case "=":	flag = false; operator="="; break;
 
-			case "!":	flag = false; break;
+			case "!":	flag = false; operator="!"; break;
 			 
-			default: 	this.leftExp.add(tokens.get(index)); 
+			default: 	this.leftExp+=tokens.get(index); 
 						index++;
 						break;
 			}
 			}
 		
 		while(true) {
-			if(tokens.get(index).equals("{")) {		
+			index++;
+			this.rightExp+=tokens.get(index); 
+			if(index==tokens.size()-1) {		
 				break;
 			}
 		}
+		
+		while(checkCondition()) {
+						
+		}
+		
 		return 0;
 	}
-	protected boolean checkCondtion() {
+	protected boolean checkCondition() {
 		double leftResult = ShuntingYard.calc(leftExp.toString());
 		double rightResult = ShuntingYard.calc(rightExp.toString());
 			
@@ -65,7 +70,7 @@ public class ConditionCommand implements Command{
 		return false;
 	}
 	
-	public void makeCommands(List<String> tokens) {
+	public static void makeCommands(List<String> tokens) {
 		
 	}
 	@Override

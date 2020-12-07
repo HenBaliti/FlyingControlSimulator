@@ -79,33 +79,39 @@ public class OpenServerCommand implements Command{
 									STobject.setV(Double.parseDouble(arr[0]));
 									System.out.println("set simX "+arr[0]);
 									ConnectCommand.out.println("set simX" + " " + arr[0]);
+									ConnectCommand.out.flush();
 								}
 								if(i==1) {
 //									System.out.println("SimY = "+arr[1].toString());
 									STobject = Utilities.symbolTableSim.get("simY");
 									if(STobject!=null)
 									STobject.setV(Double.parseDouble(arr[1]));
-									System.out.println("set simX "+arr[0]);
+									System.out.println("set simY "+arr[1]);
 									ConnectCommand.out.println("set simY" + " " + arr[1]);
+									ConnectCommand.out.flush();
 								}
 								if(i==2) {
 //									System.out.println("SimY = "+arr[2].toString());
 									STobject = Utilities.symbolTableSim.get("simZ");
 									if(STobject!=null)
 									STobject.setV(Double.parseDouble(arr[2]));
-									System.out.println("set simX "+arr[0]);
+									System.out.println("set simZ "+arr[2]);
 									ConnectCommand.out.println("set simZ" + " " + arr[2]);
+									ConnectCommand.out.flush();
 								}
 								
 							} 
-							try {Thread.sleep(timePerS);} catch (InterruptedException e1) {} //Go to sleep for HZ time
+							try {Thread.sleep(1000/timePerS);} catch (InterruptedException e1) {} //Go to sleep for HZ time
 						}catch(NumberFormatException e){}
 					}
 					in.close();
 					client.close();
 				}catch(SocketTimeoutException e){}
 			}
-			stop =true;
+
+			if(stop==true) {
+				System.out.println("--------------------------------------------------------Stopped Hen Server");
+			}
 		} catch (IOException e) {}
 	}
 	

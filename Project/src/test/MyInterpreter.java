@@ -1,6 +1,7 @@
-package Interpeter;
+package test;
 
 import Commands.Utilities;
+import Interpeter.Parser;
 
 public class MyInterpreter {
 
