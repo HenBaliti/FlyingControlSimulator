@@ -32,6 +32,8 @@ public class MainTrain {
 		if(MyInterpreter.interpret(test2)!=rand+3)
 			System.out.println("failed test2 (-20)");
 		System.out.println("Test 3:");
+
+		
 		String[] test3={
 				"openDataServer "+(port+1)+" 10",
 				"connect 127.0.0.1 "+port,
@@ -72,7 +74,7 @@ public class MainTrain {
 		
 		if(MyInterpreter.interpret(test5)!=rand+2*5)
 			System.out.println("failed test5 (-20)");
-		
+
 		sim.close();
 		System.out.println("done");
 	}

@@ -2,15 +2,16 @@ package Commands;
 
 import java.util.List;
 
-public class LoopCommand extends ConditionCommand implements Command{
+public class IfCommand extends ConditionCommand implements Command{
 
 	@Override
 	public int doCommand(List<String> tokens) {
-		
 		// TODO Auto-generated method stub
-		while(checkCondtion())
+		if(checkCondtion()) {
 			makeCommands(tokens);
-		return 0;
+		}
+		
+		return tokens.size();
 	}
 
 	@Override
