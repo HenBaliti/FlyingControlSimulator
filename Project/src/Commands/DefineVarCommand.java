@@ -79,16 +79,23 @@ public class DefineVarCommand implements Command{
 			}
 			else {//Defaults
 				if(tokens.get(3).equals("bind")) {//var y=bind simX
+					if(Utilities.symbolTableSim.containsKey(tokens.get(4))) {//If there is already simX in the STSIM
+						d = Utilities.symbolTableSim.get(tokens.get(4));
+						Utilities.symbolTable.put(tokens.get(1), d);
+					}
+					else {
 					d = new SymbolTabelObject();
 					Utilities.symbolTable.put(tokens.get(1), d);
 					Utilities.symbolTableSim.put(tokens.get(4), d);
 					Utilities.symbolTable.get(tokens.get(1)).setSIM(tokens.get(4));
+					}
 					numOfArgs = 4;
 				}
-				else if (tokens.get(2).equals("=")){
-					d = Utilities.symbolTable.get(tokens.get(1));
+				else if (tokens.get(2).equals("=")){ //var - x - = - 0
+					d = new SymbolTabelObject();
 					double dd = ShuntingYard.calc(tokens.get(3));
 					d.setV(dd);
+					Utilities.symbolTable.put(tokens.get(1),d);
 					numOfArgs = 3;
 					
 				}

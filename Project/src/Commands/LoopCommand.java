@@ -6,10 +6,10 @@ public class LoopCommand extends ConditionCommand implements Command{
 
 	@Override
 	public int doCommand(List<String> tokens) {
-		
-		// TODO Auto-generated method stub
-		while(checkCondtion())
-			makeCommands(tokens);
+//		
+//		// TODO Auto-generated method stub
+//		while(checkCondtion())
+//			makeCommands(tokens);
 		return 0;
 	}
 

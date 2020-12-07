@@ -39,21 +39,24 @@ public class ConnectCommand implements Command{
 	}
 	
 	private void runClient(){
-		while(!stop){
+
 			try {
-				
+
 				Socket interpreter=new Socket(ip, port);
-				System.out.println("Shoots from Hen Client to Eli Server");
+				System.out.println("Connected from Hen Client to Eli Server");
 				out=new PrintWriter(interpreter.getOutputStream());
 				while(!stop){
-					try {Thread.sleep(100);} catch (InterruptedException e1) {}
+					System.out.println("Shoots from Hen Client to Eli Server");
 				}
+				
 				out.close();
 				interpreter.close();
 			} catch (IOException e) {
-				try {Thread.sleep(1000);} catch (InterruptedException e1) {}
+				e.printStackTrace();
 			}
 		}
+			
+
 	}
 
 //	@Override
@@ -65,5 +68,3 @@ public class ConnectCommand implements Command{
 //		}
 //		
 //	}
-
-}
