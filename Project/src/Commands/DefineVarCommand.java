@@ -85,6 +85,13 @@ public class DefineVarCommand implements Command{
 					Utilities.symbolTable.get(tokens.get(1)).setSIM(tokens.get(4));
 					numOfArgs = 4;
 				}
+				else if (tokens.get(2).equals("=")){
+					d = Utilities.symbolTable.get(tokens.get(1));
+					double dd = ShuntingYard.calc(tokens.get(3));
+					d.setV(dd);
+					numOfArgs = 3;
+					
+				}
 				else {//Default var x=?
 				d = new SymbolTabelObject();
 				Utilities.symbolTable.put(tokens.get(1), d);

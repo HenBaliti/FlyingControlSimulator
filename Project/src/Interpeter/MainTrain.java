@@ -32,6 +32,19 @@ public class MainTrain {
 		if(MyInterpreter.interpret(test2)!=rand+3)
 			System.out.println("failed test2 (-20)");
 
+		String[] test5={
+				"var x = 0",
+				"var y = "+rand,
+				"while x < 5 {",
+				"	y = y + 2",
+				"	x = x + 1",
+				"}",
+				"return y"	
+		};
+		
+		if(MyInterpreter.interpret(test5)!=rand+2*5)
+			System.out.println("failed test5 (-20)");
+		
 		String[] test3={
 				"openDataServer "+(port+1)+" 10",
 				"connect 127.0.0.1 "+port,
@@ -60,19 +73,7 @@ public class MainTrain {
 		if(MyInterpreter.interpret(test4)!=sim.simX+sim.simY*sim.simZ)
 			System.out.println("failed test4 (-20)");
 				
-		String[] test5={
-				"var x = 0",
-				"var y = "+rand,
-				"while x < 5 {",
-				"	y = y + 2",
-				"	x = x + 1",
-				"}",
-				"return y"	
-		};
-		
-		if(MyInterpreter.interpret(test5)!=rand+2*5)
-			System.out.println("failed test5 (-20)");
-		
+	
 		sim.close();
 		System.out.println("done");
 	}
