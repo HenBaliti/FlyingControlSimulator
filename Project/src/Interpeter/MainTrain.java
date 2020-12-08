@@ -5,6 +5,8 @@ import java.util.Random;
 import Expression.ShuntingYard;
 import test.MyInterpreter;
 
+////////Hen Baliti - 313164394
+////////Amit Shabo - 313222952
 
 public class MainTrain {
 

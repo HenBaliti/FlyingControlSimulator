@@ -10,8 +10,6 @@ import Commands.Utilities;
 import Expression.ShuntingYard;
 
 
-
-
 public class Parser implements ParserInterface {
 	
 	public static int returnedValue;

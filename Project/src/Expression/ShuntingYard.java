@@ -3,6 +3,7 @@ import java.util.*;
 
 import Commands.Utilities;
 
+//Calculate Every Expression
 public class ShuntingYard {
 	public static double calc(String exp) {
 		if (!validations(exp))
