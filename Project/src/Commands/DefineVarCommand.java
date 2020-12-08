@@ -6,6 +6,7 @@ import java.util.List;
 import Expression.ShuntingYard;
 import Interpeter.SymbolTabelObject;
 
+//getting all the var commands in this class
 public class DefineVarCommand implements Command{
 
 	int numOfArgs;
@@ -109,10 +110,5 @@ public class DefineVarCommand implements Command{
 		return numOfArgs;
 	}
 
-	@Override
-	public void testArgs(String args) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

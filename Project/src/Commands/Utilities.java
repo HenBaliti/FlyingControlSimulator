@@ -5,6 +5,7 @@ import java.util.Map;
 
 import Interpeter.SymbolTabelObject;
 
+//all the hashmap utilities
 public class Utilities {
 	public static Map<String,SymbolTabelObject> symbolTable = new HashMap<String,SymbolTabelObject>();
 	public static Map<String,ExpressionCommand> CommandsHash = new HashMap<String,ExpressionCommand>();

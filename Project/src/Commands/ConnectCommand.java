@@ -32,11 +32,6 @@ public class ConnectCommand implements Command{
 		return numOfArgs;
 	}
 
-	@Override
-	public void testArgs(String args) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	private void runClient(){
 		while(!stop){
@@ -55,14 +50,5 @@ public class ConnectCommand implements Command{
 		}
 	}
 
-//	@Override
-//	public void update(Observable arg0, Object arg1) {
-//		if(arg1.getClass()==String.class) {
-//			out.println("set " + arg0.toString() + " " + arg1);
-//			out.flush();
-//			System.out.println("set " + arg0.toString() + " " + arg1);
-//		}
-//		
-//	}
 
 }

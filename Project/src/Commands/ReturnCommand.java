@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ReturnCommand implements Command{
 
+	//return 
 	@Override
 	public int doCommand(List<String> tokens) {
 		StringBuilder e = new StringBuilder();
@@ -16,10 +17,5 @@ public class ReturnCommand implements Command{
 		
 	}
 
-	@Override
-	public void testArgs(String args) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

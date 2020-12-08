@@ -4,6 +4,7 @@ import java.util.List;
 
 public class DisconnectCommand implements Command{
 
+	//disconnecting from server
 	int numOfArgs;
 	@Override
 	public int doCommand(List<String> tokens) {
@@ -21,10 +22,5 @@ public class DisconnectCommand implements Command{
 		return numOfArgs;
 	}
 
-	@Override
-	public void testArgs(String args) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

@@ -18,6 +18,7 @@ import server_side.MyClientHandler;
 import server_side.MySerialServer;
 import server_side.Server;
 
+//open the server
 public class OpenServerCommand implements Command{
 
 	public static volatile boolean stop=false;
@@ -32,12 +33,6 @@ public class OpenServerCommand implements Command{
 		this.port=0;
 		this.timePerS=0;
 	}
-
-	@Override
-	public void testArgs(String args){
-		
-	}
-
 
 	@Override
 	public int doCommand(List<String> args) {

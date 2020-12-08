@@ -4,26 +4,26 @@ import java.util.*;
 import Commands.Utilities;
 
 public class ShuntingYard {
-	public static double calc(String expression) {
-		if (!validations(expression))
+	public static double calc(String exp) {
+		if (!validations(exp))
 			System.out.println("throw exception");
 		LinkedList<String> queue = new LinkedList<>();
 		Stack<String> stack = new Stack<>();
-		int len = expression.length();
+		int len = exp.length();
 
 		String token = "";
 		for (int i = 0; i < len; i++) {
-			if (expression.charAt(i) >= '0' && expression.charAt(i) <= '9') {
-				token = expression.charAt(i) + "";
-				while ((i + 1 < len && expression.charAt(i + 1) >= '0' && expression.charAt(i + 1) <= '9')
-						|| (i + 1 < len && expression.charAt(i + 1) == '.'))
-					token = token + expression.charAt(++i);
+			if (exp.charAt(i) >= '0' && exp.charAt(i) <= '9') {
+				token = exp.charAt(i) + "";
+				while ((i + 1 < len && exp.charAt(i + 1) >= '0' && exp.charAt(i + 1) <= '9')
+						|| (i + 1 < len && exp.charAt(i + 1) == '.'))
+					token = token + exp.charAt(++i);
 			}
 
-			else if ((expression.charAt(i) >= 'A' && expression.charAt(i) <= 'Z')||(expression.charAt(i) >= 'a' && expression.charAt(i) <= 'z')) {
-				token = expression.charAt(i) + "";
-				while (i<expression.length()-1&&((expression.charAt(i+1) >= 'A' && expression.charAt(i+1) <= 'Z')||(expression.charAt(i+1) >= 'a' && expression.charAt(i+1) <= 'z')))
-					token = token + expression.charAt(++i);
+			else if ((exp.charAt(i) >= 'A' && exp.charAt(i) <= 'Z')||(exp.charAt(i) >= 'a' && exp.charAt(i) <= 'z')) {
+				token = exp.charAt(i) + "";
+				while (i<exp.length()-1&&((exp.charAt(i+1) >= 'A' && exp.charAt(i+1) <= 'Z')||(exp.charAt(i+1) >= 'a' && exp.charAt(i+1) <= 'z')))
+					token = token + exp.charAt(++i);
 				//////////
 				String sta=Utilities.symbolTable.get(token).getSIM();
 				//if its not empty object
@@ -32,7 +32,7 @@ public class ShuntingYard {
 				else
 					token= Utilities.symbolTable.get(token).getV()+"";
 			} else
-				token = expression.charAt(i) + "";
+				token = exp.charAt(i) + "";
 
 
 			switch (token) {
@@ -63,7 +63,7 @@ public class ShuntingYard {
 		}
 		while (!stack.isEmpty())
 			queue.addFirst(stack.pop());
-		Expression finalExpression = buildExpression(queue);
+		Expression finalExpression = buildExp(queue);
 		double answer = finalExpression.calculate();
 		return Double.parseDouble(String.format("%.3f", answer));
 	}
@@ -73,36 +73,36 @@ public class ShuntingYard {
 
 	}
 
-	private static Expression buildExpression(LinkedList<String> queue) {
-		Expression returnedExpression = null;
+	private static Expression buildExp(LinkedList<String> queue) {
+		Expression returnedExp = null;
 		Expression right = null;
 		Expression left = null;
-		String currentExpression = queue.removeFirst();
-		if (currentExpression.equals("+") || currentExpression.equals("-") || currentExpression.equals("*")
-				|| currentExpression.equals("/")) {
-			right = buildExpression(queue);
-			left = buildExpression(queue);
+		String currentExp = queue.removeFirst();
+		if (currentExp.equals("+") || currentExp.equals("-") || currentExp.equals("*")
+				|| currentExp.equals("/")) {
+			right = buildExp(queue);
+			left = buildExp(queue);
 		}
-		switch (currentExpression) {
+		switch (currentExp) {
 			case "+":
-				returnedExpression = new Plus(left, right);
+				returnedExp = new Plus(left, right);
 				break;
 			case "-":
-				returnedExpression = new Minus(left, right);
+				returnedExp = new Minus(left, right);
 				break;
 			case "*":
-				returnedExpression = new Mul(left, right);
+				returnedExp = new Mul(left, right);
 				break;
 			case "/":
-				returnedExpression = new Div(left, right);
+				returnedExp = new Div(left, right);
 				break;
 			default:
-				returnedExpression = new Number(
-						Double.parseDouble(String.format("%.2f", Double.parseDouble(currentExpression))));
+				returnedExp = new Number(
+						Double.parseDouble(String.format("%.2f", Double.parseDouble(currentExp))));
 				break;
 		}
 
-		return returnedExpression;
+		return returnedExp;
 	}
 
 	}

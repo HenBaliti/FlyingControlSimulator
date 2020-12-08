@@ -21,6 +21,7 @@ public class ConditionCommand implements Command{
 		this.operator = null;
 		
 	}
+	//check which operator is it and adding to the leftext
 	@Override
 	public int doCommand(List<String> tokens) {
 		// TODO Auto-generated method stub
@@ -50,13 +51,14 @@ public class ConditionCommand implements Command{
 			}
 		}
 		
-		while(checkCondition()) {
+		while(checkCond()) {
 			makeCommands(Parser.CommandForWhile);
 		}
 		
 		return 0;
 	}
-	protected boolean checkCondition() {
+	//check if the condition happend
+	protected boolean checkCond() {
 		double leftResult = ShuntingYard.calc(leftExp.toString());
 		double rightResult = ShuntingYard.calc(rightExp.toString());
 			
@@ -136,10 +138,5 @@ public class ConditionCommand implements Command{
 		}
 	}
 	
-	@Override
-	public void testArgs(String args) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
