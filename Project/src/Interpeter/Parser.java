@@ -15,11 +15,34 @@ import Expression.ShuntingYard;
 public class Parser implements ParserInterface {
 	
 	public static int returnedValue;
+	public static ArrayList<String> arrBodyWhile = new ArrayList<>();
+	public static ArrayList<String> CommandForWhile = new ArrayList<>();
 
 	@Override
 	public void parse(String[] lines) {
 
 		ArrayList<String> errorsList = new ArrayList<>();
+		int startIndexCond=0;
+		int endIndexCond=0;
+		//Searching for "While" to see if its like test 5
+		for(String strWh:lines) {
+			if(strWh.contains("while")) {
+				for(int j=0;j<lines.length;j++) {
+					if(lines[j].contains("{")) {
+						startIndexCond=j+1;
+					}
+					if(lines[j].contains("}")) {
+						endIndexCond=j-1;
+					}
+				}
+				for(int i=startIndexCond;i<=endIndexCond;i++) {
+					CommandForWhile.add(lines[i]);
+				}
+			}
+			
+		}
+		
+		
 		Lexer lexer = new Lexer();
 		ArrayList<String> tokens = lexer.lexer(lines);
 		int IndexNumRow = 0;
@@ -37,7 +60,6 @@ public class Parser implements ParserInterface {
 			//////////////////
 			int TempIndex = index;
 			ArrayList<String> TempTokens = tokens;
-			ArrayList<String> arrBodyWhile = new ArrayList<>();
 			ArrayList<String> ConditionWhile = new ArrayList<>();
 			String strr = "";
 			
@@ -56,7 +78,6 @@ public class Parser implements ParserInterface {
 					TempIndex++;
 				}
 				
-				ConditionCommand.makeCommands(arrBodyWhile);
 				cmdStam = (Command) Utilities.getCommand("while");
 				ExpressionCommand cmdEx = new ExpressionCommand(cmdStam);
 				

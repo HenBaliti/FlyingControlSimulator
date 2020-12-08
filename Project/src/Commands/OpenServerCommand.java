@@ -60,11 +60,11 @@ public class OpenServerCommand implements Command{
 		try {
 			ServerSocket server=new ServerSocket(port);
 			server.setSoTimeout(1000);
-			System.out.println("Hen Server Has been Set Succecfully");
+			System.out.println("Server Has been Set Succecfully");
 			while(!stop){
 				try{
 					Socket client=server.accept();
-					System.out.println("Eli Client Has been Connected Succecfully");
+					System.out.println("Client Has been Connected Succecfully");
 					BufferedReader in=new BufferedReader(new InputStreamReader(client.getInputStream()));
 					String s = null;
 					while((s=in.readLine())!=null){
@@ -79,7 +79,6 @@ public class OpenServerCommand implements Command{
 									STobject.setV(Double.parseDouble(arr[0]));
 									System.out.println("set simX "+arr[0]);
 									ConnectCommand.out.println("set simX" + " " + arr[0]);
-									ConnectCommand.out.flush();
 								}
 								if(i==1) {
 //									System.out.println("SimY = "+arr[1].toString());
@@ -88,7 +87,6 @@ public class OpenServerCommand implements Command{
 									STobject.setV(Double.parseDouble(arr[1]));
 									System.out.println("set simY "+arr[1]);
 									ConnectCommand.out.println("set simY" + " " + arr[1]);
-									ConnectCommand.out.flush();
 								}
 								if(i==2) {
 //									System.out.println("SimY = "+arr[2].toString());
@@ -97,21 +95,17 @@ public class OpenServerCommand implements Command{
 									STobject.setV(Double.parseDouble(arr[2]));
 									System.out.println("set simZ "+arr[2]);
 									ConnectCommand.out.println("set simZ" + " " + arr[2]);
-									ConnectCommand.out.flush();
 								}
 								
 							} 
-							try {Thread.sleep(1000/timePerS);} catch (InterruptedException e1) {} //Go to sleep for HZ time
+							try {Thread.sleep(timePerS);} catch (InterruptedException e1) {} //Go to sleep for HZ time
 						}catch(NumberFormatException e){}
 					}
 					in.close();
 					client.close();
 				}catch(SocketTimeoutException e){}
 			}
-
-			if(stop==true) {
-				System.out.println("--------------------------------------------------------Stopped Hen Server");
-			}
+			stop =true;
 		} catch (IOException e) {}
 	}
 	
