@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseDragEvent;
@@ -31,7 +32,9 @@ import javafx.stage.Stage;
 public class MainWindowController{
 
 	@FXML
-	Circle Joystick;
+	Slider throttleSlider,rudderSlider;
+	@FXML
+	Circle JoystickIn,JoystickOut;
 	@FXML
 	MapDisplayer mapDisplayerData;
 	@FXML
@@ -156,7 +159,7 @@ public class MainWindowController{
 
 	@FXML
     public void initialize() {
-        DraggableNode node = new DraggableNode(Joystick);
+        DraggableNode node = new DraggableNode(JoystickIn);
 //        node.setOnMouseDragExited(new EventHandler<MouseEvent>() {
 //
 //			@Override
@@ -169,18 +172,7 @@ public class MainWindowController{
 //				
 //			}
 //		});
-        node.setOnDragDone(new EventHandler <DragEvent>()
-        {
-            public void handle(DragEvent event)
-            {
-//				node.getView().setLayoutX(200.0);
-//				node.getView().setLayoutY(250.0);
-//				node.setLayoutX(200.0);
-//				node.setLayoutY(250.0);
-//
-            	System.out.println("Dragged Dropped");
-            }
-        });
+
         
 //        node.setOnDragExited(new EventHandler<Event>() {
 //
@@ -195,7 +187,6 @@ public class MainWindowController{
 //			}
 //        });
         anchorPane.getChildren().add(node);
-        
     }
 
 }
