@@ -38,9 +38,13 @@ class DraggableNode extends Pane {
                 // record the current mouse X and Y position on Node
                 mousex = event.getSceneX();
                 mousey = event.getSceneY();
+                System.out.println("mousex: "+mousex);
+                System.out.println("mousey: "+mousey);
 
                 x = getLayoutX();
                 y = getLayoutY();
+                System.out.println("x = getLayoutX: "+x);
+                System.out.println("y = getLayoutY "+y);
 
                 if (isMoveToFront()) {
                     toFront();
@@ -48,6 +52,20 @@ class DraggableNode extends Pane {
             }
         });
 
+        
+        //On Mouse Dragged Done
+        onMouseReleasedProperty().set(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				setLayoutX(0.0);
+				setLayoutY(0.0);
+				System.out.println("Realesedddd!!!!");
+			}
+        	
+		});
+        
         //Event Listener for MouseDragged
         onMouseDraggedProperty().set(new EventHandler<MouseEvent>() {
             @Override
@@ -66,6 +84,8 @@ class DraggableNode extends Pane {
 
                 setLayoutX(scaledX);
                 setLayoutY(scaledY);
+                System.out.println(scaledX);
+                System.out.println(scaledY);
 
                 dragging = true;
 
