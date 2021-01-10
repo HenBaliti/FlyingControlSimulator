@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PopUpConnectController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -39,20 +39,20 @@
             <HBox spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Port Number : " />
-                  <TextField fx:id="portTextField" promptText="i.e 8080" />
+                  <TextField fx:id="portCalcTextField" promptText="i.e 8080" />
                </children>
             </HBox>
             <HBox>
                <children>
                   <Text lineSpacing="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter IP Number : " />
-                  <TextField fx:id="ipTextField" promptText="i.e 127.0.0.1" />
+                  <TextField fx:id="ipCalcTextField" promptText="i.e 127.0.0.1" />
                </children>
             </HBox>
          </children>
       </VBox>
    </center>
    <bottom>
-      <Button lineSpacing="10.0" mnemonicParsing="false" onAction="#ConnectSimulator" text="Connect" BorderPane.alignment="CENTER">
+      <Button lineSpacing="10.0" mnemonicParsing="false" onAction="#ConnectMyServer" text="Connect" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" top="30.0" />
          </BorderPane.margin>

@@ -75,17 +75,27 @@ class DraggableNode extends Pane {
 
                 double offsetX = event.getSceneX() - mousex;
                 double offsetY = event.getSceneY() - mousey;
+                
+                System.out.println("offsetX: "+event.getSceneX());
+                System.out.println("offsetY: "+event.getSceneY());
 
-                x += offsetX;
-                y += offsetY;
+//                double dd = Math.sqrt(((x-0)*(x-0))+((y-0)*(y-0)));
+//                
+//                if(dd<100) {
+                    x += offsetX;
+                    y += offsetY;
+//                }
+
+                
 
                 double scaledX = x;
                 double scaledY = y;
+                
 
+//                System.out.println("distance: "+dd);
+                
                 setLayoutX(scaledX);
                 setLayoutY(scaledY);
-                System.out.println(scaledX);
-                System.out.println(scaledY);
 
                 dragging = true;
 
