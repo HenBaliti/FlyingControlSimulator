@@ -1,12 +1,8 @@
 package view;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.event.Event;
-import javafx.event.EventHandler;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public class MapDisplayer extends Canvas{
@@ -20,23 +16,7 @@ public class MapDisplayer extends Canvas{
 	
 	public MapDisplayer() {
 		
-		
-//		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//
-//			@Override
-//			public void handle(MouseEvent arg0) {
-//				System.out.println("The X on the matrix is : "+arg0.getX()/2);
-//				System.out.println("The Y on the matrix is : "+arg0.getY()/2);
-//				
-//				// mazeData[(int)(arg0.getX())][(int(arg0.getY()))]
-////				gc.setFill(Color.rgb(255,255, 255));
-////				gc.fillRect((arg0.getX()), (arg0.getY()), 5, 5);
-////				gc.drawImage(new Image("./resources/x-png.png"), arg0.getX(), arg0.getY(), 5, 5);
-//				
-//				gc.strokeText("X",arg0.getX(), arg0.getY());
-//			}
-//			
-//		});
+
 	}
 	
 	public void setMapData(int[][] mapData) {

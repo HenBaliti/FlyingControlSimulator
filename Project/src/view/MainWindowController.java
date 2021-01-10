@@ -38,10 +38,6 @@ import javafx.stage.Stage;
 
 public class MainWindowController implements Observer{
 
-//	@FXML
-//	Canvas Destiny;
-//	@FXML
-//	Canvas DestinyMain;
 	@FXML
 	Slider throttleSlider,rudderSlider;
 	@FXML
@@ -56,26 +52,32 @@ public class MainWindowController implements Observer{
 	TextField portCalcTextField;
 	@FXML
 	TextField ipCalcTextField;
+	@FXML
+	TextField portTextField;
+	@FXML
+	TextField ipTextField;
 
 	ViewModel vm;
 	public int mapData[][];
-	public double StartingPositionX;
-	public double StartingPositionY;
-	public double sizeOfElement;
+	public DoubleProperty  StartingPositionX;
+	public DoubleProperty  StartingPositionY;
+	public DoubleProperty  sizeOfElement;
 	public DoubleProperty XDest, YDest;
 	ArrayList<String[]> rowElementsList = new ArrayList<>();
-	private String[] solution;
+//	private String[] solution;
 	double height,width,WidthCanvas,HeightCanvas; 
 	
 	
     public void setViewModel(ViewModel vm) {
     	this.vm = vm;
-		vm.portPath.bind(portCalcTextField.textProperty());
-		vm.ipPath.bind(ipCalcTextField.textProperty());
+
+//    	vm.portPath.bind(portCalcTextField.textProperty());
+//		vm.ipPath.bind(ipCalcTextField.textProperty());
+		StartingPositionX=new SimpleDoubleProperty();
+		StartingPositionY=new SimpleDoubleProperty();
+		sizeOfElement=new SimpleDoubleProperty();
     	XDest=new SimpleDoubleProperty();
     	YDest=new SimpleDoubleProperty();
-    	YDest.bindBidirectional(vm.YDest);
-        XDest.bindBidirectional(vm.XDest);
     }
 	
     
@@ -88,6 +90,8 @@ public class MainWindowController implements Observer{
 
 			stage.setTitle("Calculate A Path");
 			stage.setScene(new Scene(root));
+	    	this.vm.portPath.bindBidirectional(portCalcTextField.textProperty());
+	    	this.vm.ipPath.bindBidirectional(ipCalcTextField.textProperty());
 			if (!stage.isShowing()) {
 				stage.show();
 
@@ -115,12 +119,12 @@ public class MainWindowController implements Observer{
 				// Reading the Starting element from the first line
 				br = new BufferedReader(new FileReader(fileChooser.getSelectedFile()));
 				String[] startPositionLine = br.readLine().split(FileDelimiter);
-				StartingPositionX = Double.parseDouble(startPositionLine[0]);
-				StartingPositionY = Double.parseDouble(startPositionLine[1]);
+				StartingPositionX.setValue(Double.parseDouble(startPositionLine[0]));
+				StartingPositionY.setValue(Double.parseDouble(startPositionLine[1]));
 
 				// Reading the Size of the Element
 				String[] sizeLine = br.readLine().split(FileDelimiter);
-				sizeOfElement = Double.parseDouble(sizeLine[0]);
+				sizeOfElement.setValue(Double.parseDouble(sizeLine[0]));
 
 				// Reading all the rest of the CSV file
 				while ((line = br.readLine()) != null) {
@@ -141,6 +145,9 @@ public class MainWindowController implements Observer{
 				}
 				mapDisplayerData.setMapData(mapData);
 		        mapDisplayerData.setOnMouseClicked(ClickOnMap);
+		      //Binding An NoN FXML Property
+		        vm.startX.bind(StartingPositionX);
+		        vm.startY.bind(StartingPositionY);
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -158,11 +165,14 @@ public class MainWindowController implements Observer{
 	public void Connect() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PopUpConnect.fxml"));
+			fxmlLoader.setController(this);
 			Parent root = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 
 			stage.setTitle("Connect To Server");
 			stage.setScene(new Scene(root));
+			vm.port.bind(portTextField.textProperty());
+			vm.ip.bind(ipTextField.textProperty());
 			if (!stage.isShowing()) {
 				stage.show();
 
@@ -173,18 +183,27 @@ public class MainWindowController implements Observer{
 
 	}
 	
+	
+	public void ConnectSimulator() {
+		this.vm.Connect();
+	}
+	
+	
+	
 	//Connect to server to calc path
 	public void ConnectMyServer() {
 		
 
 			//Width and Height
-//			WidthCanvas = mapDisplayerData.getWidth();
-//			HeightCanvas = mapDisplayerData.getHeight();
-//			
-//			width = WidthCanvas / mapData[0].length;
-//			height = HeightCanvas / mapData.length;
+			WidthCanvas = mapDisplayerData.getWidth();
+			HeightCanvas = mapDisplayerData.getHeight();
 			
-			vm.ConnectCalcPathServer();
+			width = WidthCanvas / mapData[0].length;
+			height = HeightCanvas / mapData.length;
+			
+			System.out.println("--------------"+this.vm.ipPath.getValue());
+			
+			this.vm.ConnectCalcPathServer(height,width);
 		
 		
 	}
@@ -247,11 +266,12 @@ public class MainWindowController implements Observer{
 		public void handle(MouseEvent arg0) {
 			System.out.println("The X on the matrix is : "+arg0.getX()/2);
 			System.out.println("The Y on the matrix is : "+arg0.getY()/2);
-//
-//			XDest.set(arg0.getX()/2);
-//			YDest.set(arg0.getY()/2);
-//			XDest.setValue(arg0.getX()/2);
-//            YDest.setValue(arg0.getY()/2);
+
+			XDest.setValue(arg0.getX()/2);
+            YDest.setValue(arg0.getY()/2);
+            //Binding An NoN FXML Property
+            vm.XDest.bind(XDest);
+            vm.YDest.bind(YDest);
             mapDisplayerData.gc.strokeText("X",arg0.getX(), arg0.getY());
 		}
 		
@@ -262,8 +282,8 @@ public class MainWindowController implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o==vm) {
-			solution = (String[])arg;
-			System.out.println("Solution is: "+solution.toString());
+//			solution = (String[])arg;
+//			System.out.println("Solution is: "+solution.toString());
 		}
 		else {
 
