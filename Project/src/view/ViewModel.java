@@ -14,32 +14,31 @@ import javafx.scene.canvas.Canvas;
 
 public class ViewModel extends Observable implements Observer {
 
+    MapDisplayer mapData;
 	Model model;
-	public DoubleProperty throttle;
-    public DoubleProperty rudder;
-    public DoubleProperty aileron;
-    public DoubleProperty elevator;
+    public boolean isFirstCalc = true;
+    public DoubleProperty XDest, YDest;
     public StringProperty ip;
     public StringProperty port;
-    public StringProperty ipPath;
-    public StringProperty portPath;
     public DoubleProperty airplaneX;
     public DoubleProperty airplaneY;
-    public DoubleProperty startX;
-    public DoubleProperty startY;
-    public BooleanProperty IsPath;
-    public BooleanProperty isFirstCalc;
-    public DoubleProperty XDest, YDest;
-    public DoubleProperty realtiveH, relativeW;
-    MapDisplayer mapData;
-    Canvas Destiny;
+    public StringProperty ipPath;//+
+    public StringProperty portPath;//+
+    public DoubleProperty startX;//+
+    public DoubleProperty startY;//+
+//	public DoubleProperty throttle;
+//    public DoubleProperty rudder;
+//    public DoubleProperty aileron;
+//    public DoubleProperty elevator;
+//    public BooleanProperty IsPath;
+//    public DoubleProperty realtiveH, relativeW;
 	
 	
     public ViewModel() {
-    	throttle=new SimpleDoubleProperty();
-        rudder=new SimpleDoubleProperty();
-        aileron=new SimpleDoubleProperty();
-        elevator=new SimpleDoubleProperty();
+//    	throttle=new SimpleDoubleProperty();
+//        rudder=new SimpleDoubleProperty();
+//        aileron=new SimpleDoubleProperty();
+//        elevator=new SimpleDoubleProperty();
         ip=new SimpleStringProperty();
         port=new SimpleStringProperty();
         ipPath=new SimpleStringProperty();
@@ -50,38 +49,41 @@ public class ViewModel extends Observable implements Observer {
         startY=new SimpleDoubleProperty();
         XDest=new SimpleDoubleProperty();
         YDest=new SimpleDoubleProperty();
-        IsPath = new SimpleBooleanProperty();
-        isFirstCalc = new SimpleBooleanProperty();
+//        IsPath = new SimpleBooleanProperty();
+//        isFirstCalc = new SimpleBooleanProperty();
         
     }
     
     public void setModel(Model model) {
     	this.model=model;
     }
-    
-//    public void setMapData(MapDisplayer map) {
-//    	this.mapData=map;
-//        setChanged();
-//        notifyObservers(this.mapData);
-//    }
+
     
     //Connecting to the Simulator
     public void Connect() {
+    	System.out.println("ip is : "+ip.getValue());
     	model.Connect(ip.getValue(),Integer.parseInt(port.getValue()));
     	
     }
     
     //Connecting to MyServer For calculating the path
-    public void ConnectCalcPathServer() {
-    	System.out.println(ipPath.getValue());
-    	model.connectMyServer(ipPath.getValue(),Integer.parseInt(portPath.getValue()));
+    public void ConnectCalcPathServer(double height,double width) {
+    	System.out.println("The Starting airplane is : "+startX.getValue()+" y: "+startY.getValue());
+    	System.out.println("IP Path is: "+ipPath.getValue());
+    	System.out.println("The Destiny airplane is : "+XDest.getValue()+" y: "+YDest.getValue());
+    	System.out.println("height: "+height);
+    	System.out.println("width: "+width);
     	
-    	//if it is the first time we calculate
-    	
-        model.findPath((int) (airplaneY.getValue()/-1), (int) (airplaneX.getValue() +15),Math.abs( (int) (YDest.getValue() / h)) ,
-                Math.abs((int) (XDest.getValue() / w)), mapData.mapData );
+    	if(isFirstCalc) {
+    		isFirstCalc = false;
+    		airplaneX.setValue(startX.getValue());
+    		airplaneY.setValue(startY.getValue());
+    		model.connectMyServer(ipPath.getValue(),Integer.parseInt(portPath.getValue()));
+    		model.findPath((int) (airplaneY.getValue()/-1), (int) (airplaneX.getValue() +15),Math.abs( (int) (YDest.getValue() / height)) ,
+                  Math.abs((int) (XDest.getValue() / width)), mapData.mapData );
+    	}
+
     }
-    
     
     
 	@Override

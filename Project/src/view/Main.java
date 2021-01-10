@@ -1,5 +1,6 @@
 package view;
 	
+import Model.Model;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -18,9 +19,13 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			ViewModel vm = new ViewModel();
 			MainWindowController mc = loader.getController();
+			ViewModel vm = new ViewModel();
+			Model model = new Model();
+			vm.setModel(model);
+			vm.addObserver(mc);
 			mc.setViewModel(vm);
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
