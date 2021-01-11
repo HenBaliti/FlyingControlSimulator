@@ -143,6 +143,7 @@ public class MainWindowController implements Observer{
 						mapData[i][j] = Integer.parseInt(tmp);
 					}
 				}
+				this.vm.mapData = mapDisplayerData;
 				mapDisplayerData.setMapData(mapData);
 		        mapDisplayerData.setOnMouseClicked(ClickOnMap);
 		      //Binding An NoN FXML Property
