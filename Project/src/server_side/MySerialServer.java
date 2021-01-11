@@ -46,7 +46,7 @@ public class MySerialServer implements Server {
 		while(!stop) {
 			try {
 				Socket aClient = server.accept();
-				
+				System.out.println("Client Has Been Connected Succesfully");
 				try {
 					ch.handleClient(aClient.getInputStream(),aClient.getOutputStream());
 					aClient.getInputStream().close();
