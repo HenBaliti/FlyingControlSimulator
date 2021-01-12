@@ -19,6 +19,8 @@ public class Utilities {
 		Utilities.CommandsHash.put("connect",new ExpressionCommand( new ConnectCommand()));
 		Utilities.CommandsHash.put("disconnect",new ExpressionCommand( new DisconnectCommand()));
 		Utilities.CommandsHash.put("openDataServer",new ExpressionCommand( new OpenServerCommand()));
+		Utilities.CommandsHash.put("sleep", new ExpressionCommand(new SleepCommand()));
+		Utilities.CommandsHash.put("print", new ExpressionCommand(new PrintCommand()));
 		
 		Utilities.CommandsHash2.put("return",new ReturnCommand());
 		Utilities.CommandsHash2.put("while",new ConditionCommand());
@@ -26,6 +28,8 @@ public class Utilities {
 		Utilities.CommandsHash2.put("connect",new ConnectCommand());
 		Utilities.CommandsHash2.put("disconnect",new DisconnectCommand());
 		Utilities.CommandsHash2.put("openDataServer",new OpenServerCommand());
+		Utilities.CommandsHash2.put("sleep", new SleepCommand());
+		Utilities.CommandsHash2.put("print", new PrintCommand());
 		
 	}
 	
