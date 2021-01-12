@@ -39,6 +39,7 @@ public class Model extends Observable{
     public void connectMyServer(String ip,int port){
         try {
             socketMyServer=new Socket(ip,port);
+            System.out.println("Connected To Calc Server Succesfully");
             outMyServer=new PrintWriter(socketMyServer.getOutputStream());
             in=new BufferedReader(new InputStreamReader(socketMyServer.getInputStream()));
         } catch (IOException e) {
@@ -62,13 +63,20 @@ public class Model extends Observable{
                     System.out.print("\t");
                     for (j = 0; j < data[i].length - 1; j++) {
                     	outMyServer.print(data[i][j] + ",");
+                    	System.out.println(data[i][j] + ",");
                     }
                     outMyServer.println(data[i][j]);
                 }
                 outMyServer.println("end");
+
                 outMyServer.println(planeX+","+planeY);
+
                 outMyServer.println(markX+","+markY);
+
                 outMyServer.flush();
+    			System.out.println("\tend\n");
+    			System.out.println("\tproblem sent, waiting for solution...");
+
                 String solution = null;
                 try {
                 	solution = in.readLine();
@@ -76,7 +84,7 @@ public class Model extends Observable{
                     e.printStackTrace();
                 }
                 System.out.println("\tSolution received");
-                System.out.println(solution);
+                System.out.println((String)solution);
                 
                 String[] solTmp=solution.split(",");
                 String[] notfiySolution=new String[solTmp.length+1];
