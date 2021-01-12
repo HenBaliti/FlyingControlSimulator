@@ -11,7 +11,7 @@ import test.MyInterpreter;
 
 public class Model extends Observable{
 	
-	MyInterpreter interperter;
+	public MyInterpreter interperter;
 	SimulatorClient simulatorClient;
     private static Socket socketMyServer;
     private  static PrintWriter outMyServer;
@@ -29,6 +29,11 @@ public class Model extends Observable{
 		simulatorClient = new SimulatorClient();
 	}
 	
+	//Parsing the AutoPilot Text
+	public void ParseAutoPilot(String[] arr) {
+		interperter.interpret(arr);
+	}
+
 	
 	//Connecting the simulator server as a client
 	public void Connect(String ip,int port) {
@@ -98,5 +103,6 @@ public class Model extends Observable{
 
         }).start();
     }
+
 	
 }

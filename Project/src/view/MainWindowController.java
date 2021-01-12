@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
+import javax.crypto.spec.GCMParameterSpec;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -21,14 +22,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
@@ -38,6 +42,8 @@ import javafx.stage.Stage;
 
 public class MainWindowController implements Observer{
 
+	@FXML
+	RadioButton autoPilotRadio,ManualRadio;
 	@FXML
 	Slider throttleSlider,rudderSlider;
 	@FXML
@@ -56,6 +62,7 @@ public class MainWindowController implements Observer{
 	TextField portTextField;
 	@FXML
 	TextField ipTextField;
+
 
 	ViewModel vm;
 	public int mapData[][];
@@ -147,6 +154,7 @@ public class MainWindowController implements Observer{
 				mapDisplayerData.setMapData(mapData);
 		        mapDisplayerData.setOnMouseClicked(ClickOnMap);
 		      //Binding An NoN FXML Property
+		        mapDisplayerData.gc.strokeText("A",(-1)*StartingPositionX.get(), StartingPositionY.get());
 		        vm.startX.bind(StartingPositionX);
 		        vm.startY.bind(StartingPositionY);
 
@@ -232,6 +240,8 @@ public class MainWindowController implements Observer{
 				while ((line = br.readLine()) != null) {
 					TextAreaAutoPilot.appendText(line +"\n");
 				}
+				
+		this.vm.autoPilotTxt.bindBidirectional(TextAreaAutoPilot.textProperty());
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -243,21 +253,44 @@ public class MainWindowController implements Observer{
 
 		}
 	}
+	
+	
+	public void SendToInterperter() {
+		this.vm.AutoPilotParser();
+	}
+	
 
 	@FXML
     public void initialize() {
-//		if(JoystickIn!=null) {
-			JoystickIn.setOnMouseDragged(mouseEvent -> {
-				JoystickIn.setLayoutX(mouseEvent.getSceneX());
-				JoystickIn.setLayoutY(mouseEvent.getSceneY());
-		    });
+
+		//---------------Joystick-----------------------------------------------
+		JoystickIn.setOnMouseDragged(mouseEvent -> {
+	            Point2D centerPoint = new Point2D(760.0, 177.0);
+	            Point2D mouse = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+	            double dis = centerPoint.distance(mouse);
+	            if (dis > 90) { // if joystick get out of bounds
+	                double angle = Math.atan2(mouse.getY() - centerPoint.getY(), mouse.getX() - centerPoint.getX()); // cal angle between 2 points
+	                // force joystick to stay on his bounds
+	                JoystickIn.setLayoutX(centerPoint.getX() + 90 * Math.cos(angle));
+	                JoystickIn.setLayoutY(centerPoint.getY() + 90 * Math.sin(angle));
+	            } else { // in bounds
+	            	JoystickIn.setLayoutX(mouseEvent.getSceneX());
+	            	JoystickIn.setLayoutY(mouseEvent.getSceneY());
+	            }
+	        });
+
 			
 			JoystickIn.setOnMouseReleased(mouseDragEvent -> {
 				JoystickIn.setLayoutX(760);
 				JoystickIn.setLayoutY(177);
 		    });
-//		}
 
+		//--------------init Radio-----------------
+		ToggleGroup group = new ToggleGroup();
+		autoPilotRadio.setToggleGroup(group);
+		ManualRadio.setToggleGroup(group);
+			
+			
     }
 	
 	//Clicking on the map and showing the X Destination
@@ -265,11 +298,11 @@ public class MainWindowController implements Observer{
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			System.out.println("The X on the matrix is : "+arg0.getX()/2);
-			System.out.println("The Y on the matrix is : "+arg0.getY()/2);
+			System.out.println("The X on the matrix is : "+arg0.getX());
+			System.out.println("The Y on the matrix is : "+arg0.getY());
 
-			XDest.setValue(arg0.getX()/2);
-            YDest.setValue(arg0.getY()/2);
+			XDest.setValue(arg0.getX());
+            YDest.setValue(arg0.getY());
             //Binding An NoN FXML Property
             vm.XDest.bind(XDest);
             vm.YDest.bind(YDest);
@@ -277,6 +310,7 @@ public class MainWindowController implements Observer{
 		}
 		
 	};
+	
 
 
 

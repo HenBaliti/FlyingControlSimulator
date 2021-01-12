@@ -14,6 +14,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import view.MapDisplayer?>
+<?import javafx.scene.control.ToggleButton?>
 
 <AnchorPane prefHeight="350.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="view.MainWindowController">
    <children>
@@ -24,7 +25,7 @@
             <Button mnemonicParsing="false" onAction="#ConnectingPopUpServer" text="Calculate Path" />
          </children>
       </HBox>
-      <RadioButton layoutX="336.0" layoutY="17.0" mnemonicParsing="false" text="- Auto Pilot -" />
+      <RadioButton fx:id="autoPilotRadio" layoutX="336.0" layoutY="17.0" mnemonicParsing="false" onAction="#SendToInterperter" text="- Auto Pilot -" />
       <TextArea fx:id="TextAreaAutoPilot" layoutX="320.0" layoutY="47.0" prefHeight="236.0" prefWidth="186.0" promptText="Load here a txt file for the AutoPilot ....">
          <opaqueInsets>
             <Insets />
@@ -56,7 +57,7 @@
       </ImageView>
       <Slider layoutX="690.0" layoutY="314.0" max="1.0" min="-1.0" value="0.5" />
       <Slider layoutX="602.0" layoutY="107.0" max="1.0" orientation="VERTICAL" value="0.5" />
-      <RadioButton layoutX="641.0" layoutY="15.0" mnemonicParsing="false" text="- Manual -" />
+      <RadioButton fx:id="ManualRadio" layoutX="641.0" layoutY="15.0" mnemonicParsing="false" text="- Manual -" />
       <Button layoutX="317.0" layoutY="299.0" lineSpacing="10.0" mnemonicParsing="false" onAction="#LoadAutoPilotText" prefHeight="25.0" prefWidth="165.0" text="Load Auto Pilot Text" />
       <MapDisplayer fx:id="mapDisplayerData" height="250.0" layoutX="10.0" layoutY="48.0" width="250.0" />
    </children>
