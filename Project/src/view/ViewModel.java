@@ -13,6 +13,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.paint.Color;
 import test.MyInterpreter;
 
 public class ViewModel extends Observable implements Observer {
@@ -121,13 +122,45 @@ public class ViewModel extends Observable implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		if(arg0==model)
         {
+			System.out.println("Got heree1 ---------------------------");
             String[] tmpArr=(String[])arg1;
-            
+            int i=0,j=0;
             if(tmpArr[0].equals("path")){
-                setChanged();
-                notifyObservers(tmpArr);
+            	System.out.println("Got heree2 ---------------------------");
+            	//Drawing the path
+            	for(int t=1;t<tmpArr.length;t++) {
+            		switch(tmpArr[t]) {
+                    case "Right":
+                        j++;
+                    	mapData.gc.setFill(Color.WHITE);
+                    	mapData.gc.fillRect((j * mapData.width), (i * mapData.height), mapData.width, mapData.height);
+//                        mapData.gc.setStroke(Color.BLACK.darker(),arg0.getX(), arg0.getY());
+                        break;
+                    case "Down":
+//                    	mapData.gc.setStroke(Color.BLACK.darker());
+                        i++;
+                    	mapData.gc.setFill(Color.WHITE);
+                    	mapData.gc.fillRect((j * mapData.width), (i * mapData.height), mapData.width, mapData.height);
+                        break;
+                    case "Left":
+//                    	mapData.gc.setStroke(Color.BLACK.darker());
+                        j--;
+                    	mapData.gc.setFill(Color.WHITE);
+                    	mapData.gc.fillRect((j * mapData.width), (i * mapData.height), mapData.width, mapData.height);
+                        break;
+                    case "Up":
+//                    	mapData.gc.setStroke(Color.BLACK.darker());
+                        i--;
+                    	mapData.gc.setFill(Color.WHITE);
+                    	mapData.gc.fillRect((j * mapData.width), (i * mapData.height), mapData.width, mapData.height);
+                        break;
+            		}
+            	}
             }
         }
+		else {
+			System.out.println("Oooooopsss ---------------------------");
+		}
 	}
 	
 	
