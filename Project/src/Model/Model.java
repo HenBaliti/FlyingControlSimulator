@@ -96,8 +96,8 @@ public class Model extends Observable{
                 notfiySolution[0]="path";
                 for(i=0;i<solTmp.length;i++)
                 	notfiySolution[i+1]=solTmp[i];
-                this.setChanged();
-                this.notifyObservers(notfiySolution);
+                setChanged();
+                notifyObservers(notfiySolution);
 
                 
 
