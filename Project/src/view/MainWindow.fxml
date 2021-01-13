@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Slider?>
@@ -14,9 +13,8 @@
 <?import javafx.scene.text.Text?>
 
 <?import view.MapDisplayer?>
-<?import javafx.scene.control.ToggleButton?>
 
-<AnchorPane prefHeight="350.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="view.MainWindowController">
+<AnchorPane prefHeight="350.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
    <children>
       <HBox layoutX="10.0" layoutY="10.0" spacing="10.0">
          <children>
@@ -33,32 +31,32 @@
       </TextArea>
       <Circle fx:id="JoystickOut" fill="#5f5f5f" layoutX="760.0" layoutY="177.0" radius="90.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="JoystickIn" fill="#25639c" layoutX="760.0" layoutY="177.0" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
-      <Text layoutX="611.0" layoutY="179.0" rotate="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Throttle" />
-      <Text layoutX="743.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rudder" />
+      <Text layoutX="570.0" layoutY="179.0" rotate="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Throttle" />
+      <Text layoutX="742.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rudder" />
       <ImageView fitHeight="32.0" fitWidth="53.0" layoutX="744.0" layoutY="268.0" opacity="0.21" pickOnBounds="true" preserveRatio="true" rotate="90.0">
          <image>
-            <Image url="@../../../../../Downloads/right%20arrow.png" />
+            <Image url="@../../resources/right%20arrow.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="32.0" fitWidth="53.0" layoutX="851.0" layoutY="159.0" opacity="0.21" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../Downloads/right%20arrow.png" />
+            <Image url="@../../resources/right%20arrow.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="32.0" fitWidth="53.0" layoutX="638.0" layoutY="158.0" opacity="0.21" pickOnBounds="true" preserveRatio="true" rotate="180.0">
          <image>
-            <Image url="@../../../../../Downloads/right%20arrow.png" />
+            <Image url="@../../resources/right%20arrow.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="32.0" fitWidth="53.0" layoutX="745.0" layoutY="54.0" opacity="0.21" pickOnBounds="true" preserveRatio="true" rotate="270.0">
          <image>
-            <Image url="@../../../../../Downloads/right%20arrow.png" />
+            <Image url="@../../resources/right%20arrow.png" />
          </image>
       </ImageView>
-      <Slider layoutX="690.0" layoutY="314.0" max="1.0" min="-1.0" value="0.5" />
-      <Slider layoutX="602.0" layoutY="107.0" max="1.0" orientation="VERTICAL" value="0.5" />
-      <RadioButton fx:id="ManualRadio" layoutX="641.0" layoutY="15.0" mnemonicParsing="false" text="- Manual -" />
+      <Slider fx:id="rudderSlider" layoutX="691.0" layoutY="305.0" max="1.0" min="-1.0" showTickLabels="true" showTickMarks="true" />
+      <Slider fx:id="throttleSlider" layoutX="602.0" layoutY="107.0" max="1.0" min="0.0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" value="0.5" />
+      <RadioButton fx:id="ManualRadio" layoutX="641.0" layoutY="15.0" mnemonicParsing="false" onAction="#ClickOnManualRadio" text="- Manual -" />
       <Button layoutX="317.0" layoutY="299.0" lineSpacing="10.0" mnemonicParsing="false" onAction="#LoadAutoPilotText" prefHeight="25.0" prefWidth="165.0" text="Load Auto Pilot Text" />
-      <MapDisplayer fx:id="mapDisplayerData" height="250.0" layoutX="10.0" layoutY="48.0" width="250.0" />
+		<MapDisplayer fx:id="mapDisplayerData" height="250.0" layoutX="10.0" layoutY="48.0" width="250.0" />
    </children>
 </AnchorPane>

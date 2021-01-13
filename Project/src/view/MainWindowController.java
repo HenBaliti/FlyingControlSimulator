@@ -17,6 +17,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -70,6 +72,8 @@ public class MainWindowController implements Observer{
 	public DoubleProperty  StartingPositionY;
 	public DoubleProperty  sizeOfElement;
 	public DoubleProperty XDest, YDest;
+	public DoubleProperty aileron,elevator;
+	public DoubleProperty rudder,throttle;
 	ArrayList<String[]> rowElementsList = new ArrayList<>();
 //	private String[] solution;
 	double height,width,WidthCanvas,HeightCanvas; 
@@ -80,9 +84,13 @@ public class MainWindowController implements Observer{
 
 //    	vm.portPath.bind(portCalcTextField.textProperty());
 //		vm.ipPath.bind(ipCalcTextField.textProperty());
-		StartingPositionX=new SimpleDoubleProperty();
+    	StartingPositionX=new SimpleDoubleProperty();
 		StartingPositionY=new SimpleDoubleProperty();
+		aileron=new SimpleDoubleProperty();
+		elevator=new SimpleDoubleProperty();
 		sizeOfElement=new SimpleDoubleProperty();
+		rudder=new SimpleDoubleProperty();
+		throttle=new SimpleDoubleProperty();
     	XDest=new SimpleDoubleProperty();
     	YDest=new SimpleDoubleProperty();
     }
@@ -169,6 +177,34 @@ public class MainWindowController implements Observer{
 		}
 
 	}
+	
+	
+	//Clicking on the Manual radio button
+	public void ClickOnManualRadio() {
+		// ailron and elevator settings from the Joystick GUI
+		JoystickIn.setOnMouseDragged(JoystickDragAndTakeValues);
+		JoystickIn.setOnMouseReleased(JoystickOnRelease2);
+        rudderSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+				// TODO Auto-generated method stub
+				if(ManualRadio.isSelected())
+					rudder.setValue(arg2.doubleValue());
+			}
+        });
+        throttleSlider.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+				// TODO Auto-generated method stub
+				if(ManualRadio.isSelected())
+					throttle.setValue(arg2.doubleValue());
+			}
+        });
+        
+		vm.throttle.bind(throttle);
+        vm.rudder.bind(rudder);
+	}
+	
 
 	// Opens the a popup window on clicking on -Connect-
 	public void Connect() {
@@ -264,26 +300,8 @@ public class MainWindowController implements Observer{
     public void initialize() {
 
 		//---------------Joystick-----------------------------------------------
-		JoystickIn.setOnMouseDragged(mouseEvent -> {
-	            Point2D centerPoint = new Point2D(760.0, 177.0);
-	            Point2D mouse = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-	            double dis = centerPoint.distance(mouse);
-	            if (dis > 90) { // if joystick get out of bounds
-	                double angle = Math.atan2(mouse.getY() - centerPoint.getY(), mouse.getX() - centerPoint.getX()); // cal angle between 2 points
-	                // force joystick to stay on his bounds
-	                JoystickIn.setLayoutX(centerPoint.getX() + 90 * Math.cos(angle));
-	                JoystickIn.setLayoutY(centerPoint.getY() + 90 * Math.sin(angle));
-	            } else { // in bounds
-	            	JoystickIn.setLayoutX(mouseEvent.getSceneX());
-	            	JoystickIn.setLayoutY(mouseEvent.getSceneY());
-	            }
-	        });
-
-			
-			JoystickIn.setOnMouseReleased(mouseDragEvent -> {
-				JoystickIn.setLayoutX(760);
-				JoystickIn.setLayoutY(177);
-		    });
+		JoystickIn.setOnMouseDragged(JoystickDragged);
+		JoystickIn.setOnMouseReleased(JoystickOnRelease);
 
 		//--------------init Radio-----------------
 		ToggleGroup group = new ToggleGroup();
@@ -311,6 +329,118 @@ public class MainWindowController implements Observer{
 		
 	};
 	
+	//Dragging the Joystick
+	EventHandler<MouseEvent> JoystickDragged = new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent mouseEvent) {
+            Point2D centerPoint = new Point2D(760.0, 177.0);
+            Point2D mouse = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+            double dis = centerPoint.distance(mouse);
+            if (dis > 90) { // if joystick get out of bounds
+                double angle = Math.atan2(mouse.getY() - centerPoint.getY(), mouse.getX() - centerPoint.getX()); // cal angle between 2 points
+                // force joystick to stay on his bounds
+                JoystickIn.setLayoutX(centerPoint.getX() + 90 * Math.cos(angle));
+                JoystickIn.setLayoutY(centerPoint.getY() + 90 * Math.sin(angle));
+            } else { // in bounds
+            	JoystickIn.setLayoutX(mouseEvent.getSceneX());
+            	JoystickIn.setLayoutY(mouseEvent.getSceneY());
+            }
+		}
+		
+	};
+	
+	//Dragging the Joystick and taking the ailron and the elevator on manual flight
+	EventHandler<MouseEvent> JoystickDragAndTakeValues = new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent mouseEvent) {
+            Point2D centerPoint = new Point2D(760.0, 177.0);
+            Point2D mouse = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+            double dis = centerPoint.distance(mouse);
+            if (dis > 90) { // if joystick get out of bounds
+                double angle = Math.atan2(mouse.getY() - centerPoint.getY(), mouse.getX() - centerPoint.getX()); // cal angle between 2 points
+                // force joystick to stay on his bounds
+                JoystickIn.setLayoutX(centerPoint.getX() + 90 * Math.cos(angle));
+                JoystickIn.setLayoutY(centerPoint.getY() + 90 * Math.sin(angle));
+            } else { // in bounds
+            	JoystickIn.setLayoutX(mouseEvent.getSceneX());
+            	JoystickIn.setLayoutY(mouseEvent.getSceneY());
+            }
+            
+            //-------Taking Values from the Joystick------
+			double centerX = 760.0 , centerY = 177.0;
+			double mouseX = mouseEvent.getSceneX();
+			double mouseY = mouseEvent.getSceneY();
+			double tmpX = (mouseX-centerX)/90;
+			double tmpY = (mouseY-centerY)/90;
+			
+			if(ManualRadio.isSelected()) {
+				//- X -
+				if(mouseX>centerX) { //Right of the centerX
+					if(tmpX>1)
+						aileron.setValue(1);
+					else
+						aileron.setValue(tmpX);
+				}
+				if(mouseX<centerX) { //Left of the centerX
+					if(tmpX<-1)
+						aileron.setValue(-1);
+					else
+						aileron.setValue(tmpX);
+				}
+				
+				//- Y - 
+				if(mouseY<centerY) { //Up of the centerY
+					if(tmpY<-1)
+						elevator.setValue(1);
+					else
+						elevator.setValue(tmpY/-1);
+				}
+				if(mouseY>centerY) { //Down of the centerY
+					if(tmpY>1)
+						elevator.setValue(-1);
+					else
+						elevator.setValue(tmpY/-1);
+				}
+				
+			      //Binding An NoN FXML Property
+				vm.aileron.bind(aileron);
+		        vm.elevator.bind(elevator);
+				System.out.println("aileron is :"+aileron.getValue());
+				System.out.println("elevator is :"+elevator.getValue());
+			}
+		
+			
+			
+            
+		}
+		
+	};
+	
+	//Joystick on release
+	EventHandler<MouseEvent> JoystickOnRelease = new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent mouseEvent) {
+			JoystickIn.setLayoutX(760);
+			JoystickIn.setLayoutY(177);
+		}
+		
+	};
+	
+	//Joystick on release 2
+	EventHandler<MouseEvent> JoystickOnRelease2 = new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent mouseEvent) {
+			JoystickIn.setLayoutX(760);
+			JoystickIn.setLayoutY(177);
+			aileron.setValue(0);
+			elevator.setValue(0);
+		}
+		
+	};
 
 
 

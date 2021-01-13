@@ -30,19 +30,19 @@ public class ViewModel extends Observable implements Observer {
     public DoubleProperty startX;//+
     public DoubleProperty startY;//+
     public StringProperty autoPilotTxt;//+
-//	public DoubleProperty throttle;
-//    public DoubleProperty rudder;
-//    public DoubleProperty aileron;
-//    public DoubleProperty elevator;
+	public DoubleProperty throttle;//+
+    public DoubleProperty rudder;//+
+    public DoubleProperty aileron;//+
+    public DoubleProperty elevator;//+
 //    public BooleanProperty IsPath;
 //    public DoubleProperty realtiveH, relativeW;
 	
 	
     public ViewModel() {
-//    	throttle=new SimpleDoubleProperty();
-//        rudder=new SimpleDoubleProperty();
-//        aileron=new SimpleDoubleProperty();
-//        elevator=new SimpleDoubleProperty();
+    	throttle=new SimpleDoubleProperty();
+        rudder=new SimpleDoubleProperty();
+        aileron=new SimpleDoubleProperty();
+        elevator=new SimpleDoubleProperty();
         ip=new SimpleStringProperty();
         port=new SimpleStringProperty();
         ipPath=new SimpleStringProperty();
@@ -97,6 +97,10 @@ public class ViewModel extends Observable implements Observer {
     	System.out.println("The Destiny airplane is : "+XDest.getValue()+" y: "+YDest.getValue());
     	System.out.println("height: "+height);
     	System.out.println("width: "+width);
+    	System.out.println("rudder: "+rudder.getValue());
+    	System.out.println("throttle: "+throttle.getValue());
+    	System.out.println("ailron: "+aileron.getValue());
+    	System.out.println("elevator: "+elevator.getValue());
     	
     	if(isFirstCalc) {
     		isFirstCalc = false;
