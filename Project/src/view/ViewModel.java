@@ -124,11 +124,16 @@ public class ViewModel extends Observable implements Observer {
         {
 			System.out.println("Got heree1 ---------------------------");
             String[] tmpArr=(String[])arg1;
-            int i=0,j=0;
+            int i= 0;
+            int j= 0;
+            
             if(tmpArr[0].equals("path")){
             	System.out.println("Got heree2 ---------------------------");
+
             	//Drawing the path
             	for(int t=1;t<tmpArr.length;t++) {
+                	System.out.println("i: "+i);
+                	System.out.println("j: "+j);
             		switch(tmpArr[t]) {
                     case "Right":
                         j++;
