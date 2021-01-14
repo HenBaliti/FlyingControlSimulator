@@ -21,6 +21,7 @@ public class SimulatorClient {
 
     }
 
+    //Sending data To the simulator
     public void Send(String[] data){
         for (String s: data) {
             out.println(s);
@@ -29,6 +30,7 @@ public class SimulatorClient {
         }
 
     }
+    
     public void stop()
     {
         if(out!=null ){

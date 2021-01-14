@@ -29,6 +29,32 @@ public class Model extends Observable{
 		simulatorClient = new SimulatorClient();
 	}
 	
+	//Controlling the Plane-------------------Start------------------------------
+    public void movePlain(double aileron, double elevator) {
+        String[] commands = {
+                "set /controls/flight/aileron " + aileron,
+                "set /controls/flight/elevator " + elevator,
+        };
+        simulatorClient.Send(commands);
+    }
+
+    public void setThrottle(double throttle) {
+        String[] commands = {
+                "set /controls/engines/current-engine/throttle " + throttle
+        };
+        simulatorClient.Send(commands);
+    }
+
+    public void setRudder(double rudder) {
+        String[] commands = {
+                "set /controls/flight/rudder " + rudder
+        };
+        simulatorClient.Send(commands);
+    }
+	
+  //Controlling the Plane-----------------------End--------------------------
+    
+    
 	//Parsing the AutoPilot Text
 	public void ParseAutoPilot(String[] arr) {
 		interperter.interpret(arr);

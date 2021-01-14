@@ -119,7 +119,7 @@ public class MainWindowController implements Observer{
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("C:\\Users\\amits\\IdeaProjects\\FlyingControlSimulator1\\Project\\resources"));
+		fileChooser.setCurrentDirectory(new File("./Resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -191,16 +191,20 @@ public class MainWindowController implements Observer{
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
 				// TODO Auto-generated method stub
-				if(ManualRadio.isSelected())
+				if(ManualRadio.isSelected()) {
 					rudder.setValue(arg2.doubleValue());
+					vm.setRudder();
+				}
 			}
         });
         throttleSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
 				// TODO Auto-generated method stub
-				if(ManualRadio.isSelected())
+				if(ManualRadio.isSelected()) {
 					throttle.setValue(arg2.doubleValue());
+					vm.setThrottle();
+				}
 			}
         });
         
@@ -274,7 +278,7 @@ public class MainWindowController implements Observer{
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./Resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -429,8 +433,7 @@ public class MainWindowController implements Observer{
 			      //Binding An NoN FXML Property
 				vm.aileron.bind(aileron);
 		        vm.elevator.bind(elevator);
-				System.out.println("aileron is :"+aileron.getValue());
-				System.out.println("elevator is :"+elevator.getValue());
+		        vm.movePlain();
 			}
 		
 			
@@ -460,6 +463,7 @@ public class MainWindowController implements Observer{
 			JoystickIn.setLayoutY(177);
 			aileron.setValue(0);
 			elevator.setValue(0);
+	        vm.movePlain();
 		}
 		
 	};
