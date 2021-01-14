@@ -1,16 +1,11 @@
 package view;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
-
 import javax.crypto.spec.GCMParameterSpec;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -30,18 +25,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
+import javafx.scene.image.Image;
 public class MainWindowController implements Observer{
 
 	@FXML
@@ -64,6 +55,11 @@ public class MainWindowController implements Observer{
 	TextField portTextField;
 	@FXML
 	TextField ipTextField;
+	@FXML
+	Button connectSub;
+	@FXML
+	Button calcSub;
+
 
 
 	ViewModel vm;
@@ -76,8 +72,9 @@ public class MainWindowController implements Observer{
 	public DoubleProperty rudder,throttle;
 	ArrayList<String[]> rowElementsList = new ArrayList<>();
 //	private String[] solution;
-	double height,width,WidthCanvas,HeightCanvas; 
-	
+	double height,width,WidthCanvas,HeightCanvas;
+	private Image mark;
+
 	
     public void setViewModel(ViewModel vm) {
     	this.vm = vm;
@@ -116,11 +113,13 @@ public class MainWindowController implements Observer{
 		}
     }
 
+
+
 	public void LoadData() {
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("./resources"));
+		fileChooser.setCurrentDirectory(new File("C:\\Users\\amits\\IdeaProjects\\FlyingControlSimulator1\\Project\\resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -222,13 +221,21 @@ public class MainWindowController implements Observer{
 				stage.show();
 
 			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
-	
-	
+
+	public void ConnectSubmit() {
+			vm.Connect();
+			Stage stage = (Stage)connectSub.getScene().getWindow();
+			stage.close();
+
+	}
+
+
 	public void ConnectSimulator() {
 		this.vm.Connect();
 	}
@@ -249,10 +256,12 @@ public class MainWindowController implements Observer{
 			System.out.println("--------------"+this.vm.ipPath.getValue());
 			
 			this.vm.ConnectCalcPathServer(height,width);
+			Stage stage = (Stage)calcSub.getScene().getWindow();
+			stage.close();
 		
 		
 	}
-	
+
 
 	// Loading The Auto Pilot Text
 	public void LoadAutoPilotText() {
@@ -261,7 +270,7 @@ public class MainWindowController implements Observer{
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("./resources"));
+		fileChooser.setCurrentDirectory(new File("C:\\Users\\amits\\IdeaProjects\\FlyingControlSimulator1\\Project\\resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -325,6 +334,13 @@ public class MainWindowController implements Observer{
             vm.XDest.bind(XDest);
             vm.YDest.bind(YDest);
             mapDisplayerData.gc.strokeText("X",arg0.getX(), arg0.getY());
+//			try {
+//				mark = new Image(new FileInputStream("@../../resources/mark.png"));
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			}
+//
+//			mapDisplayerData.gc.drawImage(mark, arg0.getX(), arg0.getY());
 		}
 		
 	};
