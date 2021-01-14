@@ -73,7 +73,7 @@ public class MainWindowController implements Observer{
 	ArrayList<String[]> rowElementsList = new ArrayList<>();
 //	private String[] solution;
 	double height,width,WidthCanvas,HeightCanvas;
-	private Image mark;
+	private Image mark, plane;
 
 	
     public void setViewModel(ViewModel vm) {
@@ -140,6 +140,7 @@ public class MainWindowController implements Observer{
 				String[] sizeLine = br.readLine().split(FileDelimiter);
 				sizeOfElement.setValue(Double.parseDouble(sizeLine[0]));
 
+
 				// Reading all the rest of the CSV file
 				while ((line = br.readLine()) != null) {
 					String[] args = br.readLine().split(FileDelimiter);
@@ -161,9 +162,12 @@ public class MainWindowController implements Observer{
 				mapDisplayerData.setMapData(mapData);
 		        mapDisplayerData.setOnMouseClicked(ClickOnMap);
 		      //Binding An NoN FXML Property
-		        mapDisplayerData.gc.strokeText("A",(-1)*StartingPositionX.get(), StartingPositionY.get());
+				plane = new Image(new FileInputStream("Project/resources/plane.png"));
+				mapDisplayerData.gc.drawImage(plane, (-1)*StartingPositionX.get(), StartingPositionY.get(), 25, 25);
+		     //   mapDisplayerData.gc.strokeText("A",(-1)*StartingPositionX.get(), StartingPositionY.get());
 		        vm.startX.bind(StartingPositionX);
 		        vm.startY.bind(StartingPositionY);
+		        vm.sizeElement.bind(sizeOfElement);
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -270,7 +274,7 @@ public class MainWindowController implements Observer{
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("C:\\Users\\amits\\IdeaProjects\\FlyingControlSimulator1\\Project\\resources"));
+		fileChooser.setCurrentDirectory(new File("Project/resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -333,16 +337,18 @@ public class MainWindowController implements Observer{
             //Binding An NoN FXML Property
             vm.XDest.bind(XDest);
             vm.YDest.bind(YDest);
-            mapDisplayerData.gc.strokeText("X",arg0.getX(), arg0.getY());
-//			try {
-//				mark = new Image(new FileInputStream("@../../resources/mark.png"));
-//			} catch (FileNotFoundException e) {
-//				e.printStackTrace();
-//			}
-//
-//			mapDisplayerData.gc.drawImage(mark, arg0.getX(), arg0.getY());
+       //     mapDisplayerData.gc.strokeText("X",arg0.getX(), arg0.getY());
+			try {
+				mark = new Image(new FileInputStream("Project/resources/mark.png"));
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			mapDisplayerData.gc.drawImage(mark, arg0.getX(), arg0.getY(), 15, 15);
+
 		}
-		
+
 	};
 	
 	//Dragging the Joystick
