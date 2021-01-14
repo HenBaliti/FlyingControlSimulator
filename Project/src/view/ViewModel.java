@@ -119,6 +119,18 @@ public class ViewModel extends Observable implements Observer {
 
     }
     
+    public void movePlain() {
+        model.movePlain(aileron.getValue(), elevator.getValue());
+    }
+
+    public void setThrottle() {
+    	model.setThrottle(throttle.getValue());
+    }
+
+    public void setRudder() {
+    	model.setRudder(rudder.getValue());
+    }
+    
     
 	@Override
 	public void update(Observable arg0, Object arg1) {
