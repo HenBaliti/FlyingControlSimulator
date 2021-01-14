@@ -52,7 +52,7 @@
       </VBox>
    </center>
    <bottom>
-      <Button lineSpacing="10.0" mnemonicParsing="false" onAction="#ConnectMyServer" text="Connect" BorderPane.alignment="CENTER">
+      <Button fx:id="calcSub" lineSpacing="10.0" mnemonicParsing="false" onAction="#ConnectMyServer" text="Connect" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" top="30.0" />
          </BorderPane.margin>
