@@ -152,37 +152,37 @@ public class ViewModel extends Observable implements Observer {
             //	System.out.println("Got heree2 ---------------------------");
 
             	//Drawing the path
-            	for(int t=1;t<tmpArr.length;t++) {
-               // 	System.out.println("i: "+i);
-                //	System.out.println("j: "+j);
-            		switch(tmpArr[t]) {
-                    case "Right":
-
-                    	//mapData.gc.setFill(Color.WHITE);
-                    	//mapData.gc.fillRect((y * mapData.width), (x * mapData.height), mapData.width, mapData.height);
-                        mapData.gc.setStroke(Color.BLACK.darker());
-                        mapData.gc.strokeLine(x, y, x + sizeElement.getValue(), y);
-                        x+=sizeElement.getValue();
-                        break;
-                    case "Down":
-//                    	mapData.gc.setStroke(Color.BLACK.darker());
-                        mapData.gc.setStroke(Color.BLACK.darker());
-                        mapData.gc.strokeLine(x, y, x , y-sizeElement.getValue());
-                        y-=sizeElement.getValue();
-                        break;
-                    case "Left":
+//            	for(int t=1;t<tmpArr.length;t++) {
+//               // 	System.out.println("i: "+i);
+//                //	System.out.println("j: "+j);
+//            		switch(tmpArr[t]) {
+//                    case "Right":
 //
-                        mapData.gc.setStroke(Color.BLACK.darker());
-                        mapData.gc.strokeLine(x, y, x - sizeElement.getValue(), y);
-                        x+=sizeElement.getValue();
-                        break;
-                    case "Up":
-//                    	mapData.gc.setStroke(Color.BLACK.darker());
-                        mapData.gc.setStroke(Color.BLACK.darker());
-                        mapData.gc.strokeLine(x, y, x , y+sizeElement.getValue());
-                        y-=sizeElement.getValue();
-            		}
-            	}
+//                    	//mapData.gc.setFill(Color.WHITE);
+//                    	//mapData.gc.fillRect((y * mapData.width), (x * mapData.height), mapData.width, mapData.height);
+//                        mapData.gc.setStroke(Color.BLACK.darker());
+//                        mapData.gc.strokeLine(x, y, x + sizeElement.getValue(), y);
+//                        x+=sizeElement.getValue();
+//                        break;
+//                    case "Down":
+////                    	mapData.gc.setStroke(Color.BLACK.darker());
+//                        mapData.gc.setStroke(Color.BLACK.darker());
+//                        mapData.gc.strokeLine(x, y, x , y-sizeElement.getValue());
+//                        y-=sizeElement.getValue();
+//                        break;
+//                    case "Left":
+////
+//                        mapData.gc.setStroke(Color.BLACK.darker());
+//                        mapData.gc.strokeLine(x, y, x - sizeElement.getValue(), y);
+//                        x+=sizeElement.getValue();
+//                        break;
+//                    case "Up":
+////                    	mapData.gc.setStroke(Color.BLACK.darker());
+//                        mapData.gc.setStroke(Color.BLACK.darker());
+//                        mapData.gc.strokeLine(x, y, x , y+sizeElement.getValue());
+//                        y-=sizeElement.getValue();
+//            		}
+//            	}
             }
             setChanged();
             notifyObservers(tmpArr);
