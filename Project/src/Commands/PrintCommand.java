@@ -14,7 +14,7 @@ public class PrintCommand implements  Command{
                 System.out.print(tokens.get(i));
         }
         System.out.println("");
-        return 0;
+        return 2;
     }
 
 }

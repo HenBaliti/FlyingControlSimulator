@@ -47,23 +47,24 @@ public class DefineVarCommand implements Command{
 			
 		}
 		else { //If This is -> var xxxxxxx
-			if(tokens.get(1).length() > 3) {
-				double d1;
-				StringBuilder s = new StringBuilder();
-				s.append(tokens.get(1).toString());
-				String s1 = new String();
-				for(int i=0;i<s.length(); i++) {
-					if(s.charAt(i) != '=') {
-						s1+=s.toString().charAt(i);
-							break;
-					}
-				}
-				Utilities.symbolTable.put(s1, new SymbolTabelObject());
-				d1 = ShuntingYard.calc(s.toString());
-				Utilities.symbolTable.get(s1).setV(d1);
-				numOfArgs = 1;
-			}
-			else if(tokens.get(1).contains("=")) {
+//			if(tokens.get(1).length() > 3) {
+//				double d1;
+//				StringBuilder s = new StringBuilder();
+//				s.append(tokens.get(1).toString());
+//				String s1 = new String();
+//				for(int i=0;i<s.length(); i++) {
+//					if(s.charAt(i) != '=') {
+//						s1+=s.toString().charAt(i);
+//							break;
+//					}
+//				}
+//				Utilities.symbolTable.put(s1, new SymbolTabelObject());
+//				d1 = ShuntingYard.calc(s.toString());
+//				Utilities.symbolTable.get(s1).setV(d1);
+//				numOfArgs = 1;
+//			}
+//			else
+			if(tokens.get(1).contains("=")) {
 				//Checking if its contatins "="
 				String[] ary = tokens.get(1).split("=");
 				ArrayList<String> stamList = new ArrayList<String>();

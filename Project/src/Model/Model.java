@@ -59,6 +59,13 @@ public class Model extends Observable{
 	public void ParseAutoPilot(String[] arr) {
 		interperter.interpret(arr);
 	}
+	
+	//Executing the interpeter
+    public void execute()
+    {
+        //interpreter.execute();
+    }
+	
 
 	
 	//Connecting the simulator server as a client
