@@ -12,6 +12,6 @@ public class SleepCommand implements Command{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return 0;
+        return 2;
     }
 }

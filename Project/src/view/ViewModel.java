@@ -61,7 +61,7 @@ public class ViewModel extends Observable implements Observer {
         
     }
     
-    public void AutoPilotParser() {
+    public void parserAuto() {
     	
     	ArrayList<String> arrayLst = new ArrayList<String>();
     	Scanner myObj = new Scanner(autoPilotTxt.getValue());  // Create a Scanner object
@@ -73,12 +73,17 @@ public class ViewModel extends Observable implements Observer {
     	String[] arr = new String[arrayLst.size()];
     	
     	int i = 0;
-    	for(String str:arr) {
+    	for(String str:arrayLst) {
     		arr[i] = str;
     		i++;
     	}
     	
     	this.model.ParseAutoPilot(arr);
+    }
+    
+    
+    public void execute(){
+        model.execute();
     }
     
     public void setModel(Model model) {
