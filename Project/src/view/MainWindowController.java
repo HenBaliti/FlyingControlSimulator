@@ -23,6 +23,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -74,6 +75,7 @@ public class MainWindowController implements Observer{
 //	private String[] solution;
 	double height,width,WidthCanvas,HeightCanvas;
 	private Image mark, plane;
+	private String[] path;
 
 	
     public void setViewModel(ViewModel vm) {
@@ -119,7 +121,7 @@ public class MainWindowController implements Observer{
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("./Resources"));
+		fileChooser.setCurrentDirectory(new File("Project/resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -278,7 +280,7 @@ public class MainWindowController implements Observer{
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("./Resources"));
+		fileChooser.setCurrentDirectory(new File("Project/resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -442,7 +444,45 @@ public class MainWindowController implements Observer{
 		}
 		
 	};
-	
+	public void drawLine() {
+		double H = XDest.getValue();
+		double W = YDest.getValue();
+		double h = H / mapData.length;
+		double w = W / mapData[0].length;
+
+
+		String move=path[1];
+
+		double x = StartingPositionX.getValue() * w + (10 * w);
+		double y =StartingPositionY.getValue() * -h + 6*h;
+
+		for(int i = 2; i < path.length; i++) {
+			switch (move) {
+				case "Right":
+					mapDisplayerData.gc.setStroke(Color.BLACK.darker());
+					mapDisplayerData.gc.strokeLine(x, y, x + w, y);
+					x +=  w;
+					break;
+				case "Left":
+					mapDisplayerData.gc.setStroke(Color.BLACK.darker());
+					mapDisplayerData.gc.strokeLine(x, y, x -  w, y);
+					x -=  w;
+					break;
+				case "Up":
+					mapDisplayerData.gc.setStroke(Color.BLACK.darker());
+					mapDisplayerData.gc.strokeLine(x, y, x, y - h);
+					y -=  h;
+					break;
+				case "Down":
+					mapDisplayerData.gc.setStroke(Color.BLACK.darker());
+					mapDisplayerData.gc.strokeLine(x, y, x, y +  h);
+					y += h;
+			}
+
+			move = path[i];
+		}
+	}
+
 	//Joystick on release
 	EventHandler<MouseEvent> JoystickOnRelease = new EventHandler<MouseEvent>() {
 
@@ -470,11 +510,16 @@ public class MainWindowController implements Observer{
 
 
 
+
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o==vm) {
 //			solution = (String[])arg;
 //			System.out.println("Solution is: "+solution.toString());
+			if(arg!=null) {
+				path = (String[]) arg;
+				this.drawLine();
+			}
 		}
 		else {
 

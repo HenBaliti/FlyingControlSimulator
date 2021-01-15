@@ -15,7 +15,7 @@ public class MapDisplayer extends Canvas{
 
 	
 	public MapDisplayer() {
-		
+
 
 	}
 	
@@ -41,7 +41,13 @@ public class MapDisplayer extends Canvas{
 		
 		reDraw();
 	}
-	
+	public void getValues() {
+		WidthCanvas = getWidth();
+		HeightCanvas = getHeight();
+
+		width = WidthCanvas / mapData[0].length;
+		height = HeightCanvas / mapData.length;
+	}
 	
 	
 	public void reDraw() {
