@@ -24,7 +24,7 @@ public class Simulator {
 		new Thread(()->runClient()).start();
 	}
 	
-	private void runClient(){
+	private void runClient(){ //Client of the simulator
 		while(!stop){
 			try {
 				Socket interpreter=new Socket("127.0.0.1", port+1);
@@ -42,7 +42,7 @@ public class Simulator {
 		}
 	}
 	
-	private void runServer(){
+	private void runServer(){ //Server of the simulator
 		try {
 			ServerSocket server=new ServerSocket(port);
 			server.setSoTimeout(1000);

@@ -23,7 +23,7 @@
             <Button mnemonicParsing="false" onAction="#ConnectingPopUpServer" text="Calculate Path" />
          </children>
       </HBox>
-      <RadioButton fx:id="autoPilotRadio" layoutX="336.0" layoutY="17.0" mnemonicParsing="false" onAction="#SendToInterperter" text="- Auto Pilot -" />
+      <RadioButton fx:id="autoPilotRadio" layoutX="336.0" layoutY="17.0" mnemonicParsing="false" onAction="#executeAutoPilot" text="- Auto Pilot -" />
       <TextArea fx:id="TextAreaAutoPilot" layoutX="320.0" layoutY="47.0" prefHeight="236.0" prefWidth="186.0" promptText="Load here a txt file for the AutoPilot ....">
          <opaqueInsets>
             <Insets />

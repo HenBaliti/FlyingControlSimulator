@@ -293,7 +293,7 @@ public class MainWindowController implements Observer{
 				while ((line = br.readLine()) != null) {
 					TextAreaAutoPilot.appendText(line +"\n");
 				}
-				
+		this.vm.parserAuto();		
 		this.vm.autoPilotTxt.bindBidirectional(TextAreaAutoPilot.textProperty());
 
 			} catch (FileNotFoundException e) {
@@ -308,8 +308,8 @@ public class MainWindowController implements Observer{
 	}
 	
 	
-	public void SendToInterperter() {
-		this.vm.AutoPilotParser();
+	public void executeAutoPilot() {//need to shutdown first the manual radio
+		vm.execute();
 	}
 	
 
