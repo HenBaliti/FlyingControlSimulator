@@ -8,8 +8,8 @@ import java.net.Socket;
 
 public class SimulatorClient {
     public static volatile boolean stop=false;
-    private static PrintWriter out;
-    private static Socket socket;
+    public static PrintWriter out;
+    public static Socket socket;
     public void Connect(String ip,int port){
         try {
             socket = new Socket(ip, port);

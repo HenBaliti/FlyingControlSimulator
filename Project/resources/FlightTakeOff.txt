@@ -1,5 +1,6 @@
+openDataServer 5000 10
 var breaks = bind "/controls/flight/speedbrake"
-var throttle = bind " /controls/engines/current-engine/throttle"
+var throttle = bind "/controls/engines/current-engine/throttle"
 var heading = bind "/instrumentation/heading-indicator/indicated-heading-deg"
 var airspeed = bind "/instrumentation/airspeed-indicator/indicated-speed-kt"
 var roll = bind "/instrumentation/attitude-indicator/indicated-roll-deg"
