@@ -24,8 +24,8 @@ public class ViewModel extends Observable implements Observer {
     public DoubleProperty XDest, YDest;
     public StringProperty ip;
     public StringProperty port;
-    public DoubleProperty airplaneX;
-    public DoubleProperty airplaneY;
+    public DoubleProperty planeX;
+    public DoubleProperty planeY;
     public StringProperty ipPath;//+
     public StringProperty portPath;//+
     public DoubleProperty startX;//+
@@ -49,8 +49,8 @@ public class ViewModel extends Observable implements Observer {
         port=new SimpleStringProperty();
         ipPath=new SimpleStringProperty();
         portPath=new SimpleStringProperty();
-        airplaneX=new SimpleDoubleProperty();
-        airplaneY=new SimpleDoubleProperty();
+        planeX=new SimpleDoubleProperty();
+        planeY=new SimpleDoubleProperty();
         startX=new SimpleDoubleProperty();
         startY=new SimpleDoubleProperty();
         XDest=new SimpleDoubleProperty();
@@ -112,13 +112,13 @@ public class ViewModel extends Observable implements Observer {
     	
     	if(isFirstCalc) {
     		isFirstCalc = false;
-    		airplaneX.setValue(startX.getValue());
-    		airplaneY.setValue(startY.getValue());
+    		planeX.setValue(startX.getValue());
+    		planeY.setValue(startY.getValue());
     		model.connectMyServer(ipPath.getValue(),Integer.parseInt(portPath.getValue()));
-    		System.out.println("init state: [0,0] = "+ (int) (airplaneX.getValue() +15)+" "+(int) (airplaneY.getValue()/-1)+"\n");
+    		System.out.println("init state: [0,0] = "+ (int) (planeX.getValue() +15)+" "+(int) (planeY.getValue()/-1)+"\n");
     		System.out.println("Destiny is : [0,0] = "+Math.abs((int) (XDest.getValue() / width))+" "+Math.abs((int) (YDest.getValue() / height))+"\n");
     		
-    		model.findPath((int)(airplaneY.getValue()*1), (int) ((airplaneX.getValue())*-1),Math.abs( (int) (YDest.getValue() / height)) ,
+    		model.findPath((int)(planeY.getValue()*1), (int) ((planeX.getValue())*-1),Math.abs( (int) (YDest.getValue() / height)) ,
                   Math.abs((int) (XDest.getValue() / width)), mapData.mapData );
     	}
 
@@ -145,8 +145,8 @@ public class ViewModel extends Observable implements Observer {
             String[] tmpArr=(String[])arg1;
             //int i= 0;
             //int j= 0;
-            double x = airplaneX.getValue();
-            double y = airplaneY.getValue();
+            double x = planeX.getValue();
+            double y = planeY.getValue();
 
             if(tmpArr[0].equals("path")){
             //	System.out.println("Got heree2 ---------------------------");
