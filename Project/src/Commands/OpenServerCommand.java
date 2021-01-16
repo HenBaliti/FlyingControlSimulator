@@ -59,37 +59,21 @@ public class OpenServerCommand implements Command{
 			while(!stop){
 				try{
 					Socket client=server.accept();
-					System.out.println("Client Has been Connected Succecfully");
+					System.out.println("Client-Simulator Has been Connected Succecfully");
 					BufferedReader in=new BufferedReader(new InputStreamReader(client.getInputStream()));
 					String s = null;
 					while((s=in.readLine())!=null){
 						try{
+							System.out.println("Whats coming from the simulator Client is : "+s);
 							SymbolTabelObject STobject = null;
 							String[] arr = s.split(",");
 							for(int i=0;i<arr.length;i++) {
 
-								if(i==0) {
-//									System.out.println("SimX = "+arr[0].toString());
-									STobject = Utilities.symbolTableSim.get("simX");
-									STobject.setV(Double.parseDouble(arr[0]));
-									System.out.println("set simX "+arr[0]);
-									ConnectCommand.out.println("set simX" + " " + arr[0]);
-								}
-								if(i==1) {
-//									System.out.println("SimY = "+arr[1].toString());
-									STobject = Utilities.symbolTableSim.get("simY");
-									if(STobject!=null)
-									STobject.setV(Double.parseDouble(arr[1]));
-									System.out.println("set simY "+arr[1]);
-									ConnectCommand.out.println("set simY" + " " + arr[1]);
-								}
-								if(i==2) {
-//									System.out.println("SimY = "+arr[2].toString());
-									STobject = Utilities.symbolTableSim.get("simZ");
-									if(STobject!=null)
-									STobject.setV(Double.parseDouble(arr[2]));
-									System.out.println("set simZ "+arr[2]);
-									ConnectCommand.out.println("set simZ" + " " + arr[2]);
+
+								//Updating the values in the VarObject if its not the same as the current value
+								if(Double.parseDouble(arr[i])!=Utilities.symbolTableSim.get(arr[i]).getV()) {
+									Utilities.symbolTableSim.get(arr[i]).setV(Double.parseDouble(arr[i]));
+									System.out.println("Updating "+arr[i] +Utilities.symbolTableSim.get(arr[i]).getV());
 								}
 								
 							} 

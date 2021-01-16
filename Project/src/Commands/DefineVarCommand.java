@@ -5,6 +5,7 @@ import java.util.List;
 
 import Expression.ShuntingYard;
 import Interpeter.SymbolTabelObject;
+import Model.SimulatorClient;
 
 //getting all the var commands in this class
 public class DefineVarCommand implements Command{
@@ -37,7 +38,9 @@ public class DefineVarCommand implements Command{
 					}else {
 						double dd = ShuntingYard.calc(tokens.get(2));
 						d = Utilities.symbolTable.get(symbolName);
-						d.setV(dd);
+						d.setV(dd);//-------------------------------------^666666666666666666666666666666666666666666666666666666666666666666
+						SimulatorClient.out.println("set " + Utilities.symbolTableSim.get(d.getSIM()) + " " + dd);
+						System.out.println("set " + Utilities.symbolTableSim.get(d.getSIM()) + " " + dd);
 						Utilities.symbolTableSim.get(d.getSIM()).setV(dd);
 						numOfArgs = 2;
 					}

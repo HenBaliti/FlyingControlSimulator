@@ -6,6 +6,7 @@ import java.util.List;
 import Expression.ShuntingYard;
 import Interpeter.Lexer;
 import Interpeter.Parser;
+import Model.SimulatorClient;
 
 
 public class ConditionCommand implements Command{
@@ -83,56 +84,179 @@ public class ConditionCommand implements Command{
 			ArrayList<String> tokensCommand = lexer.lexer(arr);
 			
 			if(Utilities.isSymbolExist(tokensCommand.get(index))) {//if there is a symbol like this already
-			int TempInd = index;
-			index+=2;
-			///////////////////////////////////////////////////
-			String leftExpS="";
-			String rightExpS="";
-			String operatorS = null;
-			double ans = 0;
-			int indexBB = index;
-			boolean flag = true;
-			while(flag) {
-				switch(tokensCommand.get(indexBB)) {
-				case "+":	flag = false; operatorS="+"; break;
+				int TempInd = index;
+				index+=2;
 				
-				case "-":	flag = false; operatorS="-"; break;	
+				if(tokensCommand.get(index).contains("(")) {//if its contains () in the index ++; //---> rudder = (h0 - headin)/20
+					//first taking the expression in the "()"
+					int tmporaryIndex = index;
+					String leftExpPhrasis = tokensCommand.get(index);//"(h"
+					StringBuilder leftExpPhrasisSB = new StringBuilder(leftExpPhrasis);//----> getting of the "("
+					leftExpPhrasisSB.deleteCharAt(0);
+					leftExpPhrasis = leftExpPhrasisSB.toString();
+					tmporaryIndex++;
+					String operatorOfPhrasis = tokensCommand.get(tmporaryIndex); // "-"
+					tmporaryIndex++;
+					String RestOfExp = tokensCommand.get(tmporaryIndex); //"heading)/20"
+					String rightExpPhrasis ="";
+					String rightExpLast ="";
+					String operatorLast ="";
+					
+					for(int i=0;i<RestOfExp.length();i++) {
+						if(RestOfExp.charAt(i)!=')')
+							rightExpPhrasis+=RestOfExp.charAt(i); // building the right expression -> "heading"
+						else {
+							i++;
+							if(RestOfExp.charAt(i)=='+'||RestOfExp.charAt(i)=='-'||RestOfExp.charAt(i)=='*'||RestOfExp.charAt(i)=='/') {
+								operatorLast+= RestOfExp.charAt(i);
+								i++;
+								while(i<RestOfExp.length()) {
+									rightExpLast+=RestOfExp.charAt(i);// /20
+									i++;
+								}
+							}
+						}
+					}
+					
+					
+					
+					///After build the two Expression need to go to the SHUNTINGYARD for calculate
+					
+					//First the parasis expression
+					double ansParasis = 0;
+					double leftResultParasis = 0;
+					//If the leftExp is in the symboltable take the VarObject
+					if(Utilities.symbolTable.containsKey(leftExpPhrasis)){
+						leftResultParasis = Utilities.symbolTable.get(leftExpPhrasis).getV();
+					}
+					else {
+						leftResultParasis = ShuntingYard.calc(leftExpPhrasis.toString());
+					}
+					double rightResultParasis = ShuntingYard.calc(rightExpPhrasis.toString());
+						
+					switch (operatorOfPhrasis) {
+					case "+": ansParasis = (leftResultParasis + rightResultParasis); break;
+					case "-": ansParasis = (leftResultParasis - rightResultParasis); break;
+					case "/": ansParasis = (leftResultParasis / rightResultParasis); break;
+					case "*": ansParasis = (leftResultParasis * rightResultParasis); break;
+					}
+					
+					//Now the second Expression with the pharasis answer
+					double ansLast = 0;
 
-				case "*":	flag = false; operatorS="*"; break;
+					double rightResultLast = ShuntingYard.calc(rightExpLast.toString());
+						
+					switch (operatorLast) {
+					case "+": ansLast = (ansParasis + rightResultLast); break;
+					case "-": ansLast = (ansParasis - rightResultLast); break;
+					case "/": ansLast = (ansParasis / rightResultLast); break;
+					case "*": ansLast = (ansParasis * rightResultLast); break;
+					}
+					
+					//putting in symbolTable the ans
+					Utilities.symbolTable.get(tokensCommand.get(TempInd)).setV(ansLast);
+					index=0;
+					SimulatorClient.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansLast);
+					System.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansLast);
+					////////////////////////////////////////////////////666666666666666666666666666666------------------------here
+					
+				}
+				else if(tokensCommand.get(index).equals("-")){ // If There is a "-" on the index ->2
+					int indexMinus = index;
+					index++;
+					String leftMinus = tokensCommand.get(index);
+					index++;
+					String operatorMinus = tokensCommand.get(index);
+					index++;
+					String rightMinus = tokensCommand.get(index);
+					double leftResultMinus = 0;
+					double ansMinus = 0;
+					
+					
+					//If the leftExp is in the symboltable take the VarObject
+					if(Utilities.symbolTable.containsKey(leftMinus)){
+						leftResultMinus = Utilities.symbolTable.get(leftMinus).getV();
+					}
+					else {
+						leftResultMinus = ShuntingYard.calc(leftMinus.toString());
+					}
+					double rightResultMinus = ShuntingYard.calc(rightMinus.toString());
+						
+					switch (operatorMinus) {
+					case "+": ansMinus = (leftResultMinus + rightResultMinus); break;
+					case "-": ansMinus = (leftResultMinus - rightResultMinus); break;
+					case "/": ansMinus = (leftResultMinus / rightResultMinus); break;
+					case "*": ansMinus = (leftResultMinus * rightResultMinus); break;
+					}
+					
+					//putting in symbolTable the ans
+					Utilities.symbolTable.get(tokensCommand.get(TempInd)).setV(ansMinus);
+					index=0;
+					SimulatorClient.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansMinus);
+					System.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansMinus);
+					////////////////////////////////////////////////////666666666666666666666666666666------------------------here
+					
+					
+				}else {
+					///////////////////////////////////////////////////
+					String leftExpS="";
+					String rightExpS="";
+					String operatorS = null;
+					double ans = 0;
+					int indexBB = index;
+					boolean flag = true;
+					while(flag) {
+						switch(tokensCommand.get(indexBB)) {
+						case "+":	flag = false; operatorS="+"; break;
+						
+						case "-":	flag = false; operatorS="-"; break;	
 
-				case "/":	flag = false; operatorS="/"; break;
-				 
-				default: 	leftExpS+=tokensCommand.get(indexBB); 
-				indexBB++;
+						case "*":	flag = false; operatorS="*"; break;
+
+						case "/":	flag = false; operatorS="/"; break;
+						 
+						default: 	leftExpS+=tokensCommand.get(indexBB); 
+						indexBB++;
+									break;
+						}
+						}
+					
+					while(true) {
+						indexBB++;
+						if(indexBB==tokensCommand.size()) {		
 							break;
+						}
+						rightExpS+=tokensCommand.get(indexBB); 
+					}
+					
+					double leftResultS = ShuntingYard.calc(leftExpS.toString());
+					double rightResultS = ShuntingYard.calc(rightExpS.toString());
+						
+					switch (operatorS) {
+					case "+": ans = (leftResultS + rightResultS); break;
+					case "-": ans = (leftResultS - rightResultS); break;
+					case "/": ans = (leftResultS / rightResultS); break;
+					case "*": ans = (leftResultS * rightResultS); break;
+					}
+					
+					
+					//putting in symbolTable the ans
+					Utilities.symbolTable.get(tokensCommand.get(TempInd)).setV(ans);
+					index=0;
+					////////////////-----------------------------6666666666666666666666666666666666666-----hereee
+					////////////////////////////////////////////////////
+					
 				}
-				}
-			
-			while(true) {
-				indexBB++;
-				if(indexBB==tokensCommand.size()) {		
-					break;
-				}
-				rightExpS+=tokensCommand.get(indexBB); 
-			}
-			
-			double leftResultS = ShuntingYard.calc(leftExpS.toString());
-			double rightResultS = ShuntingYard.calc(rightExpS.toString());
+			}else if(Utilities.isCommandExist(tokensCommand.get(index))) {//if there is a command like this in the command hash -> do the command
+				Command cmdStam = (Command) Utilities.getCommand(tokensCommand.get(index).toString());
+				ExpressionCommand cmdEx = new ExpressionCommand(cmdStam);
 				
-			switch (operatorS) {
-			case "+": ans = (leftResultS + rightResultS); break;
-			case "-": ans = (leftResultS - rightResultS); break;
-			case "/": ans = (leftResultS / rightResultS); break;
-			case "*": ans = (leftResultS * rightResultS); break;
+				//To get the new ArrayList from the index i want to the index i want.
+				List<String> subArray = tokensCommand.subList(index, tokensCommand.size());
+				cmdEx.setS(subArray);
+				cmdEx.calculate();
+				
 			}
-			
-			
-			//putting in symbolTable the ans
-			Utilities.symbolTable.get(tokensCommand.get(TempInd)).setV(ans);
-			index=0;
-			////////////////////////////////////////////////////
-			
-		}
 			
 			
 		}

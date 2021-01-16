@@ -121,7 +121,7 @@ public class MainWindowController implements Observer{
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -280,7 +280,7 @@ public class MainWindowController implements Observer{
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -295,8 +295,9 @@ public class MainWindowController implements Observer{
 				while ((line = br.readLine()) != null) {
 					TextAreaAutoPilot.appendText(line +"\n");
 				}
-		this.vm.parserAuto();		
-		this.vm.autoPilotTxt.bindBidirectional(TextAreaAutoPilot.textProperty());
+				
+				this.vm.autoPilotTxt.bindBidirectional(TextAreaAutoPilot.textProperty());
+				this.vm.parserAuto();		
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
