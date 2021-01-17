@@ -1,39 +1,27 @@
 package Commands;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
-import java.util.List;
 
-import Expression.ShuntingYard;
 import Interpeter.SymbolTabelObject;
-import server_side.ClientHandler;
-import server_side.MyClientHandler;
-import server_side.MySerialServer;
 import server_side.Server;
 
-//open the server
-public class OpenServerCommand implements Command{
-
+public class MyServerGet {
 	public static volatile boolean stop=false;
 	public int numOfArgs = 2;
 	Server s;
-	private int port;
-	private int timePerS;
+	private static int port;
+	private static int timePerS;
 	public static HashMap<Integer,String> varTable;
 	
-
-	public OpenServerCommand() {
-		super();
-		this.port=0;
-		this.timePerS=0;
+	public MyServerGet() {
+		this.port=5400;
+		this.timePerS=10;
 		
 //        String[] variablesNamesOrder = {"airspeed", "alt", "Pressure", "pitch", "roll", "Internal-Pitch",
 //                "Internal-Roll", "Encoder-Altitude", "Encoder-Pressure", "GPS-Altitude", "Ground-Speed",
@@ -64,29 +52,11 @@ public class OpenServerCommand implements Command{
         varTable.put(21, "/controls/flight/flaps");
         varTable.put(22, "/controls/engines/engine/throttle");
         varTable.put(23, "/engines/engine/rpm");
-        
 	}
 
-	@Override
-	public int doCommand(List<String> args) {
-		port = Integer.parseInt(args.get(1));
-		timePerS = Integer.parseInt(args.get(2));
-		new Thread(()->{
+	public static void runServer(){
 		try {
-			runServer();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}).start();
-		
-		return numOfArgs;
-		}
-	
-	
-	private void runServer(){
-		try {
-			ServerSocket server=new ServerSocket(port);
+			ServerSocket server=new ServerSocket(5400);
 			server.setSoTimeout(1000);
 			System.out.println("Server Has been Set Succecfully");
 			while(!stop){
@@ -103,7 +73,7 @@ public class OpenServerCommand implements Command{
 							for(int i=0;i<arr.length;i++) {
 								
 								double valueForString = Double.parseDouble(arr[i]);
-								String variableString = varTable.get(i);
+								String variableString = varTable.get(i+1);
 								
 
 								if(Utilities.symbolTableSim.get(variableString)!=null) {
@@ -118,7 +88,7 @@ public class OpenServerCommand implements Command{
 								}
 								
 							} 
-							try {Thread.sleep(timePerS);} catch (InterruptedException e1) {} //Go to sleep for HZ time
+							try {Thread.sleep(10);} catch (InterruptedException e1) {} //Go to sleep for HZ time
 						}catch(NumberFormatException e){}
 					}
 					in.close();
@@ -128,5 +98,5 @@ public class OpenServerCommand implements Command{
 			stop =true;
 		} catch (IOException e) {}
 	}
-	
+
 }
