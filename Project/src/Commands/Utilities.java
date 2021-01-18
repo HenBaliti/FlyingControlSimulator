@@ -9,10 +9,13 @@ import Interpeter.SymbolTabelObject;
 public class Utilities {
 	public static Map<String,SymbolTabelObject> symbolTable = new HashMap<String,SymbolTabelObject>();
 	public static Map<String,ExpressionCommand> CommandsHash = new HashMap<String,ExpressionCommand>();
-	public static Map<String,SymbolTabelObject> symbolTableSim = new HashMap<String,SymbolTabelObject>();
 	public static Map<String,Command> CommandsHash2 = new HashMap<String,Command>();
 	
 	public Utilities() {
+		
+//		symbolTable.put("aileron", new SymbolTabelObject(0,"/controls/flight/aileron"));
+//		symbolTable.put("elevator", new SymbolTabelObject(0, "/controls/flight/elevator"));
+		
 		Utilities.CommandsHash.put("return",new ExpressionCommand( new ReturnCommand()));
 		Utilities.CommandsHash.put("var",new ExpressionCommand( new DefineVarCommand()));
 		Utilities.CommandsHash.put("while",new ExpressionCommand( new ConditionCommand()));

@@ -229,7 +229,6 @@ public class MainWindowController implements Observer{
 			vm.ip.bind(ipTextField.textProperty());
 			if (!stage.isShowing()) {
 				stage.show();
-
 			}
 
 		} catch (IOException e) {

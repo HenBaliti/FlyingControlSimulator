@@ -1,5 +1,7 @@
 package view;
 	
+import Commands.MyServerGet;
+import Commands.Utilities;
 import Model.Model;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -20,6 +22,22 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			MainWindowController mc = loader.getController();
+			Utilities ut = new Utilities();
+			
+//			//Starting the Server
+//
+//			MyServerGet ms = new MyServerGet();
+//			
+//			new Thread(()->{
+//			try {
+//				ms.runServer();
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}).start();
+			
+			
 			ViewModel vm = new ViewModel();
 			Model model = new Model();
 			vm.setModel(model);
