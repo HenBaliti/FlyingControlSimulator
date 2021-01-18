@@ -6,6 +6,7 @@ import java.util.List;
 import Expression.ShuntingYard;
 import Interpeter.Lexer;
 import Interpeter.Parser;
+import Interpeter.SymbolTabelObject;
 import Model.SimulatorClient;
 
 
@@ -154,10 +155,11 @@ public class ConditionCommand implements Command{
 					}
 					
 					//putting in symbolTable the ans
-					Utilities.symbolTable.get(tokensCommand.get(TempInd)).setV(ansLast);
+					SymbolTabelObject symbolNew = Utilities.symbolTable.get(tokensCommand.get(TempInd));
+					symbolNew.setV(ansLast);
 					index=0;
-					SimulatorClient.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansLast);
-					System.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansLast);
+//					SimulatorClient.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansLast);
+//					System.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansLast);
 					////////////////////////////////////////////////////666666666666666666666666666666------------------------here
 					
 				}
@@ -190,10 +192,15 @@ public class ConditionCommand implements Command{
 					}
 					
 					//putting in symbolTable the ans
-					Utilities.symbolTable.get(tokensCommand.get(TempInd)).setV(ansMinus);
+					
+					SymbolTabelObject symbolNew2 = Utilities.symbolTable.get(tokensCommand.get(TempInd));
+					symbolNew2.setV(ansMinus);
 					index=0;
-					SimulatorClient.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansMinus);
-					System.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansMinus);
+					
+//					Utilities.symbolTable.get(tokensCommand.get(TempInd)).setV(ansMinus);
+//					index=0;
+//					SimulatorClient.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansMinus);
+//					System.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansMinus);
 					////////////////////////////////////////////////////666666666666666666666666666666------------------------here
 					
 					

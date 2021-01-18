@@ -57,7 +57,8 @@ public class Model extends Observable{
     
 	//Parsing the AutoPilot Text
 	public void ParseAutoPilot(String[] arr) {
-		interperter.interpret(arr);
+		new Thread(()->interperter.interpret(arr)).start();
+		
 	}
 	
 	//Executing the interpeter

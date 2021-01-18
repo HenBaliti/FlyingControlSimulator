@@ -9,7 +9,7 @@ public class PrintCommand implements  Command{
         for (int i=1;i<tokens.size();i++)
         {
             if(Utilities.symbolTable.containsKey(tokens.get(i)))
-                System.out.print(tokens.get(i)+Utilities.symbolTable.get(tokens.get(i)).getV());
+                System.out.print(tokens.get(i)+": "+Utilities.symbolTable.get(tokens.get(i)).getV());
             else
                 System.out.print(tokens.get(i));
         }

@@ -22,7 +22,7 @@ public class SimulatorClient {
     }
 
     //Sending data To the simulator
-    public void Send(String[] data){
+    public static void Send(String[] data){
         for (String s: data) {
             out.println(s);
             out.flush();

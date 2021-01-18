@@ -76,15 +76,19 @@ public class MyServerGet {
 								String variableString = varTable.get(i+1);
 								
 
-								if(Utilities.symbolTableSim.get(variableString)!=null) {
+								if(Utilities.symbolTable.get(variableString)!=null) {
 									//Updating the values in the VarObject if its not the same as the current value
-									if(valueForString!=Utilities.symbolTableSim.get(variableString).getV()) {
-										Utilities.symbolTableSim.get(variableString).setV(valueForString);
+									if(valueForString!=Utilities.symbolTable.get(variableString).getV()) {
+										Utilities.symbolTable.get(variableString).setV(valueForString);
 										System.out.println("Updating "+variableString+" to new value->  " +valueForString);
+									}
+									else {
+										System.out.println("var name : "+variableString+" Value is still: "+valueForString);
 									}
 								}
 								else {
-									System.out.println("There is no such an variable in the symboltable");
+									SymbolTabelObject stNew = new SymbolTabelObject(valueForString);
+									Utilities.symbolTable.put(variableString, stNew);
 								}
 								
 							} 
