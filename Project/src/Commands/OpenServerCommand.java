@@ -98,23 +98,26 @@ public class OpenServerCommand implements Command{
 					while((s=in.readLine())!=null){
 						try{
 							System.out.println("Whats coming from the simulator Client is : "+s);
-							SymbolTabelObject STobject = null;
 							String[] arr = s.split(",");
 							for(int i=0;i<arr.length;i++) {
 								
 								double valueForString = Double.parseDouble(arr[i]);
-								String variableString = varTable.get(i);
+								String variableString = varTable.get(i+1);
 								
 
-								if(Utilities.symbolTableSim.get(variableString)!=null) {
+								if(Utilities.symbolTable.get(variableString)!=null) {
 									//Updating the values in the VarObject if its not the same as the current value
-									if(valueForString!=Utilities.symbolTableSim.get(variableString).getV()) {
-										Utilities.symbolTableSim.get(variableString).setV(valueForString);
+									if(valueForString!=Utilities.symbolTable.get(variableString).getV()) {
+										Utilities.symbolTable.get(variableString).setV(valueForString);
 										System.out.println("Updating "+variableString+" to new value->  " +valueForString);
+									}
+									else {
+										System.out.println("var name : "+variableString+" Value is still: "+valueForString);
 									}
 								}
 								else {
-									System.out.println("There is no such an variable in the symboltable");
+									SymbolTabelObject stNew = new SymbolTabelObject(valueForString);
+									Utilities.symbolTable.put(variableString, stNew);
 								}
 								
 							} 

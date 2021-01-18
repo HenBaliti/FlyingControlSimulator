@@ -3,6 +3,8 @@ package Interpeter;
 import java.util.Observable;
 import java.util.Observer;
 
+import Model.SimulatorClient;
+
 public class SymbolTabelObject extends Observable implements Observer {
 
 	double value;
@@ -10,14 +12,24 @@ public class SymbolTabelObject extends Observable implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		Double num = new Double(0);
-		if (arg.getClass() == (num.getClass()))
-			if (this.value != (double) arg) {
-				this.setV((double) arg);
-				this.setChanged();
-				this.notifyObservers(arg + "");
-			}
 
+			Double d = new Double(0);
+	        if (arg.getClass() == (d.getClass())) {
+	            if (this.value != (double) arg) {
+	                this.setV((double) arg);
+	                System.out.println("There was update");
+	                // if the current VarObject bound to VarObject
+	                if (!this.getSIM().isEmpty()) { // check if the Sim param in VarObject is empty
+	                    String msg = "set " + ((SymbolTabelObject)o).getSIM() + " " + this.getV(); // prepare msg "set ...... 5"
+	                    String[] commands = {
+	                            "set "+((SymbolTabelObject)o).getSIM()+" " + this.getV()
+	                    };
+	                    SimulatorClient.Send(commands);
+//	                    SimulatorClient.out.println(msg); // send to server the message to change the parameter
+	                    System.out.println("My Client sendin to the simulator now : "+msg);
+	                }
+	            }
+	        }
 	}
 
 	@Override
@@ -30,9 +42,9 @@ public class SymbolTabelObject extends Observable implements Observer {
 		this.sim = null;
 	}
 
-	public SymbolTabelObject() {
-		this.value = 0;
-		this.sim = null;
+	public SymbolTabelObject(double v,String SIM) {
+		this.value = v;
+		this.sim = SIM;
 	}
 
 	public SymbolTabelObject(String SIM) {
