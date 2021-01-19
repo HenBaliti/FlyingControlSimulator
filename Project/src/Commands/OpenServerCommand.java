@@ -22,6 +22,7 @@ import server_side.Server;
 //open the server
 public class OpenServerCommand implements Command{
 
+	public Utilities ut;
 	public static volatile boolean stop=false;
 	public int numOfArgs = 2;
 	Server s;
@@ -68,7 +69,8 @@ public class OpenServerCommand implements Command{
 	}
 
 	@Override
-	public int doCommand(List<String> args) {
+	public int doCommand(List<String> args, Utilities ut) {
+		this.ut = ut;
 		port = Integer.parseInt(args.get(1));
 		timePerS = Integer.parseInt(args.get(2));
 		new Thread(()->{
@@ -96,29 +98,29 @@ public class OpenServerCommand implements Command{
 					BufferedReader in=new BufferedReader(new InputStreamReader(client.getInputStream()));
 					String s = null;
 					while((s=in.readLine())!=null){
+//						System.out.println("SymbolTable"+ut.getSymbolTable().keySet());
 						try{
-							System.out.println("Whats coming from the simulator Client is : "+s);
+//							System.out.println("Whats coming from the simulator Client is : "+s);
 							String[] arr = s.split(",");
 							for(int i=0;i<arr.length;i++) {
 								
 								double valueForString = Double.parseDouble(arr[i]);
 								String variableString = varTable.get(i+1);
-								
 
-								if(Utilities.symbolTable.get(variableString)!=null) {
+								if(ut.symbolTable.get(variableString)!=null) {
 									//Updating the values in the VarObject if its not the same as the current value
-									if(valueForString!=Utilities.symbolTable.get(variableString).getV()) {
-										Utilities.symbolTable.get(variableString).setV(valueForString);
-										System.out.println("Updating "+variableString+" to new value->  " +valueForString);
+									if(valueForString!=ut.symbolTable.get(variableString).getV()) {
+										ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM()).setV(valueForString);
+//										System.out.println("Updating "+variableString+" to new value->  " +valueForString);
 									}
-									else {
-										System.out.println("var name : "+variableString+" Value is still: "+valueForString);
-									}
+//									else {
+//										System.out.println("var name : "+variableString+" Value is still: "+valueForString);
+//									}
 								}
-								else {
-									SymbolTabelObject stNew = new SymbolTabelObject(valueForString);
-									Utilities.symbolTable.put(variableString, stNew);
-								}
+//								else {
+//									SymbolTabelObject stNew = new SymbolTabelObject(valueForString);
+//									ut.symbolTable.put(variableString, stNew);
+//								}
 								
 							} 
 							try {Thread.sleep(timePerS);} catch (InterruptedException e1) {} //Go to sleep for HZ time

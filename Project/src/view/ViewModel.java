@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
+import Commands.Utilities;
 import Model.Model;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -18,6 +19,7 @@ import test.MyInterpreter;
 
 public class ViewModel extends Observable implements Observer {
 
+	Utilities ut;
     MapDisplayer mapData;
 	Model model;
     public boolean isFirstCalc = true;

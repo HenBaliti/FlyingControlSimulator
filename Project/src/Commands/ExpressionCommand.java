@@ -7,9 +7,12 @@ import Expression.Expression;
 
 public class ExpressionCommand implements Expression {
     private Command c;
+    Utilities ut;
+
     private List<String> s = new LinkedList<String>();
 
-    public ExpressionCommand(Command c) {
+    public ExpressionCommand(Command c,Utilities ut) {
+    	this.ut = ut;
         this.c = c;
     }
 
@@ -31,6 +34,6 @@ public class ExpressionCommand implements Expression {
 
     @Override
     public double calculate() {
-        return c.doCommand(s);
+        return c.doCommand(s,ut);
     }
 }

@@ -4,10 +4,12 @@ import Commands.Utilities;
 import Interpeter.Parser;
 
 public class MyInterpreter {
+	public Utilities ut;
 
-	public MyInterpreter() {
+	public MyInterpreter(Utilities ut) {
+		this.ut = ut;
 		  String[] start= {
-				  "openDataServer 5000 10"
+				  "openDataServer 5400 10"
 		  };
 //	                "var breaks = bind /controls/flight/speedbrake",
 //	                "var throttle = bind /controls/engines/current-engine/throttle",
@@ -25,9 +27,10 @@ public class MyInterpreter {
 //	                };
 		  interpret(start);
 	}
-	public static  int interpret(String[] lines){
+	public int interpret(String[] lines){
 		
 		Parser ps = new Parser();
+		ps.ut = this.ut;
 		ps.parse(lines); // Parsing all the Object and Vars
 		
 		

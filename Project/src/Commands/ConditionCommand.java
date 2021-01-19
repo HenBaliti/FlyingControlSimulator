@@ -16,6 +16,7 @@ public class ConditionCommand implements Command{
 	protected String leftExp="";
 	protected String rightExp="";
 	protected String operator;
+	public Utilities ut;
 	
 	public ConditionCommand() {
 		super();
@@ -25,7 +26,8 @@ public class ConditionCommand implements Command{
 	}
 	//check which operator is it and adding to the leftext
 	@Override
-	public int doCommand(List<String> tokens) {
+	public int doCommand(List<String> tokens, Utilities ut) {
+		this.ut = ut;
 		// TODO Auto-generated method stub
 		int index = 0;
 		boolean flag = true;
@@ -127,7 +129,7 @@ public class ConditionCommand implements Command{
 					double ansParasis = 0;
 					double leftResultParasis = 0;
 					//If the leftExp is in the symboltable take the VarObject
-					if(Utilities.symbolTable.containsKey(leftExpPhrasis)){
+					if(ut.symbolTable.containsKey(leftExpPhrasis)){
 						leftResultParasis = Utilities.symbolTable.get(leftExpPhrasis).getV();
 					}
 					else {
@@ -155,7 +157,7 @@ public class ConditionCommand implements Command{
 					}
 					
 					//putting in symbolTable the ans
-					SymbolTabelObject symbolNew = Utilities.symbolTable.get(tokensCommand.get(TempInd));
+					SymbolTabelObject symbolNew = ut.symbolTable.get(tokensCommand.get(TempInd));
 					symbolNew.setV(ansLast);
 					index=0;
 //					SimulatorClient.out.println("set " + Utilities.symbolTable.get(tokensCommand.get(TempInd)).getSIM() + " " + ansLast);
@@ -176,8 +178,8 @@ public class ConditionCommand implements Command{
 					
 					
 					//If the leftExp is in the symboltable take the VarObject
-					if(Utilities.symbolTable.containsKey(leftMinus)){
-						leftResultMinus = Utilities.symbolTable.get(leftMinus).getV();
+					if(ut.symbolTable.containsKey(leftMinus)){
+						leftResultMinus = ut.symbolTable.get(leftMinus).getV();
 					}
 					else {
 						leftResultMinus = ShuntingYard.calc(leftMinus.toString());
@@ -193,7 +195,7 @@ public class ConditionCommand implements Command{
 					
 					//putting in symbolTable the ans
 					
-					SymbolTabelObject symbolNew2 = Utilities.symbolTable.get(tokensCommand.get(TempInd));
+					SymbolTabelObject symbolNew2 = ut.symbolTable.get(tokensCommand.get(TempInd));
 					symbolNew2.setV(ansMinus);
 					index=0;
 					
@@ -248,15 +250,15 @@ public class ConditionCommand implements Command{
 					
 					
 					//putting in symbolTable the ans
-					Utilities.symbolTable.get(tokensCommand.get(TempInd)).setV(ans);
+					ut.symbolTable.get(tokensCommand.get(TempInd)).setV(ans);
 					index=0;
 					////////////////-----------------------------6666666666666666666666666666666666666-----hereee
 					////////////////////////////////////////////////////
 					
 				}
-			}else if(Utilities.isCommandExist(tokensCommand.get(index))) {//if there is a command like this in the command hash -> do the command
-				Command cmdStam = (Command) Utilities.getCommand(tokensCommand.get(index).toString());
-				ExpressionCommand cmdEx = new ExpressionCommand(cmdStam);
+			}else if(ut.isCommandExist(tokensCommand.get(index))) {//if there is a command like this in the command hash -> do the command
+				Command cmdStam = (Command) ut.getCommand(tokensCommand.get(index).toString());
+				ExpressionCommand cmdEx = new ExpressionCommand(cmdStam,ut);
 				
 				//To get the new ArrayList from the index i want to the index i want.
 				List<String> subArray = tokensCommand.subList(index, tokensCommand.size());

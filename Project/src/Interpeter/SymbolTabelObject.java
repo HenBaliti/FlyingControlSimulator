@@ -17,7 +17,7 @@ public class SymbolTabelObject extends Observable implements Observer {
 	        if (arg.getClass() == (d.getClass())) {
 	            if (this.value != (double) arg) {
 	                this.setV((double) arg);
-	                System.out.println("There was update");
+//	                System.out.println("There was update");
 	                // if the current VarObject bound to VarObject
 	                if (!this.getSIM().isEmpty()) { // check if the Sim param in VarObject is empty
 	                    String msg = "set " + ((SymbolTabelObject)o).getSIM() + " " + this.getV(); // prepare msg "set ...... 5"
@@ -26,7 +26,7 @@ public class SymbolTabelObject extends Observable implements Observer {
 	                    };
 	                    SimulatorClient.Send(commands);
 //	                    SimulatorClient.out.println(msg); // send to server the message to change the parameter
-	                    System.out.println("My Client sendin to the simulator now : "+msg);
+//	                    System.out.println("My Client sendin to the simulator now : "+msg);
 	                }
 	            }
 	        }
@@ -61,6 +61,15 @@ public class SymbolTabelObject extends Observable implements Observer {
 			this.value = v;
 			setChanged();
 			notifyObservers(v);
+		}
+
+	}
+	
+	public void setVal(double v) {
+		if (this.value != v) {
+			this.value = v;
+			setChanged();
+			notifyObservers();
 		}
 
 	}

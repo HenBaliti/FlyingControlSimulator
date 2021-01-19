@@ -6,6 +6,7 @@ import Commands.Command;
 import Commands.ConditionCommand;
 import Commands.DefineVarCommand;
 import Commands.ExpressionCommand;
+import Commands.OpenServerCommand;
 import Commands.Utilities;
 import Expression.ShuntingYard;
 
@@ -15,6 +16,7 @@ public class Parser implements ParserInterface {
 	public static int returnedValue;
 	public static ArrayList<String> arrBodyWhile = new ArrayList<>();
 	public static ArrayList<String> CommandForWhile = new ArrayList<>();
+	public Utilities ut;
 
 	@Override
 	public void parse(String[] lines) {
@@ -77,7 +79,7 @@ public class Parser implements ParserInterface {
 				}
 				
 				cmdStam = (Command) Utilities.getCommand("while");
-				ExpressionCommand cmdEx = new ExpressionCommand(cmdStam);
+				ExpressionCommand cmdEx = new ExpressionCommand(cmdStam,ut);
 				
 				//To get the new ArrayList from the index i want to the index i want.
 				cmdEx.setS(ConditionWhile);
@@ -97,7 +99,7 @@ public class Parser implements ParserInterface {
 					stamList.add(ary[1]);
 					stamList.add("%%");
 					Command newcmd = new DefineVarCommand();
-					index+=newcmd.doCommand(stamList);
+					index+=newcmd.doCommand(stamList,ut);
 					
 				}
 				
@@ -105,7 +107,7 @@ public class Parser implements ParserInterface {
 					// Checking if the Command is not exist in the command hash
 					if (!(Utilities.isCommandExist(cmdName))) {
 						if(Utilities.isSymbolExist(cmdName)) { //Checking if its a Symbol And not A command at all.
-							ExpressionCommand cmdEx = new ExpressionCommand(new DefineVarCommand());
+							ExpressionCommand cmdEx = new ExpressionCommand(new DefineVarCommand(),ut);
 							//To get the new ArrayList from the index i want to the index i want.
 							List<String> subArray = tokens.subList(index, tokens.size());
 							cmdEx.setS(subArray);
@@ -118,11 +120,12 @@ public class Parser implements ParserInterface {
 					}
 					else {
 						cmdStam = (Command) Utilities.getCommand(cmdName);
-						ExpressionCommand cmdEx = new ExpressionCommand(cmdStam);
+						ExpressionCommand cmdEx = new ExpressionCommand(cmdStam,ut);
 						
 						//To get the new ArrayList from the index i want to the index i want.
 						List<String> subArray = tokens.subList(index, tokens.size());
 						cmdEx.setS(subArray);
+							
 
 					
 					 if(cmdName.equals("return")) {
