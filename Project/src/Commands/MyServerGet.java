@@ -74,12 +74,13 @@ public class MyServerGet {
 								
 								double valueForString = Double.parseDouble(arr[i]);
 								String variableString = varTable.get(i+1);
+								System.out.println("SymbolTable : "+Utilities.getSymbolTable().keySet());
 								
 
-								if(Utilities.symbolTable.get(variableString)!=null) {
+								if(Utilities.getSymbolTable().get(variableString)!=null) {
 									//Updating the values in the VarObject if its not the same as the current value
 									if(valueForString!=Utilities.symbolTable.get(variableString).getV()) {
-										Utilities.symbolTable.get(variableString).setV(valueForString);
+										Utilities.getSymbolTable().get(variableString).setV(valueForString);
 										System.out.println("Updating "+variableString+" to new value->  " +valueForString);
 									}
 									else {
@@ -88,7 +89,7 @@ public class MyServerGet {
 								}
 								else {
 									SymbolTabelObject stNew = new SymbolTabelObject(valueForString);
-									Utilities.symbolTable.put(variableString, stNew);
+									Utilities.getSymbolTable().put(variableString, stNew);
 								}
 								
 							} 

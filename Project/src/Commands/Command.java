@@ -6,5 +6,5 @@ import java.util.List;
 //command interface
 public interface Command {
 
-	public int doCommand(List<String> tokens);
+	public int doCommand(List<String> tokens,Utilities ut);
 }

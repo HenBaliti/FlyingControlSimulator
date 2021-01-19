@@ -21,6 +21,7 @@ import server_side.Server;
 
 //open the server
 public class ServerInputFromSim{
+	
 
 	public static void main(String[] args) {
 		

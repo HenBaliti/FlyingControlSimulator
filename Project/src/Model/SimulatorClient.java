@@ -26,7 +26,7 @@ public class SimulatorClient {
         for (String s: data) {
             out.println(s);
             out.flush();
-            System.out.println(s);
+//            System.out.println(s);
         }
 
     }
