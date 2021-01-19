@@ -16,14 +16,14 @@ public class Utilities {
 //		symbolTable.put("aileron", new SymbolTabelObject(0,"/controls/flight/aileron"));
 //		symbolTable.put("elevator", new SymbolTabelObject(0, "/controls/flight/elevator"));
 		
-		Utilities.CommandsHash.put("return",new ExpressionCommand( new ReturnCommand()));
-		Utilities.CommandsHash.put("var",new ExpressionCommand( new DefineVarCommand()));
-		Utilities.CommandsHash.put("while",new ExpressionCommand( new ConditionCommand()));
-		Utilities.CommandsHash.put("connect",new ExpressionCommand( new ConnectCommand()));
-		Utilities.CommandsHash.put("disconnect",new ExpressionCommand( new DisconnectCommand()));
-		Utilities.CommandsHash.put("openDataServer",new ExpressionCommand( new OpenServerCommand()));
-		Utilities.CommandsHash.put("sleep", new ExpressionCommand(new SleepCommand()));
-		Utilities.CommandsHash.put("print", new ExpressionCommand(new PrintCommand()));
+		Utilities.CommandsHash.put("return",new ExpressionCommand( new ReturnCommand(),this));
+		Utilities.CommandsHash.put("var",new ExpressionCommand( new DefineVarCommand(),this));
+		Utilities.CommandsHash.put("while",new ExpressionCommand( new ConditionCommand(),this));
+		Utilities.CommandsHash.put("connect",new ExpressionCommand( new ConnectCommand(),this));
+		Utilities.CommandsHash.put("disconnect",new ExpressionCommand( new DisconnectCommand(),this));
+		Utilities.CommandsHash.put("openDataServer",new ExpressionCommand( new OpenServerCommand(),this));
+		Utilities.CommandsHash.put("sleep", new ExpressionCommand(new SleepCommand(),this));
+		Utilities.CommandsHash.put("print", new ExpressionCommand(new PrintCommand(),this));
 		
 		Utilities.CommandsHash2.put("return",new ReturnCommand());
 		Utilities.CommandsHash2.put("while",new ConditionCommand());

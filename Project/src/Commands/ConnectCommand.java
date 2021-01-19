@@ -9,13 +9,15 @@ import java.util.Observer;
 
 public class ConnectCommand implements Command{
 	
+	public Utilities ut;
 	public static PrintWriter out;
 	String ip;
 	int port;
 	public static volatile boolean stop=false;
 	int numOfArgs;
 	@Override
-	public int doCommand(List<String> tokens) {
+	public int doCommand(List<String> tokens, Utilities ut) {
+		this.ut = ut;
 		ip = tokens.get(1);
 		port = Integer.parseInt(tokens.get(2));
 		

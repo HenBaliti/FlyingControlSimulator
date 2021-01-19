@@ -7,10 +7,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
 
+import Commands.Utilities;
 import test.MyInterpreter;
 
 public class Model extends Observable{
 	
+	public Utilities ut;
 	public MyInterpreter interperter;
 	SimulatorClient simulatorClient;
     private static Socket socketMyServer;
@@ -24,8 +26,9 @@ public class Model extends Observable{
     double markY;
     int[][] data;
 	
-	public Model() {
-		interperter = new MyInterpreter();
+	public Model(Utilities ut) {
+		this.ut = ut;
+		interperter = new MyInterpreter(ut);
 		simulatorClient = new SimulatorClient();
 	}
 	

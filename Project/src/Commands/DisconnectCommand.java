@@ -4,10 +4,12 @@ import java.util.List;
 
 public class DisconnectCommand implements Command{
 
+	public Utilities ut;
 	//disconnecting from server
 	int numOfArgs;
 	@Override
-	public int doCommand(List<String> tokens) {
+	public int doCommand(List<String> tokens, Utilities ut) {
+		this.ut = ut;
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

@@ -39,7 +39,8 @@ public class Main extends Application {
 			
 			
 			ViewModel vm = new ViewModel();
-			Model model = new Model();
+			vm.ut = ut;
+			Model model = new Model(ut);
 			vm.setModel(model);
 			model.addObserver(vm);
 			vm.addObserver(mc);
