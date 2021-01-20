@@ -1,5 +1,7 @@
 package view;
 	
+import java.util.Observer;
+
 import Commands.MyServerGet;
 import Commands.Utilities;
 import Model.Model;
@@ -37,14 +39,14 @@ public class Main extends Application {
 //			}
 //		}).start();
 			
-			
 			ViewModel vm = new ViewModel();
 			vm.ut = ut;
 			Model model = new Model(ut);
+			ut.addObserver(model);
 			vm.setModel(model);
 			model.addObserver(vm);
 			vm.addObserver(mc);
-			mc.setViewModel(vm);
+			mc.setViewModel(vm,ut);
 			
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -25,6 +25,8 @@ public class SymbolTabelObject extends Observable implements Observer {
 	                            "set "+((SymbolTabelObject)o).getSIM()+" " + this.getV()
 	                    };
 	                    SimulatorClient.Send(commands);
+	                    
+
 //	                    SimulatorClient.out.println(msg); // send to server the message to change the parameter
 //	                    System.out.println("My Client sendin to the simulator now : "+msg);
 	                }
@@ -57,7 +59,7 @@ public class SymbolTabelObject extends Observable implements Observer {
 	}
 
 	public void setV(double v) {
-		if (this.value != v) {
+		if (this.value != v) {/////////////////////////////////////////////////////////////
 			this.value = v;
 			setChanged();
 			notifyObservers(v);
@@ -68,8 +70,7 @@ public class SymbolTabelObject extends Observable implements Observer {
 	public void setVal(double v) {
 		if (this.value != v) {
 			this.value = v;
-			setChanged();
-			notifyObservers();
+
 		}
 
 	}

@@ -40,7 +40,12 @@ public class ViewModel extends Observable implements Observer {
     public DoubleProperty sizeElement;//+
 //    public BooleanProperty IsPath;
 //    public DoubleProperty realtiveH, relativeW;
+//    public StringProperty CurrentAltitude;//+++
 	
+    String[] GettingsNamesOrder = {"/instrumentation/airspeed-indicator/indicated-speed-kt", "/instrumentation/altimeter/pressure-alt-ft", "/instrumentation/attitude-indicator/indicated-pitch-deg", "/instrumentation/attitude-indicator/indicated-roll-deg", "/instrumentation/encoder/indicated-altitude-ft",
+    	      "/instrumentation/attitude-indicator/internal-roll-deg", "/instrumentation/encoder/indicated-altitude-ft", "/instrumentation/encoder/pressure-alt-ft", "/instrumentation/gps/indicated-altitude-ft", "/instrumentation/gps/indicated-vertical-speed",
+    	      "/instrumentation/gps/indicated-vertical-speed", "/instrumentation/heading-indicator/indicated-heading-deg", "/instrumentation/magnetic-compass/indicated-heading-deg", "/instrumentation/slip-skid-ball/indicated-slip-skid", "/instrumentation/turn-indicator/indicated-turn-rate", "/instrumentation/vertical-speed-indicator/indicated-speed-fpm", "/controls/flight/flaps", "/engines/engine/rpm"
+    	};
 	
     public ViewModel() {
     	throttle=new SimpleDoubleProperty();
@@ -59,6 +64,7 @@ public class ViewModel extends Observable implements Observer {
         YDest=new SimpleDoubleProperty();
         autoPilotTxt = new SimpleStringProperty();
         sizeElement = new SimpleDoubleProperty();
+//        CurrentAltitude = new SimpleStringProperty();
 //        isFirstCalc = new SimpleBooleanProperty();
         
     }
@@ -143,56 +149,21 @@ public class ViewModel extends Observable implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		if(arg0==model)
         {
-			//System.out.println("Got heree1 ---------------------------");
-            String[] tmpArr=(String[])arg1;
-            //int i= 0;
-            //int j= 0;
-            double x = planeX.getValue();
-            double y = planeY.getValue();
 
-            if(tmpArr[0].equals("path")){
-            //	System.out.println("Got heree2 ---------------------------");
+			//Sending the vars from a realtime via Server
+			Boolean isExistIn = false;
+			for(String str:GettingsNamesOrder) {
+				if(arg1.equals(str))
+					isExistIn = true;					
+			}
+			if(isExistIn) {
+				setChanged();
+				notifyObservers(arg1);
+			}
+			
+	    }
+			
 
-            	//Drawing the path
-//            	for(int t=1;t<tmpArr.length;t++) {
-//               // 	System.out.println("i: "+i);
-//                //	System.out.println("j: "+j);
-//            		switch(tmpArr[t]) {
-//                    case "Right":
-//
-//                    	//mapData.gc.setFill(Color.WHITE);
-//                    	//mapData.gc.fillRect((y * mapData.width), (x * mapData.height), mapData.width, mapData.height);
-//                        mapData.gc.setStroke(Color.BLACK.darker());
-//                        mapData.gc.strokeLine(x, y, x + sizeElement.getValue(), y);
-//                        x+=sizeElement.getValue();
-//                        break;
-//                    case "Down":
-////                    	mapData.gc.setStroke(Color.BLACK.darker());
-//                        mapData.gc.setStroke(Color.BLACK.darker());
-//                        mapData.gc.strokeLine(x, y, x , y-sizeElement.getValue());
-//                        y-=sizeElement.getValue();
-//                        break;
-//                    case "Left":
-////
-//                        mapData.gc.setStroke(Color.BLACK.darker());
-//                        mapData.gc.strokeLine(x, y, x - sizeElement.getValue(), y);
-//                        x+=sizeElement.getValue();
-//                        break;
-//                    case "Up":
-////                    	mapData.gc.setStroke(Color.BLACK.darker());
-//                        mapData.gc.setStroke(Color.BLACK.darker());
-//                        mapData.gc.strokeLine(x, y, x , y+sizeElement.getValue());
-//                        y-=sizeElement.getValue();
-//            		}
-//            	}
-            }
-            setChanged();
-            notifyObservers(tmpArr);
-        }
-		else {
-			System.out.println("Oooooopsss ---------------------------");
-
-		}
 	}
 	
 	

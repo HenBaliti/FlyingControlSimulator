@@ -6,11 +6,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
+import java.util.Observer;
 
 import Commands.Utilities;
 import test.MyInterpreter;
 
-public class Model extends Observable{
+public class Model extends Observable implements Observer{
 	
 	public Utilities ut;
 	public MyInterpreter interperter;
@@ -25,6 +26,7 @@ public class Model extends Observable{
     double markX;
     double markY;
     int[][] data;
+    double speed;
 	
 	public Model(Utilities ut) {
 		this.ut = ut;
@@ -140,6 +142,18 @@ public class Model extends Observable{
 
         }).start();
     }
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		if(o==ut) {
+			String str = arg.toString();
+			setChanged();
+			notifyObservers(str);
+		}
+			
+		
+	}
 
 	
 }
