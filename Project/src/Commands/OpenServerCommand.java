@@ -33,7 +33,8 @@ public class OpenServerCommand implements Command{
 	public static HashMap<Integer,String> varTable;
     String[] GettingsNamesOrder = {"/instrumentation/airspeed-indicator/indicated-speed-kt", "/instrumentation/altimeter/pressure-alt-ft", "/instrumentation/attitude-indicator/indicated-pitch-deg", "/instrumentation/attitude-indicator/indicated-roll-deg", "/instrumentation/attitude-indicator/internal-pitch-deg",
   	      "/instrumentation/attitude-indicator/internal-roll-deg", "/instrumentation/encoder/indicated-altitude-ft", "/instrumentation/encoder/pressure-alt-ft", "/instrumentation/gps/indicated-altitude-ft", "/instrumentation/gps/indicated-ground-speed-kt",
-  	      "/instrumentation/gps/indicated-vertical-speed", "/instrumentation/heading-indicator/indicated-heading-deg", "/instrumentation/magnetic-compass/indicated-heading-deg", "/instrumentation/slip-skid-ball/indicated-slip-skid", "/instrumentation/turn-indicator/indicated-turn-rate", "/instrumentation/vertical-speed-indicator/indicated-speed-fpm", "/controls/flight/flaps", "/engines/engine/rpm"
+  	      "/instrumentation/gps/indicated-vertical-speed", "/instrumentation/magnetic-compass/indicated-heading-deg", "/instrumentation/slip-skid-ball/indicated-slip-skid", "/instrumentation/turn-indicator/indicated-turn-rate", "/instrumentation/vertical-speed-indicator/indicated-speed-fpm", "/controls/flight/flaps", "/engines/engine/rpm",
+  	    "/position/longitude-deg","/position/latitude-deg"
   	};
 	
 
@@ -72,6 +73,8 @@ public class OpenServerCommand implements Command{
         varTable.put(21, "/controls/flight/flaps");
         varTable.put(22, "/controls/engines/engine/throttle");
         varTable.put(23, "/engines/engine/rpm");
+        varTable.put(24, "/position/longitude-deg");
+        varTable.put(25, "/position/latitude-deg");
         
 	}
 
@@ -128,10 +131,15 @@ public class OpenServerCommand implements Command{
 											ut.symbolTable.get(variableString).setVal(valueForString);
 											ut.setUpdate(variableString);
 										}else {
+//											if()//-------------------------
 											ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM()).setV(valueForString);
-//											System.out.println("Updating "+variableString+" to new value->  " +valueForString);		
+											System.out.println("Updating "+variableString+" to new value->  " +valueForString);		
 										}											
+										
 									}
+//									else {
+//										System.out.println("var name : "+variableString+" Value is still: "+valueForString);
+//									}
 								}
 //								else {
 //									SymbolTabelObject stNew = new SymbolTabelObject(valueForString);

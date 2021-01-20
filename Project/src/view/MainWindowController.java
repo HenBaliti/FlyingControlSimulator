@@ -72,7 +72,6 @@ public class MainWindowController implements Observer {
 	Utilities ut;
 	ViewModel vm;
 	public int mapData[][];
-
 	public DoubleProperty StartingPositionX;
 	public DoubleProperty StartingPositionY;
 	public DoubleProperty planeX;
@@ -112,14 +111,14 @@ public class MainWindowController implements Observer {
 		YDest = new SimpleDoubleProperty();
 		planeArr = new Image[8];
 		try {
-			planeArr[0]=new Image(new FileInputStream("./Project/resources/plane0.png"));
-			planeArr[1]=new Image(new FileInputStream("./Project/resources/plane45.png"));
-			planeArr[2]=new Image(new FileInputStream("./Project/resources/plane90.png"));
-			planeArr[3]=new Image(new FileInputStream("./Project/resources/plane135.png"));
-			planeArr[4]=new Image(new FileInputStream("./Project/resources/plane180.png"));
-			planeArr[5]=new Image(new FileInputStream("./Project/resources/plane225.png"));
-			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
-			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
+			planeArr[0]=new Image(new FileInputStream("./resources/plane0.png"));
+			planeArr[1]=new Image(new FileInputStream("./resources/plane45.png"));
+			planeArr[2]=new Image(new FileInputStream("./resources/plane90.png"));
+			planeArr[3]=new Image(new FileInputStream("./resources/plane135.png"));
+			planeArr[4]=new Image(new FileInputStream("./resources/plane180.png"));
+			planeArr[5]=new Image(new FileInputStream("./resources/plane225.png"));
+			planeArr[6]=new Image(new FileInputStream("./resources/plane270.png"));
+			planeArr[7]=new Image(new FileInputStream("./resources/plane315.png"));
 
 
 		} catch (FileNotFoundException e) {
@@ -153,7 +152,7 @@ public class MainWindowController implements Observer {
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -198,7 +197,7 @@ public class MainWindowController implements Observer {
 				mapDisplayerData.setOnMouseClicked(ClickOnMap);
 
 				//Binding An NoN FXML Property
-				planepic = new Image(new FileInputStream("Project/resources/plane.png"));
+				planepic = new Image(new FileInputStream("./resources/plane.png"));
 				mapDisplayerData.gc.drawImage(planepic, 0, 0, 25, 25);
 				//   mapDisplayerData.gc.strokeText("A",(-1)*StartingPositionX.get(), StartingPositionY.get());
 			//	vm.startX.bind(StartingPositionX);
@@ -313,7 +312,7 @@ public class MainWindowController implements Observer {
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -590,6 +589,14 @@ public class MainWindowController implements Observer {
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("airspeed")) {
 					CurrentSpeed.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
+//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
+				}
+				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Longtitude")) {
+					planeX.setValue(ut.symbolTable.get(arg.toString()).getV());
+//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
+				}
+				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Latitude")) {
+					planeY.setValue(ut.symbolTable.get(arg.toString()).getV());
 //					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
 				}
 			}

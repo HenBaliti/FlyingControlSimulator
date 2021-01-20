@@ -46,6 +46,8 @@ public class Utilities extends Observable{
         symbolTable.put("/instrumentation/vertical-speed-indicator/indicated-speed-fpm",new SymbolTabelObject(0,"Fpm-Speed"));
         symbolTable.put("/controls/flight/flaps",new SymbolTabelObject(0,"Flaps"));
         symbolTable.put("/engines/engine/rpm",new SymbolTabelObject(0, "Rpm"));
+        symbolTable.put("/position/longitude-deg",new SymbolTabelObject(0,"Longtitude"));
+        symbolTable.put("/position/latitude-deg",new SymbolTabelObject(0, "Latitude"));
 		
 		
 		Utilities.CommandsHash.put("return",new ExpressionCommand( new ReturnCommand(),this));
