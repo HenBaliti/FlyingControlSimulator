@@ -134,7 +134,7 @@ public class ConditionCommand implements Command{
 					double leftResultParasis = 0;
 					//If the leftExp is in the symboltable take the VarObject
 					if(ut.symbolTable.containsKey(leftExpPhrasis)){
-						leftResultParasis = Utilities.symbolTable.get(leftExpPhrasis).getV();
+						leftResultParasis = ut.symbolTable.get(leftExpPhrasis).getV();
 					}
 					else {
 						leftResultParasis = ShuntingYard.calc(leftExpPhrasis.toString());
