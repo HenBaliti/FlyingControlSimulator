@@ -10,6 +10,7 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import Commands.Utilities;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -32,6 +33,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 public class MainWindowController implements Observer{
@@ -60,9 +62,11 @@ public class MainWindowController implements Observer{
 	Button connectSub;
 	@FXML
 	Button calcSub;
+	@FXML
+	Text CurrentPressure,CurrentAltitude,CurrentSpeed;
 
 
-
+	Utilities ut;
 	ViewModel vm;
 	public int mapData[][];
 	public DoubleProperty  StartingPositionX;
@@ -76,11 +80,10 @@ public class MainWindowController implements Observer{
 	double height,width,WidthCanvas,HeightCanvas;
 	private Image mark, plane;
 	private String[] path;
-
 	
-    public void setViewModel(ViewModel vm) {
+    public void setViewModel(ViewModel vm,Utilities ut) {
     	this.vm = vm;
-
+    	this.ut = ut;
 //    	vm.portPath.bind(portCalcTextField.textProperty());
 //		vm.ipPath.bind(ipCalcTextField.textProperty());
     	StartingPositionX=new SimpleDoubleProperty();
@@ -514,17 +517,31 @@ public class MainWindowController implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o==vm) {
-//			solution = (String[])arg;
-//			System.out.println("Solution is: "+solution.toString());
-			if(arg!=null) {
-				path = (String[]) arg;
-				this.drawLine();
+			//Taking the realTime Vars from the server
+			if(ut.isSymbolExist(arg.toString())) {
+				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Pressure")) {
+					CurrentPressure.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
+//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
+				}
+				if(ut.symbolTable.get(arg.toString()).getSIM().equals("GPS-Altitude")) {
+					CurrentAltitude.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
+//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
+				}
+				if(ut.symbolTable.get(arg.toString()).getSIM().equals("airspeed")) {
+					CurrentSpeed.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
+//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
+				}
+			}
+			else { //Getting The solution!
+//				solution = (String[])arg;
+//				System.out.println("Solution is: "+solution.toString());
+				if(arg!=null) {
+					path = (String[]) arg;
+					this.drawLine();
+				}
 			}
 		}
-		else {
 
-		}
-		
 	}
 	
 

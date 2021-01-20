@@ -2,19 +2,51 @@ package Commands;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 import Interpeter.SymbolTabelObject;
 
 //all the hashmap utilities
-public class Utilities {
+public class Utilities extends Observable{
 	public static Map<String,SymbolTabelObject> symbolTable = new HashMap<String,SymbolTabelObject>();
 	public static Map<String,ExpressionCommand> CommandsHash = new HashMap<String,ExpressionCommand>();
 	public static Map<String,Command> CommandsHash2 = new HashMap<String,Command>();
+
 	
 	public Utilities() {
 		
 //		symbolTable.put("aileron", new SymbolTabelObject(0,"/controls/flight/aileron"));
 //		symbolTable.put("elevator", new SymbolTabelObject(0, "/controls/flight/elevator"));
+
+//	    String[] GettingsNamesOrder = {"/instrumentation/airspeed-indicator/indicated-speed-kt", "/instrumentation/altimeter/pressure-alt-ft", "/instrumentation/attitude-indicator/indicated-pitch-deg", "/instrumentation/attitude-indicator/indicated-roll-deg", "/instrumentation/encoder/indicated-altitude-ft",
+//	    	      "/instrumentation/attitude-indicator/internal-roll-deg", "/instrumentation/encoder/indicated-altitude-ft", "/instrumentation/encoder/pressure-alt-ft", "/instrumentation/gps/indicated-altitude-ft", "/instrumentation/gps/indicated-vertical-speed",
+//	    	      "/instrumentation/gps/indicated-vertical-speed", "/instrumentation/heading-indicator/indicated-heading-deg", "/instrumentation/magnetic-compass/indicated-heading-deg", "/instrumentation/slip-skid-ball/indicated-slip-skid", "/instrumentation/turn-indicator/indicated-turn-rate", "/instrumentation/vertical-speed-indicator/indicated-speed-fpm", "/controls/flight/flaps", "/engines/engine/rpm"
+//	    	};
+//		  String[] variablesNamesOrder = {"airspeed", "Pressure", "pitch", "roll", "Internal-Pitch",
+//				  "Internal-Roll", "Encoder-Altitude", "Encoder-Pressure", "GPS-Altitude", "Ground-Speed",
+//				  "Vertical-Speed", "heading", "Compass-Heading", "Slip", "Turn", "Fpm-Speed", "Flaps", "Rpm"
+//				};
+
+		
+        symbolTable.put("/instrumentation/airspeed-indicator/indicated-speed-kt",new SymbolTabelObject(0,"airspeed"));
+        symbolTable.put("/instrumentation/altimeter/pressure-alt-ft",new SymbolTabelObject(0,"Pressure"));
+        symbolTable.put("/instrumentation/attitude-indicator/indicated-pitch-deg",new SymbolTabelObject(0,"pitch"));
+        symbolTable.put("/instrumentation/attitude-indicator/indicated-roll-deg",new SymbolTabelObject(0, "roll"));
+        symbolTable.put("/instrumentation/attitude-indicator/internal-pitch-deg",new SymbolTabelObject(0,"Internal-Pitch"));
+        symbolTable.put("/instrumentation/attitude-indicator/internal-roll-deg",new SymbolTabelObject(0,"Internal-Roll"));
+        symbolTable.put("/instrumentation/encoder/indicated-altitude-ft",new SymbolTabelObject(0,"Encoder-Altitude"));
+        symbolTable.put("/instrumentation/encoder/pressure-alt-ft",new SymbolTabelObject(0, "Encoder-Pressure"));
+        symbolTable.put("/instrumentation/gps/indicated-altitude-ft",new SymbolTabelObject(0,"GPS-Altitude"));
+        symbolTable.put("/instrumentation/gps/indicated-ground-speed-kt",new SymbolTabelObject(0,"Ground-Speed"));
+        symbolTable.put("/instrumentation/gps/indicated-vertical-speed",new SymbolTabelObject(0,"Vertical-Speed"));
+        symbolTable.put("/instrumentation/heading-indicator/indicated-heading-deg",new SymbolTabelObject(0,"heading"));
+        symbolTable.put("/instrumentation/magnetic-compass/indicated-heading-deg",new SymbolTabelObject(0,"Compass-Heading"));
+        symbolTable.put("/instrumentation/slip-skid-ball/indicated-slip-skid",new SymbolTabelObject(0,"Slip"));
+        symbolTable.put("/instrumentation/turn-indicator/indicated-turn-rate",new SymbolTabelObject(0,"Turn"));
+        symbolTable.put("/instrumentation/vertical-speed-indicator/indicated-speed-fpm",new SymbolTabelObject(0,"Fpm-Speed"));
+        symbolTable.put("/controls/flight/flaps",new SymbolTabelObject(0,"Flaps"));
+        symbolTable.put("/engines/engine/rpm",new SymbolTabelObject(0, "Rpm"));
+		
 		
 		Utilities.CommandsHash.put("return",new ExpressionCommand( new ReturnCommand(),this));
 		Utilities.CommandsHash.put("var",new ExpressionCommand( new DefineVarCommand(),this));
@@ -33,6 +65,14 @@ public class Utilities {
 		Utilities.CommandsHash2.put("openDataServer",new OpenServerCommand());
 		Utilities.CommandsHash2.put("sleep", new SleepCommand());
 		Utilities.CommandsHash2.put("print", new PrintCommand());
+		
+		
+//      String[] variablesNamesOrder = {"/instrumentation/airspeed-indicator/indicated-speed-kt", "/instrumentation/altimeter/pressure-alt-ft", "/instrumentation/attitude-indicator/indicated-pitch-deg", "/instrumentation/attitude-indicator/indicated-roll-deg", "/instrumentation/encoder/indicated-altitude-ft",
+//      "/instrumentation/attitude-indicator/internal-roll-deg", "/instrumentation/encoder/indicated-altitude-ft", "/instrumentation/encoder/pressure-alt-ft", "/instrumentation/gps/indicated-altitude-ft", "/instrumentation/gps/indicated-vertical-speed",
+//      "/instrumentation/gps/indicated-vertical-speed", "/instrumentation/heading-indicator/indicated-heading-deg", "/instrumentation/magnetic-compass/indicated-heading-deg", "/instrumentation/slip-skid-ball/indicated-slip-skid", "/instrumentation/turn-indicator/indicated-turn-rate", "/instrumentation/vertical-speed-indicator/indicated-speed-fpm", "/controls/flight/flaps", "/engines/engine/rpm"
+//};
+      
+		
 		
 	}
 	
@@ -65,5 +105,10 @@ public class Utilities {
 	
 	public static void setCommand(String CommandName,ExpressionCommand cmd) {
 		CommandsHash.put(CommandName, cmd);
+	}
+	
+	public void setUpdate(String str) {
+		setChanged();
+		notifyObservers(str);
 	}
 }
