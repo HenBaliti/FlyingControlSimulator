@@ -100,7 +100,12 @@ public class ConditionCommand implements Command{
 					tmporaryIndex++;
 					String operatorOfPhrasis = tokensCommand.get(tmporaryIndex); // "-"
 					tmporaryIndex++;
-					String RestOfExp = tokensCommand.get(tmporaryIndex); //"heading)/20"
+					String RestOfExp = tokensCommand.get(tmporaryIndex);
+					tmporaryIndex++;
+					RestOfExp+=tokensCommand.get(tmporaryIndex);
+					tmporaryIndex++;
+					RestOfExp+=tokensCommand.get(tmporaryIndex);
+					//"heading)/20"
 					String rightExpPhrasis ="";
 					String rightExpLast ="";
 					String operatorLast ="";
@@ -180,19 +185,20 @@ public class ConditionCommand implements Command{
 					//If the leftExp is in the symboltable take the VarObject
 					if(ut.symbolTable.containsKey(leftMinus)){
 						leftResultMinus = ut.symbolTable.get(leftMinus).getV();
+						leftResultMinus = (leftResultMinus*-1);
 					}
 					else {
 						leftResultMinus = ShuntingYard.calc(leftMinus.toString());
 					}
 					double rightResultMinus = ShuntingYard.calc(rightMinus.toString());
-						
+
 					switch (operatorMinus) {
 					case "+": ansMinus = (leftResultMinus + rightResultMinus); break;
 					case "-": ansMinus = (leftResultMinus - rightResultMinus); break;
 					case "/": ansMinus = (leftResultMinus / rightResultMinus); break;
 					case "*": ansMinus = (leftResultMinus * rightResultMinus); break;
 					}
-					
+
 					//putting in symbolTable the ans
 					
 					SymbolTabelObject symbolNew2 = ut.symbolTable.get(tokensCommand.get(TempInd));
