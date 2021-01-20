@@ -185,7 +185,7 @@ public class ConditionCommand implements Command{
 					//If the leftExp is in the symboltable take the VarObject
 					if(ut.symbolTable.containsKey(leftMinus)){
 						leftResultMinus = ut.symbolTable.get(leftMinus).getV();
-						leftResultMinus = (leftResultMinus*-1);
+				//	 	leftResultMinus = (leftResultMinus*-1);
 					}
 					else {
 						leftResultMinus = ShuntingYard.calc(leftMinus.toString());

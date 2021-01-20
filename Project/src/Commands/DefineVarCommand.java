@@ -48,7 +48,7 @@ public class DefineVarCommand implements Command{
 			}
 			
 		}
-		else { 
+		else {
 			if(tokens.get(1).contains("=")) {
 				//Checking if its contatins "="
 				String[] ary = tokens.get(1).split("=");

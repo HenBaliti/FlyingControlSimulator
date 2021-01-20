@@ -111,11 +111,11 @@ public class OpenServerCommand implements Command{
 									//Updating the values in the VarObject if its not the same as the current value
 									if(valueForString!=ut.symbolTable.get(variableString).getV()) {
 										ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM()).setV(valueForString);
-//										System.out.println("Updating "+variableString+" to new value->  " +valueForString);
+								//		System.out.println("Updating "+variableString+" to new value->  " +valueForString);
 									}
-//									else {
-//										System.out.println("var name : "+variableString+" Value is still: "+valueForString);
-//									}
+									else {
+									//	System.out.println("var name : "+variableString+" Value is still: "+valueForString);
+									}
 								}
 //								else {
 //									SymbolTabelObject stNew = new SymbolTabelObject(valueForString);
