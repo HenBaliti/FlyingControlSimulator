@@ -131,11 +131,7 @@ public class OpenServerCommand implements Command{
 											ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM()).setV(valueForString);
 //											System.out.println("Updating "+variableString+" to new value->  " +valueForString);		
 										}											
-										
 									}
-//									else {
-//										System.out.println("var name : "+variableString+" Value is still: "+valueForString);
-//									}
 								}
 //								else {
 //									SymbolTabelObject stNew = new SymbolTabelObject(valueForString);

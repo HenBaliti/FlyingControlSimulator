@@ -4,11 +4,12 @@ var heading = bind /instrumentation/heading-indicator/indicated-heading-deg
 var airspeed = bind /instrumentation/airspeed-indicator/indicated-speed-kt
 var roll = bind /instrumentation/attitude-indicator/indicated-roll-deg
 var pitch = bind /instrumentation/attitude-indicator/internal-pitch-deg
-var rudder = bind /controls/flight/rudder
 var aileron = bind /controls/flight/aileron
 var elevator = bind /controls/flight/elevator
+var rudder = bind /controls/flight/rudder
 var alt = bind /instrumentation/altimeter/indicated-altitude-ft
 var rpm = bind /engines/engine/rpm
+var minus = 0-1
 var hroute = 0
 var goal = 0
 breaks = 0
@@ -16,7 +17,10 @@ throttle = 1
 var h0 = heading
 while alt < 1000 {
 rudder = (h0 - heading) / 50
-aileron = - roll / 70
+print h0
+print rudder
+print heading
+aileron = (minus * roll) / 70
 elevator = pitch / 50
 print alt
 sleep 250
