@@ -29,7 +29,6 @@ public class MapDisplayer extends Canvas{
 	             if(maxElement < mapData[i][j]) { maxElement = mapData[i][j]; }
 			}
 		
-		
 		double max_color = 255;
         double min_color = 0;
         

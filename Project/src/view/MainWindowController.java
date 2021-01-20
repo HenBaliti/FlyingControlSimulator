@@ -67,8 +67,7 @@ public class MainWindowController implements Observer {
 	@FXML
 	Text CurrentPressure,CurrentAltitude,CurrentSpeed;
 
-
-
+	GraphicsContext gcDrawPlane;
 	Utilities ut;
 	ViewModel vm;
 	public int mapData[][];
@@ -99,6 +98,8 @@ public class MainWindowController implements Observer {
 		StartingPositionY = new SimpleDoubleProperty();
 		planeX = new SimpleDoubleProperty();
 		planeY = new SimpleDoubleProperty();
+		planeX.bindBidirectional(vm.planeX);
+		planeY.bindBidirectional(vm.planeY);
 		aileron = new SimpleDoubleProperty();
 		elevator = new SimpleDoubleProperty();
 		sizeOfElement = new SimpleDoubleProperty();
@@ -109,14 +110,14 @@ public class MainWindowController implements Observer {
 		YDest = new SimpleDoubleProperty();
 		planeArr = new Image[8];
 		try {
-			planeArr[0]=new Image(new FileInputStream("./Project/resources/plane0.png"));
-			planeArr[1]=new Image(new FileInputStream("./Project/resources/plane45.png"));
-			planeArr[2]=new Image(new FileInputStream("./Project/resources/plane90.png"));
-			planeArr[3]=new Image(new FileInputStream("./Project/resources/plane135.png"));
-			planeArr[4]=new Image(new FileInputStream("./Project/resources/plane180.png"));
-			planeArr[5]=new Image(new FileInputStream("./Project/resources/plane225.png"));
-			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
-			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
+			planeArr[0]=new Image(new FileInputStream("./resources/plane0.png"));
+			planeArr[1]=new Image(new FileInputStream("./resources/plane45.png"));
+			planeArr[2]=new Image(new FileInputStream("./resources/plane90.png"));
+			planeArr[3]=new Image(new FileInputStream("./resources/plane135.png"));
+			planeArr[4]=new Image(new FileInputStream("./resources/plane180.png"));
+			planeArr[5]=new Image(new FileInputStream("./resources/plane225.png"));
+			planeArr[6]=new Image(new FileInputStream("./resources/plane270.png"));
+			planeArr[7]=new Image(new FileInputStream("./resources/plane315.png"));
 
 
 		} catch (FileNotFoundException e) {
@@ -150,7 +151,7 @@ public class MainWindowController implements Observer {
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -189,14 +190,17 @@ public class MainWindowController implements Observer {
 						mapData[i][j] = Integer.parseInt(tmp);
 					}
 				}
+				System.out.println("-----------------------------------------: "+rowElementsList.size());
+				System.out.println("-----------------------------------------: "+rowElementsList.get(1).length);
 				this.vm.mapData = mapDisplayerData;
 
 				mapDisplayerData.setMapData(mapData);
 				mapDisplayerData.setOnMouseClicked(ClickOnMap);
 
 				//Binding An NoN FXML Property
-				planepic = new Image(new FileInputStream("./Project/resources/plane.png"));
-				mapDisplayerData.gc.drawImage(planepic, planeX.getValue(), planeX.getValue(), 25, 25);
+				planepic = new Image(new FileInputStream("./resources/plane.png"));
+				gcDrawPlane = plane.getGraphicsContext2D();
+				gcDrawPlane.drawImage(planepic, planeX.getValue(), planeY.getValue(), 25, 25);
 				//   mapDisplayerData.gc.strokeText("A",(-1)*StartingPositionX.get(), StartingPositionY.get());
 			//	vm.startX.bind(StartingPositionX);
 			//	vm.startY.bind(StartingPositionY);
@@ -310,7 +314,7 @@ public class MainWindowController implements Observer {
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -483,27 +487,27 @@ public class MainWindowController implements Observer {
 			double W = plane.getWidth();
 			double h = H / mapData.length;
 			double w = W / mapData[0].length;
-			GraphicsContext gc = plane.getGraphicsContext2D();
+			
 			prevX = planeX.getValue();
 			prevY = planeY.getValue() * -1;
-			gc.clearRect(0, 0, W, H);
+			gcDrawPlane.clearRect(0, 0, W, H);
 
 			if (heading.getValue() >= 0 && heading.getValue() < 39)
-				gc.drawImage(planeArr[0], w * prevX, prevY * h, 25, 25);
+				gcDrawPlane.drawImage(planeArr[0], w * prevX, prevY * h, 25, 25);
 			if (heading.getValue() >= 39 && heading.getValue() < 80)
-				gc.drawImage(planeArr[1], w * prevX, prevY * h, 25, 25);
+				gcDrawPlane.drawImage(planeArr[1], w * prevX, prevY * h, 25, 25);
 			if (heading.getValue() >= 80 && heading.getValue() < 129)
-				gc.drawImage(planeArr[2], w * prevX, prevY * h, 25, 25);
+				gcDrawPlane.drawImage(planeArr[2], w * prevX, prevY * h, 25, 25);
 			if (heading.getValue() >= 129 && heading.getValue() < 170)
-				gc.drawImage(planeArr[3], w * prevX, prevY * h, 25, 25);
+				gcDrawPlane.drawImage(planeArr[3], w * prevX, prevY * h, 25, 25);
 			if (heading.getValue() >= 170 && heading.getValue() < 219)
-				gc.drawImage(planeArr[4], w * prevX, prevY * h, 25, 25);
+				gcDrawPlane.drawImage(planeArr[4], w * prevX, prevY * h, 25, 25);
 			if (heading.getValue() >= 219 && heading.getValue() < 260)
-				gc.drawImage(planeArr[5], w * prevX, prevY * h, 25, 25);
+				gcDrawPlane.drawImage(planeArr[5], w * prevX, prevY * h, 25, 25);
 			if (heading.getValue() >= 260 && heading.getValue() < 309)
-				gc.drawImage(planeArr[6], w * prevX, prevY * h, 25, 25);
+				gcDrawPlane.drawImage(planeArr[6], w * prevX, prevY * h, 25, 25);
 			if (heading.getValue() >= 309)
-				gc.drawImage(planeArr[7], w * prevX, prevY * h, 25, 25);
+				gcDrawPlane.drawImage(planeArr[7], w * prevX, prevY * h, 25, 25);
 		}
 	}
 
@@ -592,12 +596,11 @@ public class MainWindowController implements Observer {
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Longtitude")) {
 					planeX.setValue(ut.symbolTable.get(arg.toString()).getV());
-					planeX.bindBidirectional(vm.planeX);
-
+					System.out.println("PlaneX is : "+planeX.getValue());
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Latitude")) {
 					planeY.setValue(ut.symbolTable.get(arg.toString()).getV());
-					planeY.bindBidirectional(vm.planeY);
+					System.out.println("PlaneY is : "+planeY.getValue());
 				}
 
 			}
