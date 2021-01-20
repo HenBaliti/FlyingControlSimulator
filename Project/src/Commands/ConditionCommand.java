@@ -101,6 +101,11 @@ public class ConditionCommand implements Command{
 					String operatorOfPhrasis = tokensCommand.get(tmporaryIndex); // "-"
 					tmporaryIndex++;
 					String RestOfExp = tokensCommand.get(tmporaryIndex); //"heading)/20"
+					tmporaryIndex++;
+					RestOfExp+=tokensCommand.get(tmporaryIndex);
+					tmporaryIndex++;
+					RestOfExp+=tokensCommand.get(tmporaryIndex);
+
 					String rightExpPhrasis ="";
 					String rightExpLast ="";
 					String operatorLast ="";

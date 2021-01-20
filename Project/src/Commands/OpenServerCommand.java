@@ -12,6 +12,8 @@ import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.List;
 
+import com.sun.javafx.image.impl.ByteIndexed.Getter;
+
 import Expression.ShuntingYard;
 import Interpeter.SymbolTabelObject;
 import server_side.ClientHandler;
@@ -29,12 +31,17 @@ public class OpenServerCommand implements Command{
 	private int port;
 	private int timePerS;
 	public static HashMap<Integer,String> varTable;
+    String[] GettingsNamesOrder = {"/instrumentation/airspeed-indicator/indicated-speed-kt", "/instrumentation/altimeter/pressure-alt-ft", "/instrumentation/attitude-indicator/indicated-pitch-deg", "/instrumentation/attitude-indicator/indicated-roll-deg", "/instrumentation/attitude-indicator/internal-pitch-deg",
+  	      "/instrumentation/attitude-indicator/internal-roll-deg", "/instrumentation/encoder/indicated-altitude-ft", "/instrumentation/encoder/pressure-alt-ft", "/instrumentation/gps/indicated-altitude-ft", "/instrumentation/gps/indicated-ground-speed-kt",
+  	      "/instrumentation/gps/indicated-vertical-speed", "/instrumentation/heading-indicator/indicated-heading-deg", "/instrumentation/magnetic-compass/indicated-heading-deg", "/instrumentation/slip-skid-ball/indicated-slip-skid", "/instrumentation/turn-indicator/indicated-turn-rate", "/instrumentation/vertical-speed-indicator/indicated-speed-fpm", "/controls/flight/flaps", "/engines/engine/rpm"
+  	};
 	
 
 	public OpenServerCommand() {
 		super();
 		this.port=0;
 		this.timePerS=0;
+		
 		
 //        String[] variablesNamesOrder = {"airspeed", "alt", "Pressure", "pitch", "roll", "Internal-Pitch",
 //                "Internal-Roll", "Encoder-Altitude", "Encoder-Pressure", "GPS-Altitude", "Ground-Speed",
@@ -106,12 +113,25 @@ public class OpenServerCommand implements Command{
 								
 								double valueForString = Double.parseDouble(arr[i]);
 								String variableString = varTable.get(i+1);
-
+								Boolean isSpeacialExist=false;
+								
 								if(ut.symbolTable.get(variableString)!=null) {
 									//Updating the values in the VarObject if its not the same as the current value
 									if(valueForString!=ut.symbolTable.get(variableString).getV()) {
-										ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM()).setV(valueForString);
-//										System.out.println("Updating "+variableString+" to new value->  " +valueForString);
+										
+										//Checking if its one of the Getting SIM :
+										for(String str:GettingsNamesOrder) {
+											if(variableString.equals(str))
+												isSpeacialExist = true;
+										}
+										if(isSpeacialExist) {
+											ut.symbolTable.get(variableString).setVal(valueForString);
+											ut.setUpdate(variableString);
+										}else {
+											ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM()).setV(valueForString);
+//											System.out.println("Updating "+variableString+" to new value->  " +valueForString);		
+										}											
+										
 									}
 //									else {
 //										System.out.println("var name : "+variableString+" Value is still: "+valueForString);
