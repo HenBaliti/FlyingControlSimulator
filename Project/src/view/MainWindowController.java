@@ -10,6 +10,7 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import Commands.Utilities;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -32,22 +33,21 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-public class MainWindowController implements Observer {
+public class MainWindowController implements Observer{
 
 	@FXML
-	Canvas plane;
+	RadioButton autoPilotRadio,ManualRadio;
 	@FXML
-	RadioButton autoPilotRadio, ManualRadio;
+	Slider throttleSlider,rudderSlider;
 	@FXML
-	Slider throttleSlider, rudderSlider;
-	@FXML
-	Circle JoystickIn, JoystickOut;
+	Circle JoystickIn,JoystickOut;
 	@FXML
 	MapDisplayer mapDisplayerData;
 	@FXML
-	TextArea TextAreaAutoPilot;
+    TextArea TextAreaAutoPilot;
 	@FXML
 	AnchorPane anchorPane;
 	@FXML
@@ -62,68 +62,43 @@ public class MainWindowController implements Observer {
 	Button connectSub;
 	@FXML
 	Button calcSub;
+	@FXML
+	Text CurrentPressure,CurrentAltitude,CurrentSpeed;
 
 
+	Utilities ut;
 	ViewModel vm;
 	public int mapData[][];
-
-	public DoubleProperty StartingPositionX;
-	public DoubleProperty StartingPositionY;
-	public DoubleProperty planeX;
-	public DoubleProperty planeY;
-	public double prevX;
-	public double prevY;
-	public DoubleProperty sizeOfElement;
+	public DoubleProperty  StartingPositionX;
+	public DoubleProperty  StartingPositionY;
+	public DoubleProperty  sizeOfElement;
 	public DoubleProperty XDest, YDest;
-	public DoubleProperty aileron, elevator;
-	public DoubleProperty rudder, throttle;
-	public DoubleProperty heading;
+	public DoubleProperty aileron,elevator;
+	public DoubleProperty rudder,throttle;
 	ArrayList<String[]> rowElementsList = new ArrayList<>();
-	//	private String[] solution;
-	double height, width, WidthCanvas, HeightCanvas;
-	private Image mark, planepic;
+//	private String[] solution;
+	double height,width,WidthCanvas,HeightCanvas;
+	private Image mark, plane;
 	private String[] path;
-	private Image[] planeArr;
-
-
-	public void setViewModel(ViewModel vm) {
-		this.vm = vm;
-
+	
+    public void setViewModel(ViewModel vm,Utilities ut) {
+    	this.vm = vm;
+    	this.ut = ut;
 //    	vm.portPath.bind(portCalcTextField.textProperty());
 //		vm.ipPath.bind(ipCalcTextField.textProperty());
-		StartingPositionX = new SimpleDoubleProperty();
-		StartingPositionY = new SimpleDoubleProperty();
-		planeX = new SimpleDoubleProperty();
-		planeY = new SimpleDoubleProperty();
-		planeX.bindBidirectional(vm.planeX);
-		planeY.bindBidirectional(vm.planeY);
-		aileron = new SimpleDoubleProperty();
-		elevator = new SimpleDoubleProperty();
-		sizeOfElement = new SimpleDoubleProperty();
-		rudder = new SimpleDoubleProperty();
-		throttle = new SimpleDoubleProperty();
-		heading = new SimpleDoubleProperty();
-		XDest = new SimpleDoubleProperty();
-		YDest = new SimpleDoubleProperty();
-		planeArr = new Image[8];
-		try {
-			planeArr[0]=new Image(new FileInputStream("./Project/resources/plane0.png"));
-			planeArr[1]=new Image(new FileInputStream("./Project/resources/plane45.png"));
-			planeArr[2]=new Image(new FileInputStream("./Project/resources/plane90.png"));
-			planeArr[3]=new Image(new FileInputStream("./Project/resources/plane135.png"));
-			planeArr[4]=new Image(new FileInputStream("./Project/resources/plane180.png"));
-			planeArr[5]=new Image(new FileInputStream("./Project/resources/plane225.png"));
-			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
-			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
-
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-
-	public void ConnectingPopUpServer() {
+    	StartingPositionX=new SimpleDoubleProperty();
+		StartingPositionY=new SimpleDoubleProperty();
+		aileron=new SimpleDoubleProperty();
+		elevator=new SimpleDoubleProperty();
+		sizeOfElement=new SimpleDoubleProperty();
+		rudder=new SimpleDoubleProperty();
+		throttle=new SimpleDoubleProperty();
+    	XDest=new SimpleDoubleProperty();
+    	YDest=new SimpleDoubleProperty();
+    }
+	
+    
+    public void ConnectingPopUpServer() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PopUpCalculateConnect.fxml"));
 			fxmlLoader.setController(this);
@@ -132,8 +107,8 @@ public class MainWindowController implements Observer {
 
 			stage.setTitle("Calculate A Path");
 			stage.setScene(new Scene(root));
-			this.vm.portPath.bindBidirectional(portCalcTextField.textProperty());
-			this.vm.ipPath.bindBidirectional(ipCalcTextField.textProperty());
+	    	this.vm.portPath.bindBidirectional(portCalcTextField.textProperty());
+	    	this.vm.ipPath.bindBidirectional(ipCalcTextField.textProperty());
 			if (!stage.isShowing()) {
 				stage.show();
 
@@ -141,14 +116,15 @@ public class MainWindowController implements Observer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+    }
+
 
 
 	public void LoadData() {
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -188,18 +164,15 @@ public class MainWindowController implements Observer {
 					}
 				}
 				this.vm.mapData = mapDisplayerData;
-
 				mapDisplayerData.setMapData(mapData);
-				mapDisplayerData.setOnMouseClicked(ClickOnMap);
-
-				//Binding An NoN FXML Property
-				planepic = new Image(new FileInputStream("Project/resources/plane.png"));
-				mapDisplayerData.gc.drawImage(planepic, 0, 0, 25, 25);
-				//   mapDisplayerData.gc.strokeText("A",(-1)*StartingPositionX.get(), StartingPositionY.get());
-			//	vm.startX.bind(StartingPositionX);
-			//	vm.startY.bind(StartingPositionY);
-				vm.sizeElement.bind(sizeOfElement);
-				this.DrawPlane();
+		        mapDisplayerData.setOnMouseClicked(ClickOnMap);
+		      //Binding An NoN FXML Property
+				plane = new Image(new FileInputStream("Project/resources/plane.png"));
+				mapDisplayerData.gc.drawImage(plane, (-1)*StartingPositionX.get(), StartingPositionY.get(), 25, 25);
+		     //   mapDisplayerData.gc.strokeText("A",(-1)*StartingPositionX.get(), StartingPositionY.get());
+		        vm.startX.bind(StartingPositionX);
+		        vm.startY.bind(StartingPositionY);
+		        vm.sizeElement.bind(sizeOfElement);
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -212,38 +185,38 @@ public class MainWindowController implements Observer {
 		}
 
 	}
-
-
+	
+	
 	//Clicking on the Manual radio button
 	public void ClickOnManualRadio() {
 		// ailron and elevator settings from the Joystick GUI
 		JoystickIn.setOnMouseDragged(JoystickDragAndTakeValues);
 		JoystickIn.setOnMouseReleased(JoystickOnRelease2);
-		rudderSlider.valueProperty().addListener(new ChangeListener<Number>() {
+        rudderSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
 				// TODO Auto-generated method stub
-				if (ManualRadio.isSelected()) {
+				if(ManualRadio.isSelected()) {
 					rudder.setValue(arg2.doubleValue());
 					vm.setRudder();
 				}
 			}
-		});
-		throttleSlider.valueProperty().addListener(new ChangeListener<Number>() {
+        });
+        throttleSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
 				// TODO Auto-generated method stub
-				if (ManualRadio.isSelected()) {
+				if(ManualRadio.isSelected()) {
 					throttle.setValue(arg2.doubleValue());
 					vm.setThrottle();
 				}
 			}
-		});
-
+        });
+        
 		vm.throttle.bind(throttle);
-		vm.rudder.bind(rudder);
+        vm.rudder.bind(rudder);
 	}
-
+	
 
 	// Opens the a popup window on clicking on -Connect-
 	public void Connect() {
@@ -268,9 +241,9 @@ public class MainWindowController implements Observer {
 	}
 
 	public void ConnectSubmit() {
-		vm.Connect();
-		Stage stage = (Stage) connectSub.getScene().getWindow();
-		stage.close();
+			vm.Connect();
+			Stage stage = (Stage)connectSub.getScene().getWindow();
+			stage.close();
 
 	}
 
@@ -278,37 +251,38 @@ public class MainWindowController implements Observer {
 	public void ConnectSimulator() {
 		this.vm.Connect();
 	}
-
-
+	
+	
+	
 	//Connect to server to calc path
 	public void ConnectMyServer() {
+		
 
-
-		//Width and Height
-		WidthCanvas = mapDisplayerData.getWidth();
-		HeightCanvas = mapDisplayerData.getHeight();
-
-		width = WidthCanvas / mapData[0].length;
-		height = HeightCanvas / mapData.length;
-
-		System.out.println("--------------" + this.vm.ipPath.getValue());
-
-		this.vm.ConnectCalcPathServer(height, width);
-		Stage stage = (Stage) calcSub.getScene().getWindow();
-		stage.close();
-
-
+			//Width and Height
+			WidthCanvas = mapDisplayerData.getWidth();
+			HeightCanvas = mapDisplayerData.getHeight();
+			
+			width = WidthCanvas / mapData[0].length;
+			height = HeightCanvas / mapData.length;
+			
+			System.out.println("--------------"+this.vm.ipPath.getValue());
+			
+			this.vm.ConnectCalcPathServer(height,width);
+			Stage stage = (Stage)calcSub.getScene().getWindow();
+			stage.close();
+		
+		
 	}
 
 
 	// Loading The Auto Pilot Text
 	public void LoadAutoPilotText() {
-
+		
 		TextAreaAutoPilot.clear();
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -321,11 +295,11 @@ public class MainWindowController implements Observer {
 				br = new BufferedReader(new FileReader(fileChooser.getSelectedFile()));
 				// Reading all the rest of the TXT file
 				while ((line = br.readLine()) != null) {
-					TextAreaAutoPilot.appendText(line + "\n");
+					TextAreaAutoPilot.appendText(line +"\n");
 				}
-
+				
 				this.vm.autoPilotTxt.bindBidirectional(TextAreaAutoPilot.textProperty());
-				this.vm.parserAuto();
+				this.vm.parserAuto();		
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -337,15 +311,15 @@ public class MainWindowController implements Observer {
 
 		}
 	}
-
-
+	
+	
 	public void executeAutoPilot() {//need to shutdown first the manual radio
 		vm.execute();
 	}
-
+	
 
 	@FXML
-	public void initialize() {
+    public void initialize() {
 
 		//---------------Joystick-----------------------------------------------
 		JoystickIn.setOnMouseDragged(JoystickDragged);
@@ -355,24 +329,24 @@ public class MainWindowController implements Observer {
 		ToggleGroup group = new ToggleGroup();
 		autoPilotRadio.setToggleGroup(group);
 		ManualRadio.setToggleGroup(group);
-
-
-	}
-
+			
+			
+    }
+	
 	//Clicking on the map and showing the X Destination
 	EventHandler<MouseEvent> ClickOnMap = new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			System.out.println("The X on the matrix is : " + arg0.getX());
-			System.out.println("The Y on the matrix is : " + arg0.getY());
+			System.out.println("The X on the matrix is : "+arg0.getX());
+			System.out.println("The Y on the matrix is : "+arg0.getY());
 
 			XDest.setValue(arg0.getX());
-			YDest.setValue(arg0.getY());
-			//Binding An NoN FXML Property
-			vm.XDest.bind(XDest);
-			vm.YDest.bind(YDest);
-			//     mapDisplayerData.gc.strokeText("X",arg0.getX(), arg0.getY());
+            YDest.setValue(arg0.getY());
+            //Binding An NoN FXML Property
+            vm.XDest.bind(XDest);
+            vm.YDest.bind(YDest);
+       //     mapDisplayerData.gc.strokeText("X",arg0.getX(), arg0.getY());
 			try {
 				mark = new Image(new FileInputStream("Project/resources/mark.png"));
 
@@ -385,202 +359,190 @@ public class MainWindowController implements Observer {
 		}
 
 	};
-
+	
 	//Dragging the Joystick
 	EventHandler<MouseEvent> JoystickDragged = new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent mouseEvent) {
-			Point2D centerPoint = new Point2D(760.0, 177.0);
-			Point2D mouse = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-			double dis = centerPoint.distance(mouse);
-			if (dis > 90) { // if joystick get out of bounds
-				double angle = Math.atan2(mouse.getY() - centerPoint.getY(), mouse.getX() - centerPoint.getX()); // cal angle between 2 points
-				// force joystick to stay on his bounds
-				JoystickIn.setLayoutX(centerPoint.getX() + 90 * Math.cos(angle));
-				JoystickIn.setLayoutY(centerPoint.getY() + 90 * Math.sin(angle));
-			} else { // in bounds
-				JoystickIn.setLayoutX(mouseEvent.getSceneX());
-				JoystickIn.setLayoutY(mouseEvent.getSceneY());
-			}
+            Point2D centerPoint = new Point2D(760.0, 177.0);
+            Point2D mouse = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+            double dis = centerPoint.distance(mouse);
+            if (dis > 90) { // if joystick get out of bounds
+                double angle = Math.atan2(mouse.getY() - centerPoint.getY(), mouse.getX() - centerPoint.getX()); // cal angle between 2 points
+                // force joystick to stay on his bounds
+                JoystickIn.setLayoutX(centerPoint.getX() + 90 * Math.cos(angle));
+                JoystickIn.setLayoutY(centerPoint.getY() + 90 * Math.sin(angle));
+            } else { // in bounds
+            	JoystickIn.setLayoutX(mouseEvent.getSceneX());
+            	JoystickIn.setLayoutY(mouseEvent.getSceneY());
+            }
 		}
-
+		
 	};
-
+	
 	//Dragging the Joystick and taking the ailron and the elevator on manual flight
 	EventHandler<MouseEvent> JoystickDragAndTakeValues = new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent mouseEvent) {
-			Point2D centerPoint = new Point2D(760.0, 177.0);
-			Point2D mouse = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-			double dis = centerPoint.distance(mouse);
-			if (dis > 90) { // if joystick get out of bounds
-				double angle = Math.atan2(mouse.getY() - centerPoint.getY(), mouse.getX() - centerPoint.getX()); // cal angle between 2 points
-				// force joystick to stay on his bounds
-				JoystickIn.setLayoutX(centerPoint.getX() + 90 * Math.cos(angle));
-				JoystickIn.setLayoutY(centerPoint.getY() + 90 * Math.sin(angle));
-			} else { // in bounds
-				JoystickIn.setLayoutX(mouseEvent.getSceneX());
-				JoystickIn.setLayoutY(mouseEvent.getSceneY());
-			}
-
-			//-------Taking Values from the Joystick------
-			double centerX = 760.0, centerY = 177.0;
+            Point2D centerPoint = new Point2D(760.0, 177.0);
+            Point2D mouse = new Point2D(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+            double dis = centerPoint.distance(mouse);
+            if (dis > 90) { // if joystick get out of bounds
+                double angle = Math.atan2(mouse.getY() - centerPoint.getY(), mouse.getX() - centerPoint.getX()); // cal angle between 2 points
+                // force joystick to stay on his bounds
+                JoystickIn.setLayoutX(centerPoint.getX() + 90 * Math.cos(angle));
+                JoystickIn.setLayoutY(centerPoint.getY() + 90 * Math.sin(angle));
+            } else { // in bounds
+            	JoystickIn.setLayoutX(mouseEvent.getSceneX());
+            	JoystickIn.setLayoutY(mouseEvent.getSceneY());
+            }
+            
+            //-------Taking Values from the Joystick------
+			double centerX = 760.0 , centerY = 177.0;
 			double mouseX = mouseEvent.getSceneX();
 			double mouseY = mouseEvent.getSceneY();
-			double tmpX = (mouseX - centerX) / 90;
-			double tmpY = (mouseY - centerY) / 90;
-
-			if (ManualRadio.isSelected()) {
+			double tmpX = (mouseX-centerX)/90;
+			double tmpY = (mouseY-centerY)/90;
+			
+			if(ManualRadio.isSelected()) {
 				//- X -
-				if (mouseX > centerX) { //Right of the centerX
-					if (tmpX > 1)
+				if(mouseX>centerX) { //Right of the centerX
+					if(tmpX>1)
 						aileron.setValue(1);
 					else
 						aileron.setValue(tmpX);
 				}
-				if (mouseX < centerX) { //Left of the centerX
-					if (tmpX < -1)
+				if(mouseX<centerX) { //Left of the centerX
+					if(tmpX<-1)
 						aileron.setValue(-1);
 					else
 						aileron.setValue(tmpX);
 				}
-
+				
 				//- Y - 
-				if (mouseY < centerY) { //Up of the centerY
-					if (tmpY < -1)
+				if(mouseY<centerY) { //Up of the centerY
+					if(tmpY<-1)
 						elevator.setValue(1);
 					else
-						elevator.setValue(tmpY / -1);
+						elevator.setValue(tmpY/-1);
 				}
-				if (mouseY > centerY) { //Down of the centerY
-					if (tmpY > 1)
+				if(mouseY>centerY) { //Down of the centerY
+					if(tmpY>1)
 						elevator.setValue(-1);
 					else
-						elevator.setValue(tmpY / -1);
+						elevator.setValue(tmpY/-1);
 				}
-
-				//Binding An NoN FXML Property
+				
+			      //Binding An NoN FXML Property
 				vm.aileron.bind(aileron);
-				vm.elevator.bind(elevator);
-				vm.movePlain();
+		        vm.elevator.bind(elevator);
+		        vm.movePlain();
+			}
+		
+			
+			
+            
+		}
+		
+	};
+	public void drawLine() {
+		double H = XDest.getValue();
+		double W = YDest.getValue();
+		double h = H / mapData.length;
+		double w = W / mapData[0].length;
+
+
+		String move=path[1];
+
+		double x = StartingPositionX.getValue() * w + (10 * w);
+		double y =StartingPositionY.getValue() * -h + 6*h;
+
+		for(int i = 2; i < path.length; i++) {
+			switch (move) {
+				case "Right":
+					mapDisplayerData.gc.setStroke(Color.BLACK.darker());
+					mapDisplayerData.gc.strokeLine(x, y, x + w, y);
+					x +=  w;
+					break;
+				case "Left":
+					mapDisplayerData.gc.setStroke(Color.BLACK.darker());
+					mapDisplayerData.gc.strokeLine(x, y, x -  w, y);
+					x -=  w;
+					break;
+				case "Up":
+					mapDisplayerData.gc.setStroke(Color.BLACK.darker());
+					mapDisplayerData.gc.strokeLine(x, y, x, y - h);
+					y -=  h;
+					break;
+				case "Down":
+					mapDisplayerData.gc.setStroke(Color.BLACK.darker());
+					mapDisplayerData.gc.strokeLine(x, y, x, y +  h);
+					y += h;
 			}
 
-
-		}
-
-	};
-
-	public void DrawPlane() {
-		if (planeX.getValue() != null && planeY.getValue() != null) {
-
-			double H = plane.getHeight();
-			double W = plane.getWidth();
-			double h = H / mapData.length;
-			double w = W / mapData[0].length;
-			GraphicsContext gc = plane.getGraphicsContext2D();
-			prevX = planeX.getValue();
-			prevY = planeY.getValue() * -1;
-			gc.clearRect(0, 0, W, H);
-
-			if (heading.getValue() >= 0 && heading.getValue() < 39)
-				gc.drawImage(planeArr[0], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 39 && heading.getValue() < 80)
-				gc.drawImage(planeArr[1], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 80 && heading.getValue() < 129)
-				gc.drawImage(planeArr[2], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 129 && heading.getValue() < 170)
-				gc.drawImage(planeArr[3], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 170 && heading.getValue() < 219)
-				gc.drawImage(planeArr[4], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 219 && heading.getValue() < 260)
-				gc.drawImage(planeArr[5], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 260 && heading.getValue() < 309)
-				gc.drawImage(planeArr[6], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 309)
-				gc.drawImage(planeArr[7], w * prevX, prevY * h, 25, 25);
+			move = path[i];
 		}
 	}
 
-		public void drawLine () {
-			double H = XDest.getValue();
-			double W = YDest.getValue();
-			double h = H / mapData.length;
-			double w = W / mapData[0].length;
-
-
-			String move = path[1];
-
-			//	double x = StartingPositionX.getValue() * w + (10 * w);
-			//double y =StartingPositionY.getValue() * -h + 6*h;
-			double x = 0;
-			double y = 0;
-			for (int i = 2; i < path.length; i++) {
-				switch (move) {
-					case "Right":
-						mapDisplayerData.gc.setStroke(Color.WHITE.brighter());
-						mapDisplayerData.gc.strokeLine(x, y, x + w, y);
-						x += w;
-						break;
-					case "Left":
-						mapDisplayerData.gc.setStroke(Color.WHITE.brighter());
-						mapDisplayerData.gc.strokeLine(x, y, x - w, y);
-						x -= w;
-						break;
-					case "Up":
-						mapDisplayerData.gc.setStroke(Color.WHITE.brighter());
-						mapDisplayerData.gc.strokeLine(x, y, x, y - h);
-						y -= h;
-						break;
-					case "Down":
-						mapDisplayerData.gc.setStroke(Color.WHITE.brighter());
-						mapDisplayerData.gc.strokeLine(x, y, x, y + h);
-						y += h;
-				}
-
-				move = path[i];
-			}
-		}
-
-		//Joystick on release
-		EventHandler<MouseEvent> JoystickOnRelease = new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent mouseEvent) {
-				JoystickIn.setLayoutX(760);
-				JoystickIn.setLayoutY(177);
-			}
-
-		};
-
-		//Joystick on release 2
-		EventHandler<MouseEvent> JoystickOnRelease2 = new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent mouseEvent) {
-				JoystickIn.setLayoutX(760);
-				JoystickIn.setLayoutY(177);
-				aileron.setValue(0);
-				elevator.setValue(0);
-				vm.movePlain();
-			}
-
-		};
-
+	//Joystick on release
+	EventHandler<MouseEvent> JoystickOnRelease = new EventHandler<MouseEvent>() {
 
 		@Override
-		public void update (Observable o, Object arg){
-			if (o == vm) {
-//			solution = (String[])arg;
-//			System.out.println("Solution is: "+solution.toString());
-				if (arg != null) {
+		public void handle(MouseEvent mouseEvent) {
+			JoystickIn.setLayoutX(760);
+			JoystickIn.setLayoutY(177);
+		}
+		
+	};
+	
+	//Joystick on release 2
+	EventHandler<MouseEvent> JoystickOnRelease2 = new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent mouseEvent) {
+			JoystickIn.setLayoutX(760);
+			JoystickIn.setLayoutY(177);
+			aileron.setValue(0);
+			elevator.setValue(0);
+	        vm.movePlain();
+		}
+		
+	};
+
+
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(o==vm) {
+			//Taking the realTime Vars from the server
+			if(ut.isSymbolExist(arg.toString())) {
+				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Pressure")) {
+					CurrentPressure.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
+//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
+				}
+				if(ut.symbolTable.get(arg.toString()).getSIM().equals("GPS-Altitude")) {
+					CurrentAltitude.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
+//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
+				}
+				if(ut.symbolTable.get(arg.toString()).getSIM().equals("airspeed")) {
+					CurrentSpeed.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
+//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
+				}
+			}
+			else { //Getting The solution!
+//				solution = (String[])arg;
+//				System.out.println("Solution is: "+solution.toString());
+				if(arg!=null) {
 					path = (String[]) arg;
 					this.drawLine();
 				}
-			} else {
-
 			}
-
 		}
+
 	}
+	
+
+}

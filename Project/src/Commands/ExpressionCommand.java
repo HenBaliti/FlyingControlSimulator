@@ -34,6 +34,6 @@ public class ExpressionCommand implements Expression {
 
     @Override
     public double calculate() {
-        return c.doCommand(s,ut);
+        return c.doCommand(s,this.ut);
     }
 }
