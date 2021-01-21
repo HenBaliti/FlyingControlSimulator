@@ -77,10 +77,13 @@ public class DefineVarCommand implements Command{
 					numOfArgs = 4;
 				}
 				else if (tokens.get(2).equals("=")){ //var x =  0 // -> Also var h0 = heading
-					double dd = ShuntingYard.calc(tokens.get(3));
-					SymbolTabelObject stNew = new SymbolTabelObject(dd,tokens.get(1));
-					ut.symbolTable.put(tokens.get(1),stNew);
-					numOfArgs = 3;
+					
+
+						double dd = ShuntingYard.calc(tokens.get(3));
+						SymbolTabelObject stNew = new SymbolTabelObject(dd,tokens.get(1));
+						ut.symbolTable.put(tokens.get(1),stNew);
+						numOfArgs = 3;
+					
 					
 				}
 			}
