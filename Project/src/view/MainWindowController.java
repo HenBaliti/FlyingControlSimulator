@@ -110,14 +110,14 @@ public class MainWindowController implements Observer {
 		YDest = new SimpleDoubleProperty();
 		planeArr = new Image[8];
 		try {
-			planeArr[0]=new Image(new FileInputStream("./resources/plane0.png"));
-			planeArr[1]=new Image(new FileInputStream("./resources/plane45.png"));
-			planeArr[2]=new Image(new FileInputStream("./resources/plane90.png"));
-			planeArr[3]=new Image(new FileInputStream("./resources/plane135.png"));
-			planeArr[4]=new Image(new FileInputStream("./resources/plane180.png"));
-			planeArr[5]=new Image(new FileInputStream("./resources/plane225.png"));
-			planeArr[6]=new Image(new FileInputStream("./resources/plane270.png"));
-			planeArr[7]=new Image(new FileInputStream("./resources/plane315.png"));
+			planeArr[0]=new Image(new FileInputStream("./Project/resources/plane0.png"));
+			planeArr[1]=new Image(new FileInputStream("./Project/resources/plane45.png"));
+			planeArr[2]=new Image(new FileInputStream("./Project/resources/plane90.png"));
+			planeArr[3]=new Image(new FileInputStream("./Project/resources/plane135.png"));
+			planeArr[4]=new Image(new FileInputStream("./Project/resources/plane180.png"));
+			planeArr[5]=new Image(new FileInputStream("./Project/resources/plane225.png"));
+			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
+			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
 
 
 		} catch (FileNotFoundException e) {
@@ -151,7 +151,7 @@ public class MainWindowController implements Observer {
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("./resources"));
+		fileChooser.setCurrentDirectory(new File("./Project/resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -198,14 +198,20 @@ public class MainWindowController implements Observer {
 				mapDisplayerData.setOnMouseClicked(ClickOnMap);
 
 				//Binding An NoN FXML Property
-				planepic = new Image(new FileInputStream("./resources/plane.png"));
+				planepic = new Image(new FileInputStream("./Project/resources/plane.png"));
 				gcDrawPlane = plane.getGraphicsContext2D();
-				gcDrawPlane.drawImage(planepic, planeX.getValue(), planeY.getValue(), 25, 25);
-				//   mapDisplayerData.gc.strokeText("A",(-1)*StartingPositionX.get(), StartingPositionY.get());
-			//	vm.startX.bind(StartingPositionX);
-			//	vm.startY.bind(StartingPositionY);
+				double planertX = StartingPositionX.getValue(); //-158.021
+				planertX = planertX - planeX.getValue(); //-158.021 + 157.943
+				planertX = (int)(planertX/sizeOfElement.getValue() * -1); //-0.078 / 0.01652
+				System.out.print("i is:" + planertX);
+				double planertY = StartingPositionY.getValue();
+				planertY -= planeY.getValue();
+				planertY = (int)(planertY/sizeOfElement.getValue());
+				System.out.print("j is:" + planertY);
+				gcDrawPlane.drawImage(planepic, mapDisplayerData.width * planertX, mapDisplayerData.height * planertY, 25, 25);
 				vm.sizeElement.bind(sizeOfElement);
-				this.DrawPlane();
+
+
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -218,7 +224,40 @@ public class MainWindowController implements Observer {
 		}
 
 	}
+	public void drawAirplane(){
+		if(planeX.getValue()!=null&&planeY.getValue()!=null)
+		{
+			double h = mapDisplayerData.height;
+			double w = mapDisplayerData.width;
+		//	prevX=planeX.getValue();
+			//prevY=planeY.getValue();
+			gcDrawPlane = plane.getGraphicsContext2D();
+			gcDrawPlane.clearRect(0,0,plane.getWidth(),plane.getHeight());
+			double planertX2 = StartingPositionX.getValue(); //-158.021
+			planertX2 = planertX2 - planeX.getValue(); //-158.021 + 157.943
+			planertX2 = (int)(planertX2/sizeOfElement.getValue() * -1); //-0.078 / 0.01652
+			double planertY2 = StartingPositionY.getValue();
+			planertY2 -= planeY.getValue();
+			planertY2 = (int)(planertY2/sizeOfElement.getValue());
+			if(heading.getValue()>=0&&heading.getValue()<39)
+				gcDrawPlane.drawImage(planeArr[0], w*planertX2, planertY2*h, 25, 25);
+			if(heading.getValue()>=39&&heading.getValue()<80)
+				gcDrawPlane.drawImage(planeArr[1], w*planertX2, planertY2*h, 25, 25);
+			if(heading.getValue()>=80&&heading.getValue()<129)
+				gcDrawPlane.drawImage(planeArr[2], w*planertX2, planertY2*h, 25, 25);
+			if(heading.getValue()>=129&&heading.getValue()<170)
+				gcDrawPlane.drawImage(planeArr[3], w*planertX2, planertY2*h, 25, 25);
+			if(heading.getValue()>=170&&heading.getValue()<219)
+				gcDrawPlane.drawImage(planeArr[4], w*planertX2, planertY2*h, 25, 25);
+			if(heading.getValue()>=219&&heading.getValue()<260)
+				gcDrawPlane.drawImage(planeArr[5], w*planertX2, planertY2*h, 25, 25);
+			if(heading.getValue()>=260&&heading.getValue()<309)
+				gcDrawPlane.drawImage(planeArr[6], w*planertX2, planertY2*h, 25, 25);
+			if(heading.getValue()>=309)
+				gcDrawPlane.drawImage(planeArr[7], w*planertX2, planertY2*h, 25, 25);
+		}
 
+	}
 
 	//Clicking on the Manual radio button
 	public void ClickOnManualRadio() {
@@ -314,7 +353,7 @@ public class MainWindowController implements Observer {
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("./resources"));
+		fileChooser.setCurrentDirectory(new File("./Project/resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -478,39 +517,6 @@ public class MainWindowController implements Observer {
 
 	};
 
-	public void DrawPlane() {
-	System.out.println(planeX.getValue());
-	System.out.println(planeY.getValue());
-		if (planeX.getValue() != null && planeY.getValue() != null) {
-
-			double H = plane.getHeight();
-			double W = plane.getWidth();
-			double h = H / mapData.length;
-			double w = W / mapData[0].length;
-			
-			prevX = planeX.getValue();
-			prevY = planeY.getValue() * -1;
-			gcDrawPlane.clearRect(0, 0, W, H);
-
-			if (heading.getValue() >= 0 && heading.getValue() < 39)
-				gcDrawPlane.drawImage(planeArr[0], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 39 && heading.getValue() < 80)
-				gcDrawPlane.drawImage(planeArr[1], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 80 && heading.getValue() < 129)
-				gcDrawPlane.drawImage(planeArr[2], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 129 && heading.getValue() < 170)
-				gcDrawPlane.drawImage(planeArr[3], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 170 && heading.getValue() < 219)
-				gcDrawPlane.drawImage(planeArr[4], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 219 && heading.getValue() < 260)
-				gcDrawPlane.drawImage(planeArr[5], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 260 && heading.getValue() < 309)
-				gcDrawPlane.drawImage(planeArr[6], w * prevX, prevY * h, 25, 25);
-			if (heading.getValue() >= 309)
-				gcDrawPlane.drawImage(planeArr[7], w * prevX, prevY * h, 25, 25);
-		}
-	}
-
 		public void drawLine () {
 			double H = XDest.getValue();
 			double W = YDest.getValue();
@@ -606,7 +612,7 @@ public class MainWindowController implements Observer {
 					heading.setValue(ut.symbolTable.get(arg.toString()).getV());
 					System.out.println("Heading is : "+heading.getValue());
 				}
-
+				this.drawAirplane();
 			}
 			else { //Getting The solution!
 //				solution = (String[])arg;
@@ -614,6 +620,7 @@ public class MainWindowController implements Observer {
 				if(arg!=null) {
 					path = (String[]) arg;
 					this.drawLine();
+
 				}
 			}
 		}
