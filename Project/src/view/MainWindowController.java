@@ -200,6 +200,7 @@ public class MainWindowController implements Observer {
 				//Binding An NoN FXML Property
 				planepic = new Image(new FileInputStream("./Project/resources/plane.png"));
 				gcDrawPlane = plane.getGraphicsContext2D();
+
 				double planertX = StartingPositionX.getValue(); //-158.021
 				planertX = planertX - planeX.getValue(); //-158.021 + 157.943
 				planertX = (int)(planertX/sizeOfElement.getValue() * -1); //-0.078 / 0.01652
@@ -370,7 +371,7 @@ public class MainWindowController implements Observer {
 				}
 
 				this.vm.autoPilotTxt.bindBidirectional(TextAreaAutoPilot.textProperty());
-				this.vm.parserAuto();
+//				this.vm.parserAuto();
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -385,7 +386,7 @@ public class MainWindowController implements Observer {
 
 
 	public void executeAutoPilot() {//need to shutdown first the manual radio
-		vm.execute();
+		this.vm.parserAuto();
 	}
 
 

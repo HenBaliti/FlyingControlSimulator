@@ -4,7 +4,8 @@ import java.util.*;
 import Commands.Utilities;
 
 //Calculate Every Expression
-public class ShuntingYard {
+public class ShuntingYard {	
+	
 	public static double calc(String exp) {
 		if (!validations(exp))
 			System.out.println("throw exception");
@@ -31,7 +32,7 @@ public class ShuntingYard {
 //				if(sta!=null)
 //					token= Utilities.symbolTableSim.get(sta).getV()+"";
 //				else
-				token= Utilities.symbolTable.get(token).getV()+"";
+				token= Utilities.getSymbolTable().get(token).getV()+"";
 				
 			} else
 				token = exp.charAt(i) + "";
