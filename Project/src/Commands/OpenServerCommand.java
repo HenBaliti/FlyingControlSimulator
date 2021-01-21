@@ -122,6 +122,12 @@ public class OpenServerCommand implements Command{
 									//Updating the values in the VarObject if its not the same as the current value
 									if(valueForString!=ut.symbolTable.get(variableString).getV()) {
 										
+										//Heading ------------------------
+										if(variableString.equals("/instrumentation/heading-indicator/indicated-heading-deg")) {
+											ut.symbolTable.get(variableString).setVal(valueForString);
+											ut.setUpdate(variableString);
+										}
+										
 										//Checking if its one of the Getting SIM :
 										for(String str:GettingsNamesOrder) {
 											if(variableString.equals(str))
@@ -131,9 +137,11 @@ public class OpenServerCommand implements Command{
 											ut.symbolTable.get(variableString).setVal(valueForString);
 											ut.setUpdate(variableString);
 										}else {
-//											if()//-------------------------
-											ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM()).setV(valueForString);
-											System.out.println("Updating "+variableString+" to new value->  " +valueForString);		
+											if(ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM())!=null) {
+												ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM()).setV(valueForString);
+												System.out.println("Updating "+variableString+" to new value->  " +valueForString);	
+											}
+	
 										}											
 										
 									}
