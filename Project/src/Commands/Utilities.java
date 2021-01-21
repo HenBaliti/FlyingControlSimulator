@@ -39,7 +39,7 @@ public class Utilities extends Observable{
         symbolTable.put("/instrumentation/gps/indicated-altitude-ft",new SymbolTabelObject(0,"GPS-Altitude"));
         symbolTable.put("/instrumentation/gps/indicated-ground-speed-kt",new SymbolTabelObject(0,"Ground-Speed"));
         symbolTable.put("/instrumentation/gps/indicated-vertical-speed",new SymbolTabelObject(0,"Vertical-Speed"));
-//        symbolTable.put("/instrumentation/heading-indicator/indicated-heading-deg",new SymbolTabelObject(0,"heading"));
+        symbolTable.put("/instrumentation/heading-indicator/indicated-heading-deg",new SymbolTabelObject(0,"heading"));
         symbolTable.put("/instrumentation/magnetic-compass/indicated-heading-deg",new SymbolTabelObject(0,"Compass-Heading"));
         symbolTable.put("/instrumentation/slip-skid-ball/indicated-slip-skid",new SymbolTabelObject(0,"Slip"));
         symbolTable.put("/instrumentation/turn-indicator/indicated-turn-rate",new SymbolTabelObject(0,"Turn"));

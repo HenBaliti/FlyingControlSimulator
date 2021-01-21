@@ -602,6 +602,10 @@ public class MainWindowController implements Observer {
 					planeY.setValue(ut.symbolTable.get(arg.toString()).getV());
 					System.out.println("PlaneY is : "+planeY.getValue());
 				}
+				if(ut.symbolTable.get(arg.toString()).getSIM().equals("heading")) {
+					heading.setValue(ut.symbolTable.get(arg.toString()).getV());
+					System.out.println("Heading is : "+heading.getValue());
+				}
 
 			}
 			else { //Getting The solution!
