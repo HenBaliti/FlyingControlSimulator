@@ -613,16 +613,19 @@ public class MainWindowController implements Observer {
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Longtitude")) {
 					planeX.setValue(ut.symbolTable.get(arg.toString()).getV());
 					System.out.println("PlaneX is : "+planeX.getValue());
+					this.drawAirplane();
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Latitude")) {
 					planeY.setValue(ut.symbolTable.get(arg.toString()).getV());
 					System.out.println("PlaneY is : "+planeY.getValue());
+					this.drawAirplane();
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("heading")) {
 					heading.setValue(ut.symbolTable.get(arg.toString()).getV());
 					System.out.println("Heading is : "+heading.getValue());
+					this.drawAirplane();
 				}
-				this.drawAirplane();
+
 			}
 			else { //Getting The solution!
 //				solution = (String[])arg;
