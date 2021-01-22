@@ -109,26 +109,32 @@ public class ViewModel extends Observable implements Observer {
     
     //Connecting to MyServer For calculating the path
     public void ConnectCalcPathServer(double height,double width) {
-    	System.out.println("The Starting airplane is : "+startX.getValue()+" y: "+startY.getValue());
-    	System.out.println("IP Path is: "+ipPath.getValue());
-    	System.out.println("The Destiny airplane is : "+XDest.getValue()+" y: "+YDest.getValue());
+    	System.out.println("The Starting airplane is : "+planeX.getValue()+" y: "+planeY .getValue());
+    	System.out.println("The Destiny airplane is : "+XDest.getValue()/3.33+" y: "+YDest.getValue());
     	System.out.println("height: "+height);
     	System.out.println("width: "+width);
-    	System.out.println("rudder: "+rudder.getValue());
-    	System.out.println("throttle: "+throttle.getValue());
-    	System.out.println("ailron: "+aileron.getValue());
-    	System.out.println("elevator: "+elevator.getValue());
-    	
+
+//    	
+//		double planertX = StartingPositionX.getValue(); //-158.021
+//		planertX = planertX - planeX.getValue(); //-158.021 + 157.943
+//		planertX = (int)(planertX/sizeOfElement.getValue() * -1); //-0.078 / 0.01652
+//		System.out.print("i is:" + planertX);
+//		double planertY = StartingPositionY.getValue();
+//		planertY -= planeY.getValue();
+//		planertY = (int)(planertY/sizeOfElement.getValue());
+//		System.out.print("j is:" + planertY);
+//		gcDrawPlane.drawImage(planepic, mapDisplayerData.width * planertX, mapDisplayerData.height * planertY, 25, 25);
+//    	
+//        model.findPath((int) (airplaneY.getValue()/-1), (int) (airplaneX.getValue() +15),Math.abs( (int) (markSceneY.getValue() / h)) ,
+//                Math.abs((int) (markSceneX.getValue() / w)), data );
+        
     	if(isFirstCalc) {
     		isFirstCalc = false;
-    		planeX.setValue(startX.getValue());
-    		planeY.setValue(startY.getValue());
     		model.connectMyServer(ipPath.getValue(),Integer.parseInt(portPath.getValue()));
     		System.out.println("init state: [0,0] = "+ (int) (planeX.getValue() +15)+" "+(int) (planeY.getValue()/-1)+"\n");
-    		System.out.println("Destiny is : [0,0] = "+Math.abs((int) (XDest.getValue() / width))+" "+Math.abs((int) (YDest.getValue() / height))+"\n");
+    		System.out.println("Destiny is : [0,0] = "+(int)((XDest.getValue()/3.33))+" "+(int)(YDest.getValue()*1)+"\n");
     		
-    		model.findPath((int)(planeY.getValue()*1), (int) ((planeX.getValue())*-1),Math.abs( (int) (YDest.getValue() / height)) ,
-                  Math.abs((int) (XDest.getValue() / width)), mapData.mapData );
+    		model.findPath(4, 0, (int)(YDest.getValue()*1) ,(int)((XDest.getValue()/3.33)), mapData.mapData );
     	}
 
     }
