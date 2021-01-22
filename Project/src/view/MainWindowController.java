@@ -110,14 +110,14 @@ public class MainWindowController implements Observer {
 		YDest = new SimpleDoubleProperty();
 		planeArr = new Image[8];
 		try {
-			planeArr[0]=new Image(new FileInputStream("./Project/resources/plane0.png"));
-			planeArr[1]=new Image(new FileInputStream("./Project/resources/plane45.png"));
-			planeArr[2]=new Image(new FileInputStream("./Project/resources/plane90.png"));
-			planeArr[3]=new Image(new FileInputStream("./Project/resources/plane135.png"));
-			planeArr[4]=new Image(new FileInputStream("./Project/resources/plane180.png"));
-			planeArr[5]=new Image(new FileInputStream("./Project/resources/plane225.png"));
-			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
-			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
+			planeArr[0]=new Image(new FileInputStream("./resources/plane0.png"));
+			planeArr[1]=new Image(new FileInputStream("./resources/plane45.png"));
+			planeArr[2]=new Image(new FileInputStream("./resources/plane90.png"));
+			planeArr[3]=new Image(new FileInputStream("./resources/plane135.png"));
+			planeArr[4]=new Image(new FileInputStream("./resources/plane180.png"));
+			planeArr[5]=new Image(new FileInputStream("./resources/plane225.png"));
+			planeArr[6]=new Image(new FileInputStream("./resources/plane270.png"));
+			planeArr[7]=new Image(new FileInputStream("./resources/plane315.png"));
 
 
 		} catch (FileNotFoundException e) {
@@ -151,7 +151,7 @@ public class MainWindowController implements Observer {
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -198,7 +198,7 @@ public class MainWindowController implements Observer {
 				plane.setOnMouseClicked(ClickOnMap);
 
 				//Binding An NoN FXML Property
-				planepic = new Image(new FileInputStream("./Project/resources/plane.png"));
+				planepic = new Image(new FileInputStream("./resources/plane.png"));
 				gcDrawPlane = plane.getGraphicsContext2D();
 
 				double planertX = StartingPositionX.getValue(); //-158.021
@@ -355,7 +355,7 @@ public class MainWindowController implements Observer {
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -422,7 +422,7 @@ public class MainWindowController implements Observer {
 			
 			//     mapDisplayerData.gc.strokeText("X",arg0.getX(), arg0.getY());
 			try {
-				mark = new Image(new FileInputStream("./Project/resources/mark.png"));
+				mark = new Image(new FileInputStream("./resources/mark.png"));
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
