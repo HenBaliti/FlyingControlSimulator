@@ -66,5 +66,6 @@
       <Text layoutX="157.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SPEED:" />
       <MapDisplayer fx:id="mapDisplayerData" height="250.0" layoutX="10.0" layoutY="48.0" width="250.0" />
       <Canvas fx:id="plane" height="250.0" layoutX="10.0" layoutY="48.0" width="250.0" />
+      <Canvas fx:id="markX" height="250.0" layoutX="10.0" layoutY="48.0" width="250.0" />
    </children>
 </AnchorPane>

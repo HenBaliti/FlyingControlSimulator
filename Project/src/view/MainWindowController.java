@@ -41,6 +41,8 @@ public class MainWindowController implements Observer {
 	@FXML
 	Canvas plane;
 	@FXML
+	Canvas markX;
+	@FXML
 	RadioButton autoPilotRadio, ManualRadio;
 	@FXML
 	Slider throttleSlider, rudderSlider;
@@ -68,6 +70,7 @@ public class MainWindowController implements Observer {
 	Text CurrentPressure,CurrentAltitude,CurrentSpeed;
 
 	GraphicsContext gcDrawPlane;
+	GraphicsContext gcMark;
 	Utilities ut;
 	ViewModel vm;
 	public int mapData[][];
@@ -118,7 +121,7 @@ public class MainWindowController implements Observer {
 			planeArr[5]=new Image(new FileInputStream("./Project/resources/plane225.png"));
 			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
 			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
-
+			mark = new Image(new FileInputStream("./Project/Resources/mark.png"));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -195,7 +198,7 @@ public class MainWindowController implements Observer {
 				this.vm.mapData = mapDisplayerData;
 
 				mapDisplayerData.setMapData(mapData);
-				plane.setOnMouseClicked(ClickOnMap);
+				markX.setOnMouseClicked(ClickOnMap);
 
 				//Binding An NoN FXML Property
 				planepic = new Image(new FileInputStream("./Project/resources/plane.png"));
@@ -419,16 +422,20 @@ public class MainWindowController implements Observer {
 			//Binding An NoN FXML Property
 			vm.XDest.bind(XDest);
 			vm.YDest.bind(YDest);
-			
-			//     mapDisplayerData.gc.strokeText("X",arg0.getX(), arg0.getY());
-			try {
-				mark = new Image(new FileInputStream("./Project/resources/mark.png"));
+			this.drawMark();
 
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-//			mapDisplayerData.gc.clearRect(0,0,mapDisplayerData.WidthCanvas,mapDisplayerData.HeightCanvas);
-			mapDisplayerData.gc.drawImage(mark, arg0.getX(), arg0.getY(), 15, 15);
+		}
+
+		private void drawMark() {
+			double H = markX.getHeight();
+			double W = markX.getWidth();
+			double h = H/mapDisplayerData.height;
+			double w = W/mapDisplayerData.width;
+			w = 1.0121;
+			h = 1.644;
+			gcMark = markX.getGraphicsContext2D();
+			gcMark.clearRect(0,0,W,H);
+			gcMark.drawImage(mark, XDest.getValue()  ,YDest.getValue()  , 15, 15);
 
 		}
 
@@ -521,8 +528,8 @@ public class MainWindowController implements Observer {
 	};
 
 	public void drawLine() {
-		double H = plane.getHeight();
-		double W = plane.getWidth();
+		double H = markX.getHeight();
+		double W = markX.getWidth();
 		double h = H/mapDisplayerData.height;
 		double w = W/mapDisplayerData.width;
 		w = 1.0121;
@@ -542,23 +549,23 @@ public class MainWindowController implements Observer {
 		for (int i = 2; i < path.length; i++) {
 			switch (move) {
 				case "Right":
-					gcDrawPlane.setStroke(Color.BLACK.darker());
-					gcDrawPlane.strokeLine(x, y, (x + w) , y);
+					gcMark.setStroke(Color.BLACK.darker());
+					gcMark.strokeLine(x, y, (x + w) , y);
 					x = x+w;
 					break;
 				case "Left":
-					gcDrawPlane.setStroke(Color.BLACK.darker());
-					gcDrawPlane.strokeLine(x, y, (x - w), y );
+					gcMark.setStroke(Color.BLACK.darker());
+					gcMark.strokeLine(x, y, (x - w), y );
 					x = x-w;
 					break;
 				case "Up":
-					gcDrawPlane.setStroke(Color.BLACK.darker());
-					gcDrawPlane.strokeLine(x , y , x, (y - h));
+					gcMark.setStroke(Color.BLACK.darker());
+					gcMark.strokeLine(x , y , x, (y - h));
 					y = y-h;
 					break;
 				case "Down":
-					gcDrawPlane.setStroke(Color.BLACK.darker());
-					gcDrawPlane.strokeLine(x , y , x , (y + h) );
+					gcMark.setStroke(Color.BLACK.darker());
+					gcMark.strokeLine(x , y , x , (y + h) );
 					y = y+h;
 			}
 
