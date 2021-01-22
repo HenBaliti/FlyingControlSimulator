@@ -520,44 +520,50 @@ public class MainWindowController implements Observer {
 
 	};
 
-		public void drawLine () {
-			double H = XDest.getValue();
-			double W = YDest.getValue();
-			double h = H / mapData.length;
-			double w = W / mapData[0].length;
+	public void drawLine() {
+		double H = plane.getHeight();
+		double W = plane.getWidth();
+		double h = H / mapDisplayerData.height;
+		double w = W / mapDisplayerData.width;
 
 
-			String move = path[1];
-			double x = planeX.getValue() * w + (10 * w);
-			double y = planeY.getValue() * -h + 6*h;
-			//double x = 0;
-			//double y = 0;
-			for (int i = 2; i < path.length; i++) {
-				switch (move) {
-					case "Right":
-						mapDisplayerData.gc.setStroke(Color.WHITE.brighter());
-						mapDisplayerData.gc.strokeLine(x, y, x + w, y);
-						x += w;
-						break;
-					case "Left":
-						mapDisplayerData.gc.setStroke(Color.WHITE.brighter());
-						mapDisplayerData.gc.strokeLine(x, y, x - w, y);
-						x -= w;
-						break;
-					case "Up":
-						mapDisplayerData.gc.setStroke(Color.WHITE.brighter());
-						mapDisplayerData.gc.strokeLine(x, y, x, y - h);
-						y -= h;
-						break;
-					case "Down":
-						mapDisplayerData.gc.setStroke(Color.WHITE.brighter());
-						mapDisplayerData.gc.strokeLine(x, y, x, y + h);
-						y += h;
-				}
-
-				move = path[i];
+		String move = path[1];
+		double planertX3 = StartingPositionX.getValue(); //-158.021
+		planertX3 = planertX3 - planeX.getValue(); //-158.021 + 157.943
+		planertX3 = (int) (planertX3 / sizeOfElement.getValue() * -1); //-0.078 / 0.01652
+		double planertY3 = StartingPositionY.getValue();
+		planertY3 -= planeY.getValue();
+		planertY3 = (int) (planertY3 / sizeOfElement.getValue());
+		double x = planertX3;
+		double y = planertY3;
+		//double x = 0;
+		//double y = 0;
+		for (int i = 2; i < path.length; i++) {
+			switch (move) {
+				case "Right":
+					gcDrawPlane.setStroke(Color.BLACK.darker());
+					gcDrawPlane.strokeLine(x * mapDisplayerData.width, y * mapDisplayerData.height, (x + w) * mapDisplayerData.height, y * mapDisplayerData.height);
+					x += w;
+					break;
+				case "Left":
+					gcDrawPlane.setStroke(Color.BLACK.darker());
+					gcDrawPlane.strokeLine(x * mapDisplayerData.width, y * mapDisplayerData.height, (x - w) * mapDisplayerData.height, y * mapDisplayerData.height);
+					x -= w;
+					break;
+				case "Up":
+					gcDrawPlane.setStroke(Color.BLACK.darker());
+					gcDrawPlane.strokeLine(x * mapDisplayerData.width, y * mapDisplayerData.height, x * mapDisplayerData.height, (y - h) * mapDisplayerData.height);
+					y -= h;
+					break;
+				case "Down":
+					gcDrawPlane.setStroke(Color.BLACK.darker());
+					gcDrawPlane.strokeLine(x * mapDisplayerData.width, y * mapDisplayerData.height, x * mapDisplayerData.height, (y + h) * mapDisplayerData.height);
+					y += h;
 			}
+
+			move = path[i];
 		}
+	}
 
 		//Joystick on release
 		EventHandler<MouseEvent> JoystickOnRelease = new EventHandler<MouseEvent>() {

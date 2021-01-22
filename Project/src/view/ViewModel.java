@@ -131,10 +131,10 @@ public class ViewModel extends Observable implements Observer {
     	if(isFirstCalc) {
     		isFirstCalc = false;
     		model.connectMyServer(ipPath.getValue(),Integer.parseInt(portPath.getValue()));
-    		System.out.println("init state: [0,0] = "+ (int) (planeX.getValue() +15)+" "+(int) (planeY.getValue()/-1)+"\n");
+    		System.out.println("init state: [0,0] = "+ (int) (planeX.getValue()*1)+" "+(int) (planeY.getValue()*1)+"\n");
     		System.out.println("Destiny is : [0,0] = "+(int)((XDest.getValue()/3.33))+" "+(int)(YDest.getValue()*1)+"\n");
     		
-    		model.findPath(4, 0, (int)(YDest.getValue()*1) ,(int)((XDest.getValue()/3.33)), mapData.mapData );
+    		model.findPath(0, 4,(int)((XDest.getValue()/3.33)), (int)(YDest.getValue()*1) , mapData.mapData );
     	}
 
     }
@@ -167,6 +167,17 @@ public class ViewModel extends Observable implements Observer {
 				setChanged();
 				notifyObservers(arg1);
 			}
+            else {
+            	if(arg1!=null) {
+            	String[] tmp=(String[])arg1;
+            	if(tmp[0].equals("path"))
+                {
+                	
+                    setChanged();
+                    notifyObservers(tmp);
+                }
+            	}
+            }
 			
 	    }
 			
