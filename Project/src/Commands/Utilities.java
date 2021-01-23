@@ -15,19 +15,6 @@ public class Utilities extends Observable{
 	
 	public Utilities() {
 		
-//		symbolTable.put("aileron", new SymbolTabelObject(0,"/controls/flight/aileron"));
-//		symbolTable.put("elevator", new SymbolTabelObject(0, "/controls/flight/elevator"));
-
-//	    String[] GettingsNamesOrder = {"/instrumentation/airspeed-indicator/indicated-speed-kt", "/instrumentation/altimeter/pressure-alt-ft", "/instrumentation/attitude-indicator/indicated-pitch-deg", "/instrumentation/attitude-indicator/indicated-roll-deg", "/instrumentation/encoder/indicated-altitude-ft",
-//	    	      "/instrumentation/attitude-indicator/internal-roll-deg", "/instrumentation/encoder/indicated-altitude-ft", "/instrumentation/encoder/pressure-alt-ft", "/instrumentation/gps/indicated-altitude-ft", "/instrumentation/gps/indicated-vertical-speed",
-//	    	      "/instrumentation/gps/indicated-vertical-speed", "/instrumentation/heading-indicator/indicated-heading-deg", "/instrumentation/magnetic-compass/indicated-heading-deg", "/instrumentation/slip-skid-ball/indicated-slip-skid", "/instrumentation/turn-indicator/indicated-turn-rate", "/instrumentation/vertical-speed-indicator/indicated-speed-fpm", "/controls/flight/flaps", "/engines/engine/rpm"
-//	    	};
-//		  String[] variablesNamesOrder = {"airspeed", "Pressure", "pitch", "roll", "Internal-Pitch",
-//				  "Internal-Roll", "Encoder-Altitude", "Encoder-Pressure", "GPS-Altitude", "Ground-Speed",
-//				  "Vertical-Speed", "heading", "Compass-Heading", "Slip", "Turn", "Fpm-Speed", "Flaps", "Rpm"
-//				};
-
-		
         symbolTable.put("/instrumentation/airspeed-indicator/indicated-speed-kt",new SymbolTabelObject(0,"airspeed"));
         symbolTable.put("/instrumentation/altimeter/pressure-alt-ft",new SymbolTabelObject(0,"Pressure"));
         symbolTable.put("/instrumentation/attitude-indicator/indicated-pitch-deg",new SymbolTabelObject(0,"pitch"));
@@ -68,12 +55,6 @@ public class Utilities extends Observable{
 		Utilities.CommandsHash2.put("sleep", new SleepCommand());
 		Utilities.CommandsHash2.put("print", new PrintCommand());
 		
-		
-//      String[] variablesNamesOrder = {"/instrumentation/airspeed-indicator/indicated-speed-kt", "/instrumentation/altimeter/pressure-alt-ft", "/instrumentation/attitude-indicator/indicated-pitch-deg", "/instrumentation/attitude-indicator/indicated-roll-deg", "/instrumentation/encoder/indicated-altitude-ft",
-//      "/instrumentation/attitude-indicator/internal-roll-deg", "/instrumentation/encoder/indicated-altitude-ft", "/instrumentation/encoder/pressure-alt-ft", "/instrumentation/gps/indicated-altitude-ft", "/instrumentation/gps/indicated-vertical-speed",
-//      "/instrumentation/gps/indicated-vertical-speed", "/instrumentation/heading-indicator/indicated-heading-deg", "/instrumentation/magnetic-compass/indicated-heading-deg", "/instrumentation/slip-skid-ball/indicated-slip-skid", "/instrumentation/turn-indicator/indicated-turn-rate", "/instrumentation/vertical-speed-indicator/indicated-speed-fpm", "/controls/flight/flaps", "/engines/engine/rpm"
-//};
-      
 		
 		
 	}

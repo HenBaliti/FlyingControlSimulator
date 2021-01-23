@@ -67,7 +67,7 @@ public class MainWindowController implements Observer {
 	@FXML
 	Button calcSub;
 	@FXML
-	Text CurrentPressure,CurrentAltitude,CurrentSpeed;
+	Text CurrentPressure,CurrentAltitude,CurrentSpeed,CurrentHeading;
 
 	GraphicsContext gcDrawPlane;
 	GraphicsContext gcMark;
@@ -115,15 +115,15 @@ public class MainWindowController implements Observer {
 		planeArr = new Image[8];
 		try {
 
-			planeArr[0]=new Image(new FileInputStream("./Project/resources/plane0.png"));
-			planeArr[1]=new Image(new FileInputStream("./Project/resources/plane45.png"));
-			planeArr[2]=new Image(new FileInputStream("./Project/resources/plane90.png"));
-			planeArr[3]=new Image(new FileInputStream("./Project/resources/plane135.png"));
-			planeArr[4]=new Image(new FileInputStream("./Project/resources/plane180.png"));
-			planeArr[5]=new Image(new FileInputStream("./Project/resources/plane225.png"));
-			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
-			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
-			mark = new Image(new FileInputStream("./Project/resources/mark.png"));
+			planeArr[0]=new Image(new FileInputStream("./resources/plane0.png"));
+			planeArr[1]=new Image(new FileInputStream("./resources/plane45.png"));
+			planeArr[2]=new Image(new FileInputStream("./resources/plane90.png"));
+			planeArr[3]=new Image(new FileInputStream("./resources/plane135.png"));
+			planeArr[4]=new Image(new FileInputStream("./resources/plane180.png"));
+			planeArr[5]=new Image(new FileInputStream("./resources/plane225.png"));
+			planeArr[6]=new Image(new FileInputStream("./resources/plane270.png"));
+			planeArr[7]=new Image(new FileInputStream("./resources/plane315.png"));
+			mark = new Image(new FileInputStream("./resources/mark.png"));
 
 
 		} catch (FileNotFoundException e) {
@@ -157,7 +157,7 @@ public class MainWindowController implements Observer {
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -196,25 +196,21 @@ public class MainWindowController implements Observer {
 						mapData[i][j] = Integer.parseInt(tmp);
 					}
 				}
-				System.out.println("-----------------------------------------: "+rowElementsList.size());
-				System.out.println("-----------------------------------------: "+rowElementsList.get(1).length);
 				this.vm.mapData = mapDisplayerData;
 
 				mapDisplayerData.setMapData(mapData);
 				markX.setOnMouseClicked(ClickOnMap);
 
 				//Binding An NoN FXML Property
-				planepic = new Image(new FileInputStream("./Project/resources/plane.png"));
+				planepic = new Image(new FileInputStream("./resources/plane.png"));
 				gcDrawPlane = plane.getGraphicsContext2D();
 
 				double planertX = StartingPositionX.getValue(); //-158.021
 				planertX = planertX - planeX.getValue(); //-158.021 + 157.943
 				planertX = (int)(planertX/sizeOfElement.getValue() * -1); //-0.078 / 0.01652
-				System.out.print("i is:" + planertX);
 				double planertY = StartingPositionY.getValue();
 				planertY -= planeY.getValue();
 				planertY = (int)(planertY/sizeOfElement.getValue());
-				System.out.print("j is:" + planertY);
 				gcDrawPlane.drawImage(planepic,  planertX,  planertY, 25, 25);
 				vm.sizeElement.bind(sizeOfElement);
 				
@@ -344,7 +340,6 @@ public class MainWindowController implements Observer {
 		width = WidthCanvas / mapData[0].length;
 		height = HeightCanvas / mapData.length;
 
-		System.out.println("--------------" + this.vm.ipPath.getValue());
 
 		this.vm.ConnectCalcPathServer(height, width);
 		Stage stage = (Stage) calcSub.getScene().getWindow();
@@ -361,7 +356,7 @@ public class MainWindowController implements Observer {
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -378,7 +373,7 @@ public class MainWindowController implements Observer {
 				}
 
 				this.vm.autoPilotTxt.bindBidirectional(TextAreaAutoPilot.textProperty());
-				this.vm.parserAuto();
+//				this.vm.parserAuto();
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -393,7 +388,7 @@ public class MainWindowController implements Observer {
 
 
 	public void executeAutoPilot() {//need to shutdown first the manual radio
-//		this.vm.parserAuto();
+		this.vm.parserAuto();
 	}
 
 
@@ -417,8 +412,6 @@ public class MainWindowController implements Observer {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			System.out.println("The X on the matrix is : " + arg0.getX());
-			System.out.println("The Y on the matrix is : " + arg0.getY());
 
 			XDest.setValue(arg0.getX());
 			YDest.setValue(arg0.getY());
@@ -621,29 +614,24 @@ public class MainWindowController implements Observer {
 			if(ut.isSymbolExist(arg.toString())) {
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Pressure")) {
 					CurrentPressure.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
-//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("GPS-Altitude")) {
 					CurrentAltitude.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
-//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("airspeed")) {
 					CurrentSpeed.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
-//					this.vm.CurrentAltitude.bindBidirectional(CurrentAltitude.textProperty());
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Longtitude")) {
 					planeX.setValue(ut.symbolTable.get(arg.toString()).getV());
-					System.out.println("PlaneX is : "+planeX.getValue());
 					this.drawAirplane();
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("Latitude")) {
 					planeY.setValue(ut.symbolTable.get(arg.toString()).getV());
-					System.out.println("PlaneY is : "+planeY.getValue());
 					this.drawAirplane();
 				}
 				if(ut.symbolTable.get(arg.toString()).getSIM().equals("heading")) {
 					heading.setValue(ut.symbolTable.get(arg.toString()).getV());
-					System.out.println("Heading is : "+heading.getValue());
+					CurrentHeading.setText(Double.toString(ut.symbolTable.get(arg.toString()).getV()));
 					this.drawAirplane();
 				}
 

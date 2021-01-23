@@ -109,34 +109,22 @@ public class ViewModel extends Observable implements Observer {
     
     //Connecting to MyServer For calculating the path
     public void ConnectCalcPathServer(double height,double width) {
-    	System.out.println("The Starting airplane is : "+planeX.getValue()+" y: "+planeY .getValue());
-    	System.out.println("The Destiny airplane is : "+XDest.getValue()/3.33+" y: "+YDest.getValue());
-    	System.out.println("height: "+height);
-    	System.out.println("width: "+width);
 
-//    	
-//		double planertX = StartingPositionX.getValue(); //-158.021
-//		planertX = planertX - planeX.getValue(); //-158.021 + 157.943
-//		planertX = (int)(planertX/sizeOfElement.getValue() * -1); //-0.078 / 0.01652
-//		System.out.print("i is:" + planertX);
-//		double planertY = StartingPositionY.getValue();
-//		planertY -= planeY.getValue();
-//		planertY = (int)(planertY/sizeOfElement.getValue());
-//		System.out.print("j is:" + planertY);
-//		gcDrawPlane.drawImage(planepic, mapDisplayerData.width * planertX, mapDisplayerData.height * planertY, 25, 25);
-//    	
-//        model.findPath((int) (airplaneY.getValue()/-1), (int) (airplaneX.getValue() +15),Math.abs( (int) (markSceneY.getValue() / h)) ,
-//                Math.abs((int) (markSceneX.getValue() / w)), data );
-        
     	if(isFirstCalc) {
     		isFirstCalc = false;
-    		model.connectMyServer(ipPath.getValue(),Integer.parseInt(portPath.getValue()));
-    		System.out.println("init state: [0,0] = "+ (int) (planeX.getValue()*1)+" "+(int) (planeY.getValue()*1)+"\n");
-    		System.out.println("Destiny is : [0,0] = "+(int)((XDest.getValue()/3.33))+" "+(int)(YDest.getValue()*1)+"\n");
-    		
+    		model.connectMyServer(ipPath.getValue(),Integer.parseInt(portPath.getValue()));    		
     		model.findPath(4, 7,(int)((XDest.getValue()/1.0121)), (int)(YDest.getValue()/1.644) , mapData.mapData );
     	}
     	else {
+//    		double planertX = StartingPositionX.getValue(); //-158.021
+//    		planertX = planertX - planeX.getValue(); //-158.021 + 157.943
+//    		planertX = (int)(planertX/sizeOfElement.getValue() * -1); //-0.078 / 0.01652
+//    		System.out.print("i is:" + planertX);
+//    		double planertY = StartingPositionY.getValue();
+//    		planertY -= planeY.getValue();
+//    		planertY = (int)(planertY/sizeOfElement.getValue());
+//    		System.out.print("j is:" + planertY);
+//    		gcDrawPlane.drawImage(planepic, mapDisplayerData.width * planertX, mapDisplayerData.height * planertY, 25, 25);
     		model.connectMyServer(ipPath.getValue(),Integer.parseInt(portPath.getValue()));
     		model.findPath(4, 7,(int)((XDest.getValue()/1.0121)), (int)(YDest.getValue()/1.644) , mapData.mapData );
     	}

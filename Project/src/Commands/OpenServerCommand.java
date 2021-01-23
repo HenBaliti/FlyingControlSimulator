@@ -139,20 +139,13 @@ public class OpenServerCommand implements Command{
 										}else {
 											if(ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM())!=null) {
 												ut.symbolTable.get(ut.symbolTable.get(variableString).getSIM()).setV(valueForString);
-												System.out.println("Updating "+variableString+" to new value->  " +valueForString);	
 											}
 	
 										}											
 										
 									}
-//									else {
-//										System.out.println("var name : "+variableString+" Value is still: "+valueForString);
-//									}
+
 								}
-//								else {
-//									SymbolTabelObject stNew = new SymbolTabelObject(valueForString);
-//									ut.symbolTable.put(variableString, stNew);
-//								}
 								
 							} 
 							try {Thread.sleep(timePerS);} catch (InterruptedException e1) {} //Go to sleep for HZ time
