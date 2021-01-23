@@ -16,7 +16,7 @@ public class Model extends Observable implements Observer{
 	public Utilities ut;
 	public MyInterpreter interperter;
 	SimulatorClient simulatorClient;
-    private static Socket socketMyServer;
+    private static Socket socketMyServer = null;
     private  static PrintWriter outMyServer;
     private  static BufferedReader in;
     double startX;
@@ -86,7 +86,9 @@ public class Model extends Observable implements Observer{
 	//Conncetin to MyServer for calculating the path
     public void connectMyServer(String ip,int port){
         try {
-            socketMyServer=new Socket(ip,port);
+        	if(socketMyServer==null) {
+                socketMyServer=new Socket(ip,port);
+        	}
             System.out.println("Connected To Calc Server Succesfully");
             outMyServer=new PrintWriter(socketMyServer.getOutputStream());
             in=new BufferedReader(new InputStreamReader(socketMyServer.getInputStream()));
@@ -141,10 +143,12 @@ public class Model extends Observable implements Observer{
                 	notfiySolution[i+1]=solTmp[i];
                 setChanged();
                 notifyObservers(notfiySolution);
-
+                outMyServer = null;
+                in = null;
                 
 
         }).start();
+        
     }
 
 	@Override

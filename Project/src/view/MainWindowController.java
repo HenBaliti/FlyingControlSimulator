@@ -91,6 +91,7 @@ public class MainWindowController implements Observer {
 	private Image mark, planepic;
 	private String[] path;
 	private Image[] planeArr;
+	public Boolean IsFirstCalacPath = true;
 	
     public void setViewModel(ViewModel vm,Utilities ut) {
     	this.vm = vm;
@@ -114,15 +115,15 @@ public class MainWindowController implements Observer {
 		planeArr = new Image[8];
 		try {
 
-			planeArr[0]=new Image(new FileInputStream("./Project/resources/plane0.png"));
-			planeArr[1]=new Image(new FileInputStream("./Project/resources/plane45.png"));
-			planeArr[2]=new Image(new FileInputStream("./Project/resources/plane90.png"));
-			planeArr[3]=new Image(new FileInputStream("./Project/resources/plane135.png"));
-			planeArr[4]=new Image(new FileInputStream("./Project/resources/plane180.png"));
-			planeArr[5]=new Image(new FileInputStream("./Project/resources/plane225.png"));
-			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
-			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
-			mark = new Image(new FileInputStream("./Project/Resources/mark.png"));
+			planeArr[0]=new Image(new FileInputStream("./resources/plane0.png"));
+			planeArr[1]=new Image(new FileInputStream("./resources/plane45.png"));
+			planeArr[2]=new Image(new FileInputStream("./resources/plane90.png"));
+			planeArr[3]=new Image(new FileInputStream("./resources/plane135.png"));
+			planeArr[4]=new Image(new FileInputStream("./resources/plane180.png"));
+			planeArr[5]=new Image(new FileInputStream("./resources/plane225.png"));
+			planeArr[6]=new Image(new FileInputStream("./resources/plane270.png"));
+			planeArr[7]=new Image(new FileInputStream("./resources/plane315.png"));
+			mark = new Image(new FileInputStream("./resources/mark.png"));
 
 
 		} catch (FileNotFoundException e) {
@@ -425,7 +426,13 @@ public class MainWindowController implements Observer {
 			vm.XDest.bind(XDest);
 			vm.YDest.bind(YDest);
 
-			this.drawMark();
+			if(IsFirstCalacPath) {
+				this.drawMark();
+				IsFirstCalacPath = false;
+			}
+			else {
+				vm.ConnectCalcPathServer(height, width);
+			}
 			//drawLine();
 		}
 
@@ -538,6 +545,7 @@ public class MainWindowController implements Observer {
 		w = 1.0121;
 		h = 1.644;
 
+		gcMark.clearRect(0,0,W,H);
 		String move = path[1];
 		double planertX3 = StartingPositionX.getValue(); //-158.021
 		planertX3 = planertX3 - planeX.getValue(); //-158.021 + 157.943
