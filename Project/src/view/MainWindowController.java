@@ -41,6 +41,8 @@ public class MainWindowController implements Observer {
 	@FXML
 	Canvas plane;
 	@FXML
+	Canvas markX;
+	@FXML
 	RadioButton autoPilotRadio, ManualRadio;
 	@FXML
 	Slider throttleSlider, rudderSlider;
@@ -68,6 +70,7 @@ public class MainWindowController implements Observer {
 	Text CurrentPressure,CurrentAltitude,CurrentSpeed;
 
 	GraphicsContext gcDrawPlane;
+	GraphicsContext gcMark;
 	Utilities ut;
 	ViewModel vm;
 	public int mapData[][];
@@ -110,14 +113,16 @@ public class MainWindowController implements Observer {
 		YDest = new SimpleDoubleProperty();
 		planeArr = new Image[8];
 		try {
-			planeArr[0]=new Image(new FileInputStream("./resources/plane0.png"));
-			planeArr[1]=new Image(new FileInputStream("./resources/plane45.png"));
-			planeArr[2]=new Image(new FileInputStream("./resources/plane90.png"));
-			planeArr[3]=new Image(new FileInputStream("./resources/plane135.png"));
-			planeArr[4]=new Image(new FileInputStream("./resources/plane180.png"));
-			planeArr[5]=new Image(new FileInputStream("./resources/plane225.png"));
-			planeArr[6]=new Image(new FileInputStream("./resources/plane270.png"));
-			planeArr[7]=new Image(new FileInputStream("./resources/plane315.png"));
+
+			planeArr[0]=new Image(new FileInputStream("./Project/resources/plane0.png"));
+			planeArr[1]=new Image(new FileInputStream("./Project/resources/plane45.png"));
+			planeArr[2]=new Image(new FileInputStream("./Project/resources/plane90.png"));
+			planeArr[3]=new Image(new FileInputStream("./Project/resources/plane135.png"));
+			planeArr[4]=new Image(new FileInputStream("./Project/resources/plane180.png"));
+			planeArr[5]=new Image(new FileInputStream("./Project/resources/plane225.png"));
+			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
+			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
+			mark = new Image(new FileInputStream("./Project/Resources/mark.png"));
 
 
 		} catch (FileNotFoundException e) {
@@ -195,7 +200,7 @@ public class MainWindowController implements Observer {
 				this.vm.mapData = mapDisplayerData;
 
 				mapDisplayerData.setMapData(mapData);
-				plane.setOnMouseClicked(ClickOnMap);
+				markX.setOnMouseClicked(ClickOnMap);
 
 				//Binding An NoN FXML Property
 				planepic = new Image(new FileInputStream("./resources/plane.png"));
@@ -419,16 +424,21 @@ public class MainWindowController implements Observer {
 			//Binding An NoN FXML Property
 			vm.XDest.bind(XDest);
 			vm.YDest.bind(YDest);
-			
-			//     mapDisplayerData.gc.strokeText("X",arg0.getX(), arg0.getY());
-			try {
-				mark = new Image(new FileInputStream("./resources/mark.png"));
 
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-//			mapDisplayerData.gc.clearRect(0,0,mapDisplayerData.WidthCanvas,mapDisplayerData.HeightCanvas);
-			mapDisplayerData.gc.drawImage(mark, arg0.getX(), arg0.getY(), 15, 15);
+			this.drawMark();
+			//drawLine();
+		}
+
+		private void drawMark() {
+			double H = markX.getHeight();
+			double W = markX.getWidth();
+			double h = H/mapDisplayerData.height;
+			double w = W/mapDisplayerData.width;
+			w = 1.0121;
+			h = 1.644;
+			gcMark = markX.getGraphicsContext2D();
+			gcMark.clearRect(0,0,W,H);
+			gcMark.drawImage(mark, XDest.getValue()  ,YDest.getValue()  , 15, 15);
 
 		}
 
@@ -521,8 +531,8 @@ public class MainWindowController implements Observer {
 	};
 
 	public void drawLine() {
-		double H = plane.getHeight();
-		double W = plane.getWidth();
+		double H = markX.getHeight();
+		double W = markX.getWidth();
 		double h = H/mapDisplayerData.height;
 		double w = W/mapDisplayerData.width;
 		w = 1.0121;
@@ -535,35 +545,36 @@ public class MainWindowController implements Observer {
 		double planertY3 = StartingPositionY.getValue();
 		planertY3 -= planeY.getValue();
 		planertY3 = (int) (planertY3 / sizeOfElement.getValue());
-		double x = planertX3;
-		double y = planertY3;
+		double x = planertX3 + 10;
+		double y = planertY3 + 10;
 		//double x = 0;
 		//double y = 0;
 		for (int i = 2; i < path.length; i++) {
 			switch (move) {
 				case "Right":
-					gcDrawPlane.setStroke(Color.BLACK.darker());
-					gcDrawPlane.strokeLine(x, y, (x + w) , y);
+					gcMark.setStroke(Color.BLACK.darker());
+					gcMark.strokeLine(x, y, (x + w) , y);
 					x = x+w;
 					break;
 				case "Left":
-					gcDrawPlane.setStroke(Color.BLACK.darker());
-					gcDrawPlane.strokeLine(x, y, (x - w), y );
+					gcMark.setStroke(Color.BLACK.darker());
+					gcMark.strokeLine(x, y, (x - w), y );
 					x = x-w;
 					break;
 				case "Up":
-					gcDrawPlane.setStroke(Color.BLACK.darker());
-					gcDrawPlane.strokeLine(x , y , x, (y - h));
+					gcMark.setStroke(Color.BLACK.darker());
+					gcMark.strokeLine(x , y , x, (y - h));
 					y = y-h;
 					break;
 				case "Down":
-					gcDrawPlane.setStroke(Color.BLACK.darker());
-					gcDrawPlane.strokeLine(x , y , x , (y + h) );
+					gcMark.setStroke(Color.BLACK.darker());
+					gcMark.strokeLine(x , y , x , (y + h) );
 					y = y+h;
 			}
 
 			move = path[i];
 		}
+		gcMark.strokeLine(x , y , x+1 , y+8 );
 	}
 
 		//Joystick on release

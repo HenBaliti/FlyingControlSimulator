@@ -134,7 +134,7 @@ public class ViewModel extends Observable implements Observer {
     		System.out.println("init state: [0,0] = "+ (int) (planeX.getValue()*1)+" "+(int) (planeY.getValue()*1)+"\n");
     		System.out.println("Destiny is : [0,0] = "+(int)((XDest.getValue()/3.33))+" "+(int)(YDest.getValue()*1)+"\n");
     		
-    		model.findPath(4, 7,(int)((XDest.getValue()/1.644)), (int)(YDest.getValue()*1.0121) , mapData.mapData );
+    		model.findPath(4, 7,(int)((XDest.getValue()/1.0121)), (int)(YDest.getValue()/1.644) , mapData.mapData );
     	}
 
     }//155 20

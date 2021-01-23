@@ -15,7 +15,7 @@
 <?import view.MapDisplayer?>
 
 <?import javafx.scene.canvas.Canvas?>
-<AnchorPane prefHeight="350.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
+<AnchorPane prefHeight="350.0" prefWidth="900.0" styleClass="body" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController" >
    <children>
       <HBox layoutX="10.0" layoutY="10.0" spacing="10.0">
          <children>
@@ -57,14 +57,17 @@
       <Slider fx:id="rudderSlider" layoutX="691.0" layoutY="305.0" max="1.0" min="-1.0" showTickLabels="true" showTickMarks="true" />
       <Slider fx:id="throttleSlider" layoutX="602.0" layoutY="107.0" max="1.0" min="0.0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" value="0.5" />
       <RadioButton fx:id="ManualRadio" layoutX="715.0" layoutY="17.0" mnemonicParsing="false" onAction="#ClickOnManualRadio" text="- Manual -" />
-      <Text fx:id="CurrentPressure" layoutX="78.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="---NULL---" />
+      <Text layoutX="720.0" layoutY="70" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;- aileron -&gt;"/>
+      <Text layoutX="845.0" layoutY="180.0" rotate="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;- elevator -&gt;"/>
+      <Text fx:id="CurrentPressure" layoutX="78.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="---NULL---" />
       <Button layoutX="317.0" layoutY="299.0" lineSpacing="10.0" mnemonicParsing="false" onAction="#LoadAutoPilotText" prefHeight="25.0" prefWidth="165.0" text="Load Auto Pilot Text" />
-      <Text layoutX="12.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRESSURE:" />
-      <Text layoutX="12.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ALTITUDE:" />
-      <Text fx:id="CurrentAltitude" layoutX="75.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="---NULL---" />
-      <Text fx:id="CurrentSpeed" layoutX="201.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="---NULL---" />
-      <Text layoutX="157.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SPEED:" />
+      <Text layoutX="12.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRESSURE:" />
+      <Text layoutX="12.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ALTITUDE:" />
+      <Text fx:id="CurrentAltitude" layoutX="75.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="---NULL---" />
+      <Text fx:id="CurrentSpeed" layoutX="201.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="---NULL---" />
+      <Text layoutX="157.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SPEED:" />
       <MapDisplayer fx:id="mapDisplayerData" height="250.0" layoutX="10.0" layoutY="48.0" width="250.0" />
       <Canvas fx:id="plane" height="250.0" layoutX="10.0" layoutY="48.0" width="250.0" />
+      <Canvas fx:id="markX" height="250.0" layoutX="10.0" layoutY="48.0" width="250.0" />
    </children>
 </AnchorPane>
