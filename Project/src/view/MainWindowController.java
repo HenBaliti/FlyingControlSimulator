@@ -113,6 +113,7 @@ public class MainWindowController implements Observer {
 		YDest = new SimpleDoubleProperty();
 		planeArr = new Image[8];
 		try {
+
 			planeArr[0]=new Image(new FileInputStream("./Project/resources/plane0.png"));
 			planeArr[1]=new Image(new FileInputStream("./Project/resources/plane45.png"));
 			planeArr[2]=new Image(new FileInputStream("./Project/resources/plane90.png"));
@@ -122,6 +123,7 @@ public class MainWindowController implements Observer {
 			planeArr[6]=new Image(new FileInputStream("./Project/resources/plane270.png"));
 			planeArr[7]=new Image(new FileInputStream("./Project/resources/plane315.png"));
 			mark = new Image(new FileInputStream("./Project/Resources/mark.png"));
+
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -154,7 +156,7 @@ public class MainWindowController implements Observer {
 		// Opening the CSV File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String FileDelimiter = ",";
 		String line = "";
@@ -201,7 +203,7 @@ public class MainWindowController implements Observer {
 				markX.setOnMouseClicked(ClickOnMap);
 
 				//Binding An NoN FXML Property
-				planepic = new Image(new FileInputStream("./Project/resources/plane.png"));
+				planepic = new Image(new FileInputStream("./resources/plane.png"));
 				gcDrawPlane = plane.getGraphicsContext2D();
 
 				double planertX = StartingPositionX.getValue(); //-158.021
@@ -358,7 +360,7 @@ public class MainWindowController implements Observer {
 		// Opening the TXT File
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("TXT Files", "txt"));
-		fileChooser.setCurrentDirectory(new File("./Project/resources"));
+		fileChooser.setCurrentDirectory(new File("./resources"));
 
 		String line = "";
 		BufferedReader br = null;
@@ -422,6 +424,7 @@ public class MainWindowController implements Observer {
 			//Binding An NoN FXML Property
 			vm.XDest.bind(XDest);
 			vm.YDest.bind(YDest);
+
 			this.drawMark();
 			//drawLine();
 		}
