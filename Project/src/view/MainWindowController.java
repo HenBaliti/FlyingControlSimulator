@@ -423,7 +423,7 @@ public class MainWindowController implements Observer {
 			vm.XDest.bind(XDest);
 			vm.YDest.bind(YDest);
 			this.drawMark();
-
+			//drawLine();
 		}
 
 		private void drawMark() {
@@ -542,8 +542,8 @@ public class MainWindowController implements Observer {
 		double planertY3 = StartingPositionY.getValue();
 		planertY3 -= planeY.getValue();
 		planertY3 = (int) (planertY3 / sizeOfElement.getValue());
-		double x = planertX3;
-		double y = planertY3;
+		double x = planertX3 + 10;
+		double y = planertY3 + 10;
 		//double x = 0;
 		//double y = 0;
 		for (int i = 2; i < path.length; i++) {
@@ -571,6 +571,7 @@ public class MainWindowController implements Observer {
 
 			move = path[i];
 		}
+		gcMark.strokeLine(x , y , x+1 , y+8 );
 	}
 
 		//Joystick on release
