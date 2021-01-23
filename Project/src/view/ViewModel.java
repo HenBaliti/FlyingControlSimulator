@@ -136,6 +136,10 @@ public class ViewModel extends Observable implements Observer {
     		
     		model.findPath(4, 7,(int)((XDest.getValue()/1.0121)), (int)(YDest.getValue()/1.644) , mapData.mapData );
     	}
+    	else {
+    		model.connectMyServer(ipPath.getValue(),Integer.parseInt(portPath.getValue()));
+    		model.findPath(4, 7,(int)((XDest.getValue()/1.0121)), (int)(YDest.getValue()/1.644) , mapData.mapData );
+    	}
 
     }//155 20
     
