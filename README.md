@@ -37,3 +37,20 @@ We created the CacheManager interface to manage the cache for us, with the follo
 - Checks whether the solution already exists in the database.
 - Extracts the data from the database (If a solution already exists).
 - Saves the solution for the problem.
+
+## UML
+
+![UML SERVER](https://github.com/HenBaliti/FlyingControlSimulator/blob/master/Project/uml/uml1.png)
+
+### Our Concerete Server
+
+Given a graph, it could solve it using *A-star* algorithm ( which is already implemented in this project based on djkistra algorithm using manhattan distances ) or any other search algorithm.
+
+![Concerete Server](https://github.com/HenBaliti/FlyingControlSimulator/blob/master/Project/uml/uml2.png)
+
+In our concrete server, given a weighted graph, it will run the search algorithm, and as an output it will return the cheapest route to the target.
+You can see that the Bridge Design Pattern was implemented, as we created a separation between the problem, and what solves the problem. That way we can solve various problems through different solutions.
+
+The specific problem and solution in this project, is that when given a matrix the server will be able to solve it and return the quickest path from point A to point B using A-star algorithm as said before.
+
+For example: lets assume we have this matrix:
